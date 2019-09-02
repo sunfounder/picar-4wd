@@ -1,0 +1,33 @@
+#!/bin/bash
+# /etc/init.d/fwd-car-web-example
+
+### BEGIN INIT INFO
+# Provides:          sunfounder
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: fwd-car web example service
+# Description:       This service is used to startup fwd-car web example service
+### END INIT INFO
+
+
+case "$1" in
+    start) 
+        echo "Starting fwd-car web-example"
+        sudo fwd-car web-example 2>&1 1>/tmp/fwd-car-log &
+        ;;
+    stop)
+        echo "Stopping fwd-car web-example"
+        sudo kill $(ps aux | grep 'web_server' | awk '{ print $2 }')
+        sudo kill $(ps aux | grep 'http.server' | awk '{ print $2 }')
+        sudo kill $(ps aux | grep 'fwd-car web-example' | awk '{ print $2 }')
+        sudo kill $(ps aux | grep 'fwd-car/examples/web/start.py' | awk '{ print $2 }')
+        ;;
+    *)
+        echo "Usage: sudo service fwd-car-web-example start|stop|restart"
+        exit 1
+        ;;
+esac
+
+exit 0
