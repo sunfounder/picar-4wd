@@ -159,7 +159,7 @@ def install():
     do(msg="add excutable mode for fwd-car-web-example",
         cmd='run_command("sudo chmod +x /etc/init.d/fwd-car-web-example")')
 
-# install()
+install()
 
 setup(
     name='fwd_car',
