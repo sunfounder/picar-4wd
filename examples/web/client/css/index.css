@@ -56,7 +56,6 @@
     width: 6.8rem;
     height: 3.46rem;
     border-radius: 10px;
-    background: red;
     position: fixed;
     top: 0px;
     left: 0px;
@@ -68,12 +67,46 @@
 .connectModal_header {
     height: 0.76rem;
     width: 100%;
-    background: black;
+    background: #1e2b56;
     text-align: center;
     line-height: 0.76rem;
+    border-radius: 10px 10px 0 0;
 }
 
 .connectModal_header_title {
-    font-size: 0.22rem;
+    font-size: 0.40rem;
+    color: white;
+}
+
+.connectModal_content {
+    height: 2.7rem;
+    width: 100%;
+    background: #2d4187;
+    border-radius: 0px 0px 10px 10px;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 20px;
+}
+
+.connectModal_content_text {
+    font-size: 0.65rem;
+    color: white;
+    display: block;
+}
+
+.connectModal_content_btn_block {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.connectModal_content button {
+    width: 1.44rem;
+    height: 0.72rem;
+    font-size: .32rem;
+    background: #44cbdb;
+    outline: none;
+    border-radius: 10px;
+    border: none;
     color: white;
 }

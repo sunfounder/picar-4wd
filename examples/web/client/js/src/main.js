@@ -97,7 +97,28 @@ Main.fullScreen = function (element) {
 }
 
 Main.connectModal = function () {
-    
+    $('#connectModal_block').show();
 }
+
+Main.connectSocketRetry = function () {
+    requireWebsocket.connect();
+    responseWebsocket.connect();
+}
+
+
+
+$(function (){
+    $('.connectModal_content_back_btn').click(function () {
+        Main.renderPage('home');
+        $('#connectModal_block').hide();
+    })
+
+    $('.connectModal_content_retry_btn').click(function () {
+        Main.connectSocketRetry();
+        $('#connectModal_block').hide();
+    })
+
+    // alert(window.navigator.standalone)
+})
 
 window.addEventListener('load', Main.init);

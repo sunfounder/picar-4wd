@@ -24,14 +24,14 @@
 }
 
 .tab_item_text {
-    font-size: 17px;
+    font-size: 15px;
     float: left;
     margin-left: .2rem;
     color: white;
 }
 
 .setting_left {
-    width: 10.9rem;
+    width: 10.84rem;
     float: left;
     height: 100%;
 }
@@ -47,38 +47,28 @@
     margin-left: .2rem;
 }
 
-.setting_ultrasonic_img_block:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
-
 .setting_ultrasonic_img_block:after {
     content: ' ';
     display: block;
     /* background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.06) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.06) 75%, rgba(255, 255, 255, 0.06) 76%, transparent 77%, transparent); */
     width: 1px;
-    height: 70%;
+    height: 90%;
     position: absolute;
-    top: 58px;
-    left: 394px;
-    animation: radar-beam 5s infinite alternate;
-    animation-timing-function: linear;
+    top: 0.3rem;
+    left: 5.2rem;
     transform-origin: bottom right;
     border-radius: 100% 0 0 0;
     background: #000;
 }
 .setting_ultrasonic_slider {
     text-align: center;
+    margin-top: 0.3rem;
+
 }
 
 #setting_ultrasonic_slider_range {
     width: 6.12rem;
     position: relative;
-    top: -15px;
 }
 
 .reference_input_block {
@@ -112,6 +102,11 @@
     top: 0px;
     left: 0px;
     opacity: 0.5;
+    display: none;
+}
+
+.grayscale_setting_item_danger img {
+    width: 100%;
     display: none;
 }
 
@@ -175,24 +170,28 @@
 }
 
 .right_front_wheel {
-    top: 51px;
-    right: 29px;
+    top: 1rem;
+    right: 0.6rem;
     opacity: 1;
 }
 
 .left_front_wheel {
-    top: 51px;
-    left: 29px;
+    top: 1rem;
+    left: 0.56rem;
 }
 
-.right_behind_wheel {
-    top: 199px;
-    right: 29px;
+.right_rear_wheel {
+    top: 3.97rem;
+    right: 0.56rem;
 }
 
-.left_behind_wheel {
-    top: 199px;
-    left: 29px;
+.left_rear_wheel {
+    top: 3.97rem;
+    left: 0.56rem;
+}
+
+.wheel_speed_power_slider {
+    margin-top: 0.1rem;
 }
 
 .wheel_setting_left_img_block img {
@@ -219,11 +218,13 @@
     border-bottom: 1px solid #ccc;
     margin-top: 0.5rem;
     padding-bottom: 10px;
+    color: #ffffff;
 }
 
 .wheel_setting_speed {
     height: 2.5rem;
-    display: flex;   
+    display: flex;  
+    justify-content: center; 
 }
 
 .wheel_speed_text {
@@ -254,7 +255,7 @@
 .wheel_speed_power {
     width: 49%;
     text-align: center;
-    border-left: 1px solid #ccc;
+    color: white;
 }
 
 .wheel_speed_power_title {
@@ -269,7 +270,6 @@
 
 #wheel_speed_power_slider_input {
     position: relative;
-    top: -19px;
 }
 
 .wheel_arrow {
@@ -309,4 +309,46 @@
     top: 35px;
     left: 16px;
     transform: rotate(180deg);
+}
+
+.setting_ultrasonic_dot_block {
+    width: 100%;
+    height: 5.2rem;
+    position: absolute;
+    bottom: 9px;
+}
+
+.setting_ultrasonic_dot {
+    width: 0.2rem;
+    height: 0.2rem;
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    bottom: 0%;
+    left: 50%;
+}
+
+.setting_ultrasonic_img_block {
+    position: relative;
+}
+
+.setting_system_list li{
+    color: white;
+}
+
+.system_value {
+    display: inline-block;
+}
+
+
+.cpu_value, .disk_value, .ram_value, .battery_value {
+    height: 0.3rem;
+    width: 40%;
+    border: 1px solid #ccc;
+}
+
+.fill {
+    height: 100%;
+    display: block;
+    background: white;
 }

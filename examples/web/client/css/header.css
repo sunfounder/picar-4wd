@@ -32,7 +32,7 @@
 }
 
 .menu {
-    width: 45%;
+    width: 60%;
     float: right;
     height: 100%;
 }
@@ -45,11 +45,12 @@
 .menu_item {
     float: left;
     display: flex;
-    width: 16.6%;
+    width: 14%;
     height: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    opacity: 0.5;
 }
 
 .menu_item p {

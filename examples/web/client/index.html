@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="apple-moblie-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="google" value="notranslate">
-    <meta name="viewport" content="user-scalable=no,minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-touch-fullscreen" content="yes" />
-    <title>fourwheel-car</title>
+    <title>FWD Car</title>
     <script src="./js/rem.js"></script>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/index.css">
@@ -25,7 +26,7 @@
     <script src="./js/src/home.js"></script>
     <script src="./js/src/main.js"></script>
 </head>
-<style>
+<style id="ultrasonic">
 
 </style>
 <body>
@@ -37,7 +38,15 @@
             <span>Setting</span>
         </div>
         <div class="menu dis_none">
-            <ul class="menu_list"> 
+            <ul class="menu_list">
+                <li class="menu_item menu_item_ultrasonic">
+                    <img class="menu_item_img" src="./image/ultrasonic_sensor.png" alt="">
+                    <p>Ultrasonic</p>
+                </li> 
+                <li class="menu_item menu_item_grayScale">
+                    <img class="menu_item_img" src="./image/grayScale_sensor.png" alt="">
+                    <p>Grayscale</p>
+                </li> 
                 <li class="menu_item menu_item_aviod">
                     <img class="menu_item_img" src="./image/Avoidance.png" alt="">
                     <p>Avoid</p>
@@ -54,11 +63,7 @@
                     <img class="menu_item_img" src="./image/inspection_icon.png" alt="">
                     <p>Path</p>
                 </li>
-                <li class="menu_item menu_item_auto">
-                    <img class="menu_item_img" src="./image/auto_mode_icon.png" alt="">
-                    <p>Auto</p>
-                </li>
-                <li class="menu_item menu_item_setting">
+                <li class="menu_item menu_item_setting" style="opacity: 1">
                     <img class="menu_item_img" src="./image/setting_icon.png" alt="">
                     <p>Settings</p>
                 </li>
@@ -71,7 +76,7 @@
                 <img src="./image/index_logo.png">
             </div>
             <div class="index_option">
-                <button class="manual_mode_btn" onclick="Main.renderPage('manual');">start</button>
+                <button class="manual_mode_btn" onclick="Main.renderPage('manual');">Start</button>
             </div>
         </div>
         <div id="manualContent" class="dis_none">
@@ -105,6 +110,10 @@
                         <span class="unit">m/s</span>
                     </div>
                 </div>
+                <div class="mileage">
+                    <span>30km</span>
+                    <button class="mileage_reset" onclick="Manual.mileageReset()">reset</button>
+                </div>
                 <div class="up_down_arrowKey">
                     <div class="up_arrowKey_div">
                         <img class="up_arrowKey" src="./image/arrow.png" alt="">
@@ -124,24 +133,29 @@
                     </div>
                 </div>
                 <div class="line_of_inspection">
-                    <div class="line_of_inspection_item"><div class="line_of_inspection_item_danger"></div></div>
-                    <div class="line_of_inspection_item"><div class="line_of_inspection_item_danger"></div></div>
-                    <div class="line_of_inspection_item"><div class="line_of_inspection_item_danger"></div></div>
+                    <div class="line_of_inspection_item">
+                        <div class="line_of_inspection_item_danger">
+                            <img src="./image/line_inspection.png" alt="">
+                        </div>
+                    </div>
+                    <div class="line_of_inspection_item">
+                        <div class="line_of_inspection_item_danger">
+                            <img src="./image/line_inspection.png" alt="">
+                        </div>
+                    </div>
+                    <div class="line_of_inspection_item">
+                        <div class="line_of_inspection_item_danger">
+                            <img src="./image/line_inspection.png" alt="">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="manual_right">
                 <div class="power">
-                    <div class="circle-bar">
-                        <div class="circle-bar-left"></div>
-                        <div class="circle-bar-right"></div>
-                        <!-- 遮罩层，显示百分比 -->
-                        <div class="mask">
-                            <span class="percent">60%</span>
-                        </div>
-                    </div>
+                    <span>50%</span>
                 </div>
                 <div class="power_slider">
-                    <input id="power_slider_input" type="range" value="0">
+                    <input id="power_slider_input" type="range" value="50">
                 </div>
                 <div class="left_right_arrowKey">
                     <div class="left_arrowKey_div">
@@ -211,12 +225,16 @@
                     <li class="tab_item"><img class="tab_item_img" src="./image/setting_ultrasonic.png" alt=""><span class="tab_item_text">Ultrasonic</span></li>
                     <li class="tab_item"><img class="tab_item_img" src="./image/setting_wheel.png" alt=""><span class="tab_item_text">Wheels</span></li>
                     <li class="tab_item"><img class="tab_item_img" src="./image/setting_grayscale.png" alt=""><span class="tab_item_text">Grayscale</span></li>
+                    <li class="tab_item"><img class="tab_item_img" src="./image/setting_system_icon.png" alt=""><span class="tab_item_text">System</span></li>
                 </ul>
             </div>
             <div class="setting_left">
                 <div class="setting_ultrasonic setting_block">
                     <div class="setting_ultrasonic_img_block">
-                        <img src="./image/ultrasonic_setting.png" alt="">
+                        <div class="setting_ultrasonic_dot_block">
+
+                        </div>
+                        <img src="./image/ultrasonic_setting_rad.png" alt="">
                     </div>
                     <div class="setting_ultrasonic_slider">
                         <input type="range" name="" id="setting_ultrasonic_slider_range" value="-90">
@@ -226,10 +244,10 @@
                     <div class="wheel_setting_left">
                         <div class="wheel_setting_left_img_block">
                             <img src="./image/wheel_setting.png" alt="">
-                            <div class="right_front_wheel wheel" data-name="Right front wheel"></div>
-                            <div class="left_front_wheel wheel" data-name="Left front wheel"></div>
-                            <div class="right_behind_wheel wheel" data-name="Right behind wheel"></div>
-                            <div class="left_behind_wheel wheel" data-name="Left behind wheel"></div>
+                            <div class="right_front_wheel wheel" data-name="Right front wheel" motor='2'></div>
+                            <div class="left_front_wheel wheel" data-name="Left front wheel" motor='1'></div>
+                            <div class="right_rear_wheel wheel" data-name="Right rear wheel" motor='4'></div>
+                            <div class="left_rear_wheel wheel" data-name="Left rear wheel" motor='3'></div>
                         </div>
                     </div>
                     <div class="wheel_setting_right">
@@ -237,10 +255,10 @@
                             <span>Right front wheel</span>
                         </div>
                         <div class="wheel_setting_speed">
-                            <div class="wheel_speed_text">
+                            <!-- <div class="wheel_speed_text">
                                 <p class="wheel_speed_title">SPEED</p>
-                                <div class="wheel_speed_value"><span>5</span><span>m/s</span></div>
-                            </div>
+                                <div class="wheel_speed_value"><span class="wheel_speed_value_text">5</span><span>m/s</span></div>
+                            </div> -->
                             <div class="wheel_speed_power">
                                 <p class="wheel_speed_power_title">POWER</p>
                                 <p class="wheel_speed_power_value">50%</p>
@@ -266,22 +284,74 @@
                 <div class="setting_grayscale setting_block">
                     <div class="reference_input_block">
                         <div class="reference_input linereference">
-                            <span>Line Reference:</span><input type="text" value="1000">
+                            <span>Line Reference:</span><input type="text" value="400">
                         </div>
                         <div class="reference_input cliffreference">
-                            <span>Cliff Reference:</span><input type="text" value="0">
+                            <span>Cliff Reference:</span><input type="text" value="110">
                         </div>
                     </div>
                     <div class="grayscale_setting">
-                        <div class="grayscale_setting_item"><div class="grayscale_setting_item_danger"></div></div>
-                        <div class="grayscale_setting_item"><div class="grayscale_setting_item_danger"></div></div>
-                        <div class="grayscale_setting_item"><div class="grayscale_setting_item_danger"></div></div>
+                        <div class="grayscale_setting_item">
+                            <div class="grayscale_setting_item_danger">
+                                <img src="./image/line_inspection.png" alt="">
+                            </div>
+                        </div>
+                        <div class="grayscale_setting_item">
+                            <div class="grayscale_setting_item_danger">
+                                <img src="./image/line_inspection.png" alt="">
+                            </div>
+                        </div>
+                        <div class="grayscale_setting_item">
+                            <div class="grayscale_setting_item_danger">
+                                <img src="./image/line_inspection.png" alt="">
+                            </div>
+                        </div>
                     </div>
                     <div class="grayscale_setting_item_text">
                         <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
                         <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
                         <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
                     </div>
+                </div>
+                <div class="setting_system setting_block">
+                    <ul class="setting_system_list">
+                        <li class="cpu_temperature">
+                            <span>CPU Temperatrue: </span>
+                            <span class="system_value"></span>
+                        </li>
+                        <li class="gpu_temperature">
+                            <span>GPU Temperature: </span>
+                            <span class="system_value"></span>
+                        </li>
+                        <li class="cpu_usage">
+                            <span class="cpu_usage_text"></span>
+                            </br>
+                            <span class="system_value cpu_value">
+                                <span class="fill"></span>
+                            </span>
+                        </li>
+                        <li class="disk">
+                            <span class="disk_text"></span>
+                            </br>
+                            <span class="system_value disk_value">
+                                <span class="fill"></span>
+                            </span>
+                        </li>
+                        <li class="ram">
+                            <span class="ram_text"></span>
+                            </br>
+                            <span class="system_value ram_value">
+                                <span class="fill"></span>
+                            </span>
+                        </li>
+                        <li class="battery">
+                            <span class="battery_text"></span>
+                            </br>
+                            <span class="system_value battery_value">
+                                <span class="fill"></span>
+                            </span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -291,7 +361,11 @@
                     <span class="connectModal_header_title">WARNING</span>
                 </div>
                 <div class="connectModal_content">
-                    
+                    <span class="connectModal_content_text">You are offline</span>
+                    <div class="connectModal_content_btn_block">
+                        <button class="connectModal_content_back_btn">Back</button>
+                        <button class="connectModal_content_retry_btn">Retry</button>
+                    </div>
                 </div>
             </div>
         </div>

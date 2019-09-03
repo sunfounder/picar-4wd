@@ -16,7 +16,7 @@
 }
 
 .manual_right {
-    width: 3.74rem;
+    width: 3.67rem;
     height: 100%;
     float: left;
 }
@@ -31,13 +31,36 @@
     position: relative;
 }
 
+.mileage {
+    height: 1rem;
+    width: 100%;    
+    margin-top: 0.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mileage>span {
+    font-size: 0.5rem;
+    color: white;
+    margin-right: 0.3rem;
+}
+
+.mileage_reset {
+    background: rgba(255, 255, 255,0.3);
+    color: white;
+    padding: 0.1rem;
+    border: none;
+    border-radius: .06rem;
+}
+
 .up_down_arrowKey {
     width: 2.66rem;
     height: 2.66rem;
     background: rgba(255, 255, 255, .3);
     border-radius: 50%;
     margin-left: .66rem;
-    margin-top: 1.56rem;
+    margin-top: 0.2rem;
     text-align: center;
 }
 
@@ -86,6 +109,7 @@
     left: 50%;
 }
 
+
 .ultrasonic_img_block:after {
     content: ' ';
     display: block;
@@ -93,8 +117,8 @@
     width: 1px;
     height: 77%;
     position: absolute;
-    top: 37px;
-    left: 142px;
+    top: 0.7rem;
+    left: 2.86rem;
     /* animation: radar-beam 5s infinite alternate; */
     /* animation-timing-function: linear; */
     transform-origin: bottom right;
@@ -162,6 +186,12 @@
     opacity: 0.3;
 }
 
+.line_of_inspection_item_danger img{
+    width: 100%;
+    display: none;
+}
+
+
 .line_of_inspection_item:nth-last-child(1){
     border-right: none;
 }
@@ -172,9 +202,16 @@
     height: 1.72rem;
     background: rgba(255, 255, 255, .3);
     border-radius: 5px;
-    margin-left: .78rem;
+    margin-left: 1rem;
     margin-top: .45rem;
     position: relative;
+    text-align: center;
+    line-height: 1.72rem;
+}
+
+.power>span {
+    font-size: 0.6rem;
+    color: white;
 }
 
  /*支持IE9及以上*/
@@ -230,7 +267,8 @@
 }
 
 .power_slider {
-    margin-left: 0.6rem;
+    margin-left: 0.8rem;
+    margin-top: 0.5rem;
 }
 
 .left_right_arrowKey {
@@ -238,8 +276,8 @@
     height: 2.66rem;
     background: rgba(255, 255, 255, .3);
     border-radius: 50%;
-    margin-left: .43rem;
-    margin-top: 0.4rem;
+    margin-left: .6rem;
+    margin-top: 0.55rem;
     position: relative;
 }
 
@@ -266,16 +304,16 @@
 .left_arrowKey {
     transform: rotate(-90deg);
     position: relative;
-    top: 35px;
-    left: -15px;
+    top: 0.7rem;
+    left: -0.3rem;
     height: 46%;
 }
 
 .right_arrowKey {
     transform: rotate(90deg);
     position: relative;
-    top: 35px;
-    left: -13px;
+    top: 0.7rem;
+    left: -0.3rem;
     height: 46%;
 }
 
