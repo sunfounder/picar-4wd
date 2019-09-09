@@ -117,8 +117,8 @@
     width: 1px;
     height: 77%;
     position: absolute;
-    top: 37px;
-    left: 142px;
+    top: 0.7rem;
+    left: 2.86rem;
     /* animation: radar-beam 5s infinite alternate; */
     /* animation-timing-function: linear; */
     transform-origin: bottom right;

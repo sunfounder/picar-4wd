@@ -383,9 +383,10 @@ Manual.mileageReset = function () {
 }
 
 Manual.ultrasonicReset = function () {
-
+    $('style').html('');
+    $('ultrasonic_dot_block').html('');
 }
 
 Manual.grayScaleReset = function () {
-    
+    $('.line_of_inspection_item_danger').hide();
 }

@@ -54,8 +54,8 @@
     width: 1px;
     height: 90%;
     position: absolute;
-    top: 20px;
-    left: 270px;
+    top: 0.3rem;
+    left: 5.2rem;
     transform-origin: bottom right;
     border-radius: 100% 0 0 0;
     background: #000;

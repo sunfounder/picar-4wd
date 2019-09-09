@@ -17,25 +17,25 @@
 
 ##fwd-car小车支持命令行指令，如下所示：
 ###指令格式为：fwd-car + 指令 + 控制位（这一项有些有，有些没有）
-####web-example
+####指令一：web-example
 ```python
 pi@raspberrypi:fwd-car web-example  ##开启web-example服务（前提没有设置开机自启动此项服务）
 pi@raspberrypi:fwd-car web-example enable  ##开启web-example开机自启动
 pi@raspberrypi:fwd-car web-example disable  ##取消web-example开机自启动
 ```
-####soft-reset
+####指令二：soft-reset
 ```python
 pi@raspberrypi:fwd-car soft-reset  ##复位Mcu
 ```
-####power-read
+####指令三：power-read
 ```python
 pi@raspberrypi:fwd-car power-read  ##查看小车电压
 ```
-####test
+####指令四：test
 ```python
 pi@raspberrypi:fwd-car test motor  ##测试小车电机
 pi@raspberrypi:fwd-car test servo  ##测试小车舵机
-pi@raspberrypi:fwd-car test grayscale  ##测试小车电机
+pi@raspberrypi:fwd-car test grayscale  ##测试小车灰度传感器
 ```
 
 ##玩法：产品刚拿到手：
