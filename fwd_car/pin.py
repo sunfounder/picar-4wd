@@ -1,15 +1,15 @@
 import RPi.GPIO as GPIO
 
 class Pin(object):
-    OUT = GPIO.OUT                  # 将I/O口定义为输出模式
-    IN = GPIO.IN                    # 将I/O口定义为输入模式
-    IRQ_FALLING = GPIO.FALLING      # 设置为低电平触发
-    IRQ_RISING = GPIO.RISING        # 设置为高电平触发
-    IRQ_RISING_FALLING = GPIO.BOTH  # 设置为边缘模式
-    PULL_UP = GPIO.PUD_UP           # 设置为上拉模式
-    PULL_DOWN = GPIO.PUD_DOWN       # 设置为下拉模式
-    PULL_NONE = None                # 设置为非上拉下拉模式
-    _dict = {                       # 树莓派pin引脚列表
+    OUT = GPIO.OUT                  
+    IN = GPIO.IN                   
+    IRQ_FALLING = GPIO.FALLING      
+    IRQ_RISING = GPIO.RISING        
+    IRQ_RISING_FALLING = GPIO.BOTH  
+    PULL_UP = GPIO.PUD_UP           
+    PULL_DOWN = GPIO.PUD_DOWN       
+    PULL_NONE = None                
+    _dict = {                       
         "D0":  17,
         "D1":  18,
         "D2":  27,
@@ -32,27 +32,27 @@ class Pin(object):
     }
 
     def __init__(self, *value):
-        super().__init__()          # 解决多继承问题，继承父类属性，可重定向父类属性
-        GPIO.setmode(GPIO.BCM)      # 树莓派GPIO引脚编号的模式
-        GPIO.setwarnings(False)     # 禁用警告
-        if len(value) > 0:          # 当有值时，取第一个值当作引脚值
+        super().__init__()          
+        GPIO.setmode(GPIO.BCM)      
+        GPIO.setwarnings(False)     
+        if len(value) > 0:          
             pin = value[0]
-        if len(value) > 1:          # 当有多个值时， 取第二个值为输入或输出模式
+        if len(value) > 1:          
             mode = value[1]
         else:
             mode = None
-        if len(value) > 2:          # 当有3个或以上的值，去第三个为上拉或者下拉模式
+        if len(value) > 2:          
             setup = value[2]
         else:
             setup = None
-        if isinstance(pin, str):    # 当value第一个值为字符串时，通过_dict字典找到对应的引脚
+        if isinstance(pin, str):    
             try:
                 self._bname = pin
                 self._pin = self.dict()[pin]
             except Exception as e:
                 print(e)
                 self._error('Pin should be in %s, not %s' % (self._dict, pin))
-        elif isinstance(pin, int):  # 当pin为整数型时，直接取值
+        elif isinstance(pin, int):  
             self._pin = pin
         else:
             self._error('Pin should be in %s, not %s' % (self._dict, pin))
@@ -60,7 +60,7 @@ class Pin(object):
         self.init(mode, pull=setup)
     #    self._info("Pin init finished.")
         
-    def init(self, mode, pull=PULL_NONE):   # 设置模式
+    def init(self, mode, pull=PULL_NONE):   
         self._pull = pull
         self._mode = mode
         if mode != None:
@@ -69,8 +69,8 @@ class Pin(object):
             else:
                 GPIO.setup(self._pin, mode)
 
-    def dict(self, *_dict):                 # 判断给定的字符是否在_dict中
-        if len(_dict) == 0:                 # 没有给值直接返回字典中所有元素
+    def dict(self, *_dict):                 
+        if len(_dict) == 0:                 
             return self._dict
         else:
             if isinstance(_dict, dict):
@@ -82,31 +82,31 @@ class Pin(object):
     def __call__(self, value):
         return self.value(value)
 
-    def value(self, *value):                 # 如果value为空，设置引脚为输入模式， 返回引脚的值
+    def value(self, *value):                 
         if len(value) == 0:
             self.mode(self.IN)
             result = GPIO.input(self._pin)
         #    self._debug("read pin %s: %s" % (self._pin, result))
             return result
-        else:                               # 如果value不为空， 取出第一个值，设置为输出模式，将值传给引脚
+        else:                               
             value = value[0]
             self.mode(self.OUT)
             GPIO.output(self._pin, value)
             return value
 
-    def on(self):                           # 将引脚设置为高电平
+    def on(self):                           
         return self.value(1)
 
-    def off(self):                          # 将引脚设置为低电平
+    def off(self):                          
         return self.value(0)
 
-    def high(self):                         # 调用on函数，将引脚设置为高电平
+    def high(self):                        
         return self.on()
 
-    def low(self):                          # 调用off函数，将引脚设置为低电平
+    def low(self):                          
         return self.off()
 
-    def mode(self, *value):                 #  当参数value没有值传入进来，返回所有模式列表，当参数value有值传入进来，设置引脚的输入输出模式
+    def mode(self, *value):                 
         if len(value) == 0:
             return self._mode
         else:
@@ -114,14 +114,14 @@ class Pin(object):
             self._mode = mode
             GPIO.setup(self._pin, mode)
 
-    def pull(self, *value):     # 返回上拉下拉列表
+    def pull(self, *value):     
         return self._pull
 
-    def irq(self, handler=None, trigger=None):      # 中断函数
+    def irq(self, handler=None, trigger=None):      
         self.mode(self.IN)
         GPIO.add_event_detect(self._pin, trigger, callback=handler)
 
-    def name(self):                                 # 打印树莓派引脚的名字 如：GPIO23
+    def name(self):                                 
         return "GPIO%s"%self._pin
 
     def names(self):
