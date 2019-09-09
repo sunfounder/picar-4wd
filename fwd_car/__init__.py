@@ -26,10 +26,10 @@ right_front = Motor(PWM("P12"), Pin("D5"), is_reversed=right_front_reverse) # mo
 left_rear = Motor(PWM("P8"), Pin("D11"), is_reversed=left_rear_reverse) # motor 3
 right_rear = Motor(PWM("P9"), Pin("D15"), is_reversed=right_rear_reverse) # motor 4
 
-# left_front_speed = Speed(25)
-# right_front_speed = Speed(4)
-left_rear_speed = Speed(12)
-right_rear_speed = Speed(16) 
+# left_front_speed = Speed(12)
+# right_front_speed = Speed(16)
+left_rear_speed = Speed(25)
+right_rear_speed = Speed(4) 
 
 # Init Greyscale
 gs0 = ADC('A5')

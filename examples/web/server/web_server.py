@@ -11,22 +11,8 @@ import time
 fc.start_speed_thread()
 speed_count = 0
 gs_list = []
-# #接收数据字典
-# recv_dict = {
-#     'mode':1,
-#     'rc':0,
-#     'csb':['off','off','off'],
-#     'fl':['off',400],
-#     'ed':['off',110],
-#     'sp':0,
-#     'sr':'off',
-#     'pi_msg':'off',
-#     'sps':['off',4,0],
-#     'csbs':['off',0]
-    
-# }
 
-#接收数据字典
+
 recv_dict = {
     'RC':'forward',
     'GS': "off",
@@ -42,12 +28,6 @@ recv_dict = {
     'MS':['off',0,0]
 }
 
-#发送数据字典
-# send_dict = {'TL':[0,0,0],'US':3,'sp':0,'csbs':[0,0],'pi_msg':{'a':1},'sps':0} 
-
-#发送数据字典
-# send_dict = {'fl':[0,0,0],'csb':3,'sp':0,'pi_msg':{'a':1},'sps':0} 
-#发送数据字典
 send_dict = {
     'GS': [0,0,0],
     'US':[0,0],
@@ -55,27 +35,6 @@ send_dict = {
     'ST':{'a':1}
 } 
   
-#接收函数
-# async def recv_server_func(websocket):
-#     global recv_dict,send_dict
-#     while 1:
-#         tmp = await websocket.recv()
-#         tmp = json.loads(tmp)
-#         for key in tmp:
-#             recv_dict[key] = tmp[key]
-#         recv_dict['sp'] = int(recv_dict['sp'])
-#         print(recv_dict)
-#         Remote_control(recv_dict['rc'],recv_dict['sp'])
-#         if  recv_dict['sps'][0] =='on':#测试电机
-#             fc.set_motor_speed(int(recv_dict['sps'][1]), int(recv_dict['sps'][2]))
-#             # print(int(recv_dict['sps'][1]), int(recv_dict['sps'][2]))
-#             send_dict['sp'] = fc.speed_val()
-
-#         if  recv_dict['sr'] =='on':#复位
-#             fc.soft_reset()#执行一次
-
-#         if  recv_dict['csbs'][0] =='on':
-#             send_dict['csbs'] = [recv_dict['csbs'][1], fc.get_distance_at(int(recv_dict['csbs'][1]))]
 
 
 async def recv_server_func(websocket):
@@ -87,82 +46,48 @@ async def recv_server_func(websocket):
             recv_dict[key] = tmp[key]
         recv_dict['PW'] = int(recv_dict['PW'])
         Remote_control(recv_dict['RC'],recv_dict['PW'])
-        if  recv_dict['MS'][0] =='on':#测试电机
+        if  recv_dict['MS'][0] =='on':
             fc.set_motor_power(int(recv_dict['MS'][1]), int(recv_dict['MS'][2]))
-        if  recv_dict['SR'] =='on':#复位
-            fc.soft_reset()#执行一次
-        print("recv_dict")
+        if  recv_dict['SR'] =='on':
+            fc.soft_reset()
 
 
-# #发送函数
-# async def send_server_func(websocket): 
-#     global send_dict,recv_dict
-#     while 1:
-#         global sp_count
-#         sp_count +=1
-#         send_dict['sp'] = fc.speed_val()
-#         print(send_dict)
-#         if sp_count >= 50:
-#             sp_count = 0  
-#             send_dict['sps'] = fc.speed_val(recv_dict['sps'][1])
-#         send_dict['csb'] = fc.angle_distance
-#         # print(send_dict)
-        # print(recv_dict)
-#         if recv_dict['pi_msg'] == 'on': 
-#             send_dict['pi_msg'] = pi_read()
-#         await websocket.send(json.dumps(send_dict))
-#         await asyncio.sleep(0.02)
 
-#发送函数
+
+
+
 async def send_server_func(websocket): 
     global send_dict, recv_dict, gs_list 
     while 1:
         send_dict ={}
         send_dict['MS'] = [round(fc.speed_val()/2.0),time.time()] 
         
-        # global speed_count
-        # speed_count += 1
-        # if speed_count >= 50: 
-        #     speed_count = 0
-        #     send_dict['MS'] = [round(fc.speed_val()/2.0,2),int(time.time())]
-        #     print(send_dict)
-        #     send_dict['MS'][0] = fc.speed_val()
-        #     send_dict['MS'][1] = int(time.time())
 
-        if recv_dict['ST'] == 'on': #树莓派系统信息
+        if recv_dict['ST'] == 'on': 
             send_dict['ST'] = pi_read() 
 
-        if  recv_dict['US'][0] =='on':#超声波测试
+        if  recv_dict['US'][0] =='on':
             send_dict['US'] = [int(recv_dict['US'][1]),fc.get_distance_at(int(recv_dict['US'][1]))]
         else:
             send_dict['US'] = fc.angle_distance
         
-        if  recv_dict['GS'] =='on':#循迹模块
-            # print(gs_list) 
+        if  recv_dict['GS'] =='on': 
             send_dict['GS'] = gs_list
-        print("send_dict")
         await websocket.send(json.dumps(send_dict))
         await asyncio.sleep(0.02)
         
-#主服务程序
 async def main_func():
     global recv_dict,send_dict,gs_list
     while 1:
         gs_list = fc.get_grayscale_list()
         
-        # if speed_count >= 100:
-        #     speed_count = 0
-        #     send_dict['MS'] = [fc.speed_val(),int(time.time())]
-        #     print(send_dict)
-        # send_dict['GS'] = gs_list
-        # edge detect
-        if recv_dict['CD'][0] == 'on':#悬崖
+        if recv_dict['CD'][0] == 'on':
             if fc.is_on_edge(recv_dict['CD'][1],gs_list):
                 fc.backward(20)
                 time.sleep(0.5)
                 fc.stop()
 
-        if recv_dict['TL'][0] =='on':#巡线
+        if recv_dict['TL'][0] =='on':
             if fc.get_line_status(recv_dict['TL'][1],gs_list) == 0:
                 fc.forward(recv_dict['PW'])      
             elif fc.get_line_status(recv_dict['TL'][1],gs_list) == -1:
@@ -170,21 +95,19 @@ async def main_func():
             elif fc.get_line_status(recv_dict['TL'][1],gs_list) == 1:
                 fc.turn_right(recv_dict['PW']) 
 
-        if recv_dict['OA'] == 'on':#避障
+        if recv_dict['OA'] == 'on':
             scan_list = fc.scan_step(35)
             if scan_list:
                 tmp = scan_list[3:7]
-                # print(tmp)
                 if tmp != [2,2,2,2]:
                     fc.turn_right(recv_dict['PW'])
                 else:
                     fc.forward(recv_dict['PW'])
 
-        elif recv_dict['OF'] == 'on':#跟随
+        elif recv_dict['OF'] == 'on':
             scan_list = fc.scan_step(23)
             
             if scan_list != False:
-                # print(scan_list)
                 scan_list = [str(i) for i in scan_list]
                 scan_list = "".join(scan_list)
                 paths = scan_list.split("2")
@@ -208,9 +131,8 @@ async def main_func():
                         else:
                             fc.forward(recv_dict['PW'])
     
-        elif  recv_dict['RD'] == 'on':#自动扫描获取数据
+        elif  recv_dict['RD'] == 'on':
             fc.scan_step(35)
-        # print("main")
       
         await asyncio.sleep(0.01)
         

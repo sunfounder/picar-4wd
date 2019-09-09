@@ -17,19 +17,19 @@ def mapping(x,min_val,max_val,aim_min,aim_max):
     x = aim_min + abs((x - min_val) / (max_val- min_val) * (aim_max-aim_min))
     return x
 
-def cpu_temperature():          # 检测CPU温度
+def cpu_temperature():          # cpu_temperature
     raw_cpu_temperature = subprocess.getoutput("cat /sys/class/thermal/thermal_zone0/temp")
-    cpu_temperature = round(float(raw_cpu_temperature)/1000,2)               # 换算成摄氏温度
+    cpu_temperature = round(float(raw_cpu_temperature)/1000,2)               # convert unit
     #cpu_temperature = 'Cpu temperature : ' + str(cpu_temperature)
     return cpu_temperature
 
-def gpu_temperature():          # 检测GPU温度===GPU---用于图形处理
+def gpu_temperature():          # gpu_temperature(
     raw_gpu_temperature = subprocess.getoutput( '/opt/vc/bin/vcgencmd measure_temp' )
     gpu_temperature = round(float(raw_gpu_temperature.replace( 'temp=', '' ).replace( '\'C', '' )), 2)
     #gpu_temperature = 'Gpu temperature : ' + str(gpu_temperature)
     return gpu_temperature
 
-def cpu_usage():                # CPU占用率
+def cpu_usage():                # cpu_usage
     # result = str(os.popen("top -n1 | awk '/Cpu\(s\):/ {print($2)}'").readline().strip())
     result = os.popen("mpstat").read().strip()
     result = result.split('\n')[-1].split(' ')[-1]
@@ -38,14 +38,14 @@ def cpu_usage():                # CPU占用率
     # print(result)
     return result
 
-def disk_space():               # 磁盘占有率
+def disk_space():               # disk_space
     p = os.popen("df -h /")
     i = 0
     while 1:
         i = i +1
-        line = p.readline()         # readline一次读取p中的一行内容， 占用内存小；read--一次性读取p中的所有内容，占用内存大
+        line = p.readline()         
         if i==2:
-            return line.split()[1:5]    # 以第二个到第五个（空格、换行(\n)、制表符(\t)）等为分隔符，将line字符串分成4段
+            return line.split()[1:5]    
 
 def ram_info():
     p = os.popen('free')
@@ -54,7 +54,7 @@ def ram_info():
         i = i + 1
         line = p.readline()
         if i==2:
-            return list(map(lambda x:round(int(x) / 1000,1), line.split()[1:4]))    # 以第二个到第四个（空格、换行(\n)、制表符(\t)）等为分隔符，将line字符串分成4段
+            return list(map(lambda x:round(int(x) / 1000,1), line.split()[1:4]))   
 
 def pi_read():
     result = {
