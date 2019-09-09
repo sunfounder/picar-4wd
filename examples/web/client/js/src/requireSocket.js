@@ -1,10 +1,13 @@
 var requireWebsocket = {};
 
 requireWebsocket.connect = function () {
-    requireWebsocket.reqWs = new WebSocket('ws://192.168.18.223:8765');
+    // requireWebsocket.reqWs = new WebSocket(`ws://192.168.18.185:8766`);
+
+    requireWebsocket.reqWs = new WebSocket(`ws://${window.location.hostname}:8765`);
 
     requireWebsocket.reqWs.onopen = function () {
         console.log("require socket connect open...");
+        requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue));
     }
     
     requireWebsocket.reqWs.onmessage = function (event) {
@@ -14,10 +17,12 @@ requireWebsocket.connect = function () {
     
     requireWebsocket.reqWs.onerror = function (event) {
         console.log(event);
+        Main.connectModal();
     }
     
     requireWebsocket.reqWs.onclose = function (event) {
         console.log(event)
+        Main.connectModal();
     }    
 }
 
