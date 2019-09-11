@@ -1,4 +1,4 @@
-import fwd_car as fc
+import picar_4wd as fc
 
 speed = 30
 

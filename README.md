@@ -16,6 +16,7 @@ Quick Links:
 
 <a id="update"></a>
 ### Update:
+ - fwd-car is the 4WD car that is built based on the Raspberry Pi, with the functions, including line following, following, obstacle avoidance, speed testing,  remote control, radar testing and use the web page to control the fwd-car
 2019-09-21:
  - New Release
 

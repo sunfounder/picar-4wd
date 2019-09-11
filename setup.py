@@ -145,35 +145,35 @@ def install():
     do(msg="Add I2C module",
         cmd='Modules().set("i2c-dev")') 
 
-    if ".fwd-car" not in listdir("/home/pi"):
-        do(msg="create .fwd-car directory",
-            cmd='run_command("sudo mkdir /home/pi/.fwd-car/")') 
-    do(msg="copy fwd-car-config",
-        cmd='run_command("sudo cp ./data/config /home/pi/.fwd-car/")')
+    if ".picar-4wd" not in listdir("/home/pi"):
+        do(msg="create .picar-4wd directory",
+            cmd='run_command("sudo mkdir /home/pi/.picar-4wd/")') 
+    do(msg="copy picar-4wd-config",
+        cmd='run_command("sudo cp ./data/config /home/pi/.picar-4wd/")')
     do(msg="change directory owner",
-        cmd='run_command("sudo chown -R pi:pi /home/pi/.fwd-car/")')
+        cmd='run_command("sudo chown -R pi:pi /home/pi/.picar-4wd/")')
 
-    print("Setup fwd-car web-example service")
-    do(msg="copy fwd-car web-example file",
-        cmd='run_command("sudo cp ./bin/fwd-car-web-example /etc/init.d/fwd-car-web-example")')
-    do(msg="add excutable mode for fwd-car-web-example",
-        cmd='run_command("sudo chmod +x /etc/init.d/fwd-car-web-example")')
+    print("Setup picar-4wd web-example service")
+    do(msg="copy picar-4wd web-example file",
+        cmd='run_command("sudo cp ./bin/picar-4wd-web-example /etc/init.d/picar-4wd-web-example")')
+    do(msg="add excutable mode for picar-4wd-web-example",
+        cmd='run_command("sudo chmod +x /etc/init.d/picar-4wd-web-example")')
 
 install()
 
 setup(
-    name='fwd_car',
+    name='picar_4wd',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     version="0.0.1",
 
-    description='fwd_car for Raspberry Pi',
+    description='PiCar-4WD for Raspberry Pi',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/sunfounder/fwd-car',
+    url='https://github.com/sunfounder/picar-4wd',
 
     # Author details
     author='SunFounder',
@@ -221,7 +221,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'fwd-car=fwd_car.utils:main', 
+            'picar-4wd=picar_4wd.utils:main', 
         ],
     },
 )

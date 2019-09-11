@@ -1,6 +1,11 @@
+import picar_4wd as fc
 import sys
 import tty
 import termios
+import asyncio
+
+power_val = 50
+key = 'status'
 
 def readchar():
     fd = sys.stdin.fileno()
@@ -23,19 +28,34 @@ def readkey(getchar_fn=None):
     c3 = getchar()
     return chr(0x10 + ord(c3) - 65)
 
-while True:
-    key=readkey()
-    if key=='w':
-    	pass
-        #go_forward()
-    if key=='a':
-    	pass
-        #go_back()
-    if key=='s':
-    	pass
-        #go_left()
-    if key=='d':
-    	pass
-        #go_right()
-    if key=='q':
-        break
+def Keyborad_control():
+    while True:
+        global power_val
+        key=readkey()
+        if key=='6':
+            if power_val <=90:
+                power_val += 10
+                print("power_val:",power_val)
+        elif key=='4':
+            if power_val >=10:
+                power_val -= 10
+                print("power_val:",power_val)
+        if key=='w':
+            fc.forward(power_val)
+        elif key=='a':
+            fc.turn_left(power_val)
+        elif key=='s':
+            fc.backward(power_val)
+        elif key=='d':
+            fc.turn_right(power_val)
+        else:
+            fc.stop()
+        if key=='q':
+            print("quit")  
+            break  
+if __name__ == '__main__':
+    Keyborad_control()
+
+
+
+
