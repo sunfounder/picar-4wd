@@ -49,7 +49,7 @@ class Motor():
 #             self.start_timer()
 
 # if __name__ == "__main__":
-#     import fwd_car as fc
+#     import picar_4wd as fc
 #     import time
 #     fc.forward(100)
 #     time.sleep(1)

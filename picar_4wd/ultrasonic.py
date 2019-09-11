@@ -1,7 +1,7 @@
 import time
-from fwd_car.servo import Servo
-from fwd_car.pwm import PWM
-from fwd_car.pin import Pin
+from picar_4wd.servo import Servo
+from picar_4wd.pwm import PWM
+from picar_4wd.pin import Pin
 
 class Ultrasonic():
     ANGLE_RANGE = 180

@@ -1,4 +1,4 @@
-from fwd_car.utils import mapping
+from picar_4wd.utils import mapping
 
 class Servo():
     PERIOD = 4095

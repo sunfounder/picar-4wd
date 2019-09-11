@@ -1,5 +1,5 @@
 from smbus import SMBus
-from fwd_car.utils import soft_reset
+from picar_4wd.utils import soft_reset
 import time
 
 class I2C(object):
