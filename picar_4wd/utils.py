@@ -5,7 +5,7 @@ import os
 import time
 
 def soft_reset():
-    from fwd_car.pin import Pin
+    from picar_4wd.pin import Pin
     soft_reset_pin = Pin("D16")
     # print('soft_reset')
     soft_reset_pin.low()
@@ -68,7 +68,7 @@ def pi_read():
     return result 
 
 def power_read():
-    from fwd_car.adc import ADC
+    from picar_4wd.adc import ADC
     power_read_pin = ADC('A4')
     power_val = power_read_pin.read()
     power_val = power_val / 4095.0 * 3.3
@@ -95,7 +95,7 @@ def getIP(ifaces=['wlan0', 'eth0']):
 def main():
     import sys
     if len(sys.argv) >= 2:
-        print("Welcome to SunFounder 4WD Car.")
+        print("Welcome to SunFounder PiCar-4WD.")
         command = sys.argv[1]
         if command == "soft-reset":
             print("soft-reset")
@@ -107,18 +107,18 @@ def main():
             if len(sys.argv) >= 3:
                 opt = sys.argv[2]
                 if opt == "enable":
-                    os.system("sudo update-rc.d fwd-car-web-example defaults")
+                    os.system("sudo update-rc.d picar-4wd-web-example defaults")
                     print("web-example start on boot is enabled")
                 elif opt == "disable":
-                    os.system("sudo update-rc.d fwd-car-web-example remove")
+                    os.system("sudo update-rc.d picar-4wd-web-example remove")
                     print("web-example start on boot is disabled")
                 else:
                     usage(command)
             else:
-                print("Run: `fwd-car web-example enable/disable` to enable/disable start on boot")
-                os.system("sudo python3 /home/pi/fwd-car/examples/web/start.py")
+                print("Run: `picar-4wd web-example enable/disable` to enable/disable start on boot")
+                os.system("sudo python3 /home/pi/picar-4wd/examples/web/start.py")
         elif command == "test":
-            from fwd_car import forward,get_distance_at,get_grayscale_list,stop
+            from picar_4wd import forward,get_distance_at,get_grayscale_list,stop
             if len(sys.argv) >= 3:
                 opt = sys.argv[2]
                 if opt == "motor":
@@ -152,7 +152,7 @@ def destroy():
  
 def usage(cmd=None):
     general = '''
-Usage:  fwd-car [Command] [option]
+Usage:  picar-4wd [Command] [option]
 
 Commands:
     soft-reset
@@ -161,14 +161,14 @@ Commands:
     test
 '''
     web_example = '''
-Usage: fwd-car web-example [option]
+Usage: picar-4wd web-example [option]
 
 Options:
     enable    Enable start on boot
     disable   Disable start on boot
 '''
     test = '''
-Usage: fwd-car test [option]
+Usage: picar-4wd test [option]
 
 Options:
     motor      test the motor

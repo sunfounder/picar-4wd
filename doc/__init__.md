@@ -2,21 +2,21 @@
 
 Usage:
 ```python
-from fwd-car import *
+from picar_4wd import *
 
 gs_list = []
-fwd-car_speed = 0
+picar_4wd_speed = 0
 
 forward(50)               #set up the forward speed
 
-gs_list = get_grayscale_list()             # gain the data of grayscale
+gs_list = get_grayscale_list()             # get the data of grayscale
 
-fwd-car_speed = speed_val()               #gain fwd-car speed
+picar_4wd_speed = speed_val()               # get picar_4wd speed
 
 ```
 ## Constructors
-```fwd-car.__init__```
-The __init__.py supply the basic driver for fwd-car.
+```picar_4wd.__init__```
+The __init__.py supply the basic driver for picar_4wd.
 
 ## Methods
 - start_speed_thread() - start the thread of speed api .
@@ -69,7 +69,7 @@ stop()
 ```python
 set_motor_power(1, 20)
 ```
-- speed_val() - return the speed of the fwd-car
+- speed_val() - return the speed of the picar_4wd
 ```python
 speed = speed_val()
 ```

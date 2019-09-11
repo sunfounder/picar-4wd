@@ -20,8 +20,8 @@ asyncio.get_event_loop().run_forever()
 
 ```
 ## Constructors
-```fwd-car.__intit__```
-The web-server.py supply the server api for fwd-car.
+```picar_4wd.__init__```
+The web-server.py supply the server api for picar_4wd.
 
 ## Methods
 - recv_server_func(websocket) - recv the data from client .

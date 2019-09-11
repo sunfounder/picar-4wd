@@ -1,5 +1,5 @@
 #!/bin/bash
-# /etc/init.d/fwd-car-web-example
+# /etc/init.d/picar-4wd-web-example
 
 ### BEGIN INIT INFO
 # Provides:          sunfounder
@@ -7,25 +7,25 @@
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: fwd-car web example service
-# Description:       This service is used to startup fwd-car web example service
+# Short-Description: picar-4wd web example service
+# Description:       This service is used to startup picar-4wd web example service
 ### END INIT INFO
 
 
 case "$1" in
     start) 
-        echo "Starting fwd-car web-example"
-        sudo fwd-car web-example 2>&1 1>/tmp/fwd-car-log &
+        echo "Starting picar-4wd web-example"
+        sudo picar-4wd web-example 2>&1 1>/tmp/picar-4wd-log &
         ;;
     stop)
-        echo "Stopping fwd-car web-example"
+        echo "Stopping picar-4wd web-example"
         sudo kill $(ps aux | grep 'web_server' | awk '{ print $2 }')
         sudo kill $(ps aux | grep 'http.server' | awk '{ print $2 }')
-        sudo kill $(ps aux | grep 'fwd-car web-example' | awk '{ print $2 }')
-        sudo kill $(ps aux | grep 'fwd-car/examples/web/start.py' | awk '{ print $2 }')
+        sudo kill $(ps aux | grep 'picar-4wd web-example' | awk '{ print $2 }')
+        sudo kill $(ps aux | grep 'picar-4wd/examples/web/start.py' | awk '{ print $2 }')
         ;;
     *)
-        echo "Usage: sudo service fwd-car-web-example start|stop|restart"
+        echo "Usage: sudo service picar-4wd-web-example start|stop|restart"
         exit 1
         ;;
 esac

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from fwd_car.i2c import I2C
+from picar_4wd.i2c import I2C
 
 class ADC(I2C):
     ADDR=0x14                   # i2c_address 0x14
