@@ -1,4 +1,4 @@
-# fwd.car.__intit__ - basic driver
+# picar_4wd.__intit__ - basic driver
 
 Usage:
 ```python
