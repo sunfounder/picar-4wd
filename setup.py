@@ -221,7 +221,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'picar-4wd=picar-4wd.utils:main', 
+            'picar-4wd=picar_4wd.utils:main', 
         ],
     },
 )

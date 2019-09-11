@@ -5,7 +5,7 @@ import os
 import time
 
 def soft_reset():
-    from picar-4wd.pin import Pin
+    from picar_4wd.pin import Pin
     soft_reset_pin = Pin("D16")
     # print('soft_reset')
     soft_reset_pin.low()
