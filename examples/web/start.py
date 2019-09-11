@@ -9,14 +9,14 @@ from picar_4wd import getIP
 # from server.sr import soft_reset
 
 def start_http_server():
-    system("cd /home/pi/picar_4wd/examples/web/client && sudo python3 -m http.server 80 2>&1 1>/dev/null &")#开启服务器
+    system("cd /home/pi/picar-4wd/examples/web/client && sudo python3 -m http.server 80 2>&1 1>/dev/null &")#开启服务器
 
 def close_http_server():
     system("sudo kill $(ps aux | grep 'http.server' | awk '{ print $2 }') 2>&1 1>/dev/null")
 
 def start_websocket():
     # print("start_websocket")
-    system("cd /home/pi/picar_4wd/examples/web/server && sudo python3 web_server.py 2>&1 1>/dev/null &")
+    system("cd /home/pi/picar-4wd/examples/web/server && sudo python3 web_server.py 2>&1 1>/dev/null &")
     # system("cd /home/pi/picar_4wd/examples/web/server && sudo python3 web_server.py &")
 
 def close_websocket():
