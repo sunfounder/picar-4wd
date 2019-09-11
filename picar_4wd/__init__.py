@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from fwd_car.pwm import PWM
-from fwd_car.adc import ADC
-from fwd_car.pin import Pin
-from fwd_car.motor import Motor
-from fwd_car.servo import Servo
-from fwd_car.ultrasonic import Ultrasonic
-from fwd_car.speed import Speed
-from fwd_car.filedb import FileDB  
-from fwd_car.utils import *
+from picar_4wd.pwm import PWM
+from picar_4wd.adc import ADC
+from picar_4wd.pin import Pin
+from picar_4wd.motor import Motor
+from picar_4wd.servo import Servo
+from picar_4wd.ultrasonic import Ultrasonic 
+from picar_4wd.speed import Speed
+from picar_4wd.filedb import FileDB  
+from picar_4wd.utils import *
 import time
 
 # Config File:
