@@ -47,8 +47,8 @@ async def recv_server_func(websocket):
         recv_dict['PW'] = int(recv_dict['PW'])
         Remote_control(recv_dict['RC'],recv_dict['PW'])
         # print(recv_dict)
-        # if  recv_dict['MS'][0] =='on':
-        #     fc.set_motor_power(int(recv_dict['MS'][1]), int(recv_dict['MS'][2]))
+        if  recv_dict['MS'][0] =='on':
+            fc.set_motor_power(int(recv_dict['MS'][1]), int(recv_dict['MS'][2]))
         if  recv_dict['SR'] =='on':
             fc.soft_reset()
 
@@ -73,14 +73,11 @@ async def send_server_func(websocket):
         if  recv_dict['GS'] =='on': 
             send_dict['GS'] = gs_list
         await websocket.send(json.dumps(send_dict))
-        await asyncio.sleep(0.02)
+        await asyncio.sleep(0.01)
         
 async def main_func():
     global recv_dict,send_dict,gs_list
     while 1:
-        if  recv_dict['MS'][0] =='on':
-            fc.set_motor_power(int(recv_dict['MS'][1]), int(recv_dict['MS'][2]))
-            
         gs_list = fc.get_grayscale_list()
         
         if recv_dict['CD'][0] == 'on':
