@@ -1,6 +1,6 @@
 import smbus, math
-from picar_4wd.i2c import I2C
-from picar_4wd.pin import Pin
+from picar-4wd.i2c import I2C
+from picar-4wd.pin import Pin
 import time
 
 class PWM(I2C):

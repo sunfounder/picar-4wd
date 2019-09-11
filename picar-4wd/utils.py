@@ -5,7 +5,7 @@ import os
 import time
 
 def soft_reset():
-    from picar_4wd.pin import Pin
+    from picar-4wd.pin import Pin
     soft_reset_pin = Pin("D16")
     # print('soft_reset')
     soft_reset_pin.low()
@@ -68,7 +68,7 @@ def pi_read():
     return result 
 
 def power_read():
-    from picar_4wd.adc import ADC
+    from picar-4wd.adc import ADC
     power_read_pin = ADC('A4')
     power_val = power_read_pin.read()
     power_val = power_val / 4095.0 * 3.3
@@ -118,7 +118,7 @@ def main():
                 print("Run: `picar-4wd web-example enable/disable` to enable/disable start on boot")
                 os.system("sudo python3 /home/pi/picar-4wd/examples/web/start.py")
         elif command == "test":
-            from picar_4wd import forward,get_distance_at,get_grayscale_list,stop
+            from picar-4wd import forward,get_distance_at,get_grayscale_list,stop
             if len(sys.argv) >= 3:
                 opt = sys.argv[2]
                 if opt == "motor":
