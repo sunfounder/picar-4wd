@@ -1,22 +1,22 @@
-## FWD Car
-FWD Car
+## PiCar-4WD 
+PiCar-4WD 
 
 Quick Links:
 
- * [About FWD Car](#about_this_module)
+ * [About PiCar-4WD](#about_this_module)
  * [Update](#update)
  * [About SunFounder](#about_sunfounder)
  * [License](#license)
  * [Contact us](#contact_us)
 
 <a id="about_this_module"></a>
-### About FWD Car:
+### About PiCar-4WD:
 
 
 
 <a id="update"></a>
 ### Update:
- - fwd-car is the 4WD car that is built based on the Raspberry Pi, with the functions, including line following, following, obstacle avoidance, speed testing,  remote control, radar testing and use the web page to control the fwd-car
+ - picar-4wd is the 4WD car that is built based on the Raspberry Pi, with the functions, including line following, following, obstacle avoidance, speed testing,  remote control, radar testing and use the web page to control the picar-4wd
 2019-09-21:
  - New Release
 
@@ -28,16 +28,16 @@ SunFounder is a technology company focused on Raspberry Pi and Arduino open sour
 ----------------------------------------------
 <a id="license"></a>
 ### License
-This is the code for FWD Car.
+This is the code for PiCar-4WD.
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied wa rranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-FWD Car comes with ABSOLUTELY NO WARRANTY; for details run ./show w. This is free software, and you are welcome to redistribute it under certain conditions; run ./show c for details.
+PiCar-4WD comes with ABSOLUTELY NO WARRANTY; for details run ./show w. This is free software, and you are welcome to redistribute it under certain conditions; run ./show c for details.
 
-SunFounder, Inc., hereby disclaims all copyright interest in the program 'FWD Car' (which makes passes at compilers).
+SunFounder, Inc., hereby disclaims all copyright interest in the program 'PiCar-4WD' (which makes passes at compilers).
 
 Mike Huang, 21 August 2015
 
