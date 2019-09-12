@@ -2,10 +2,10 @@
 
 Usage:
 ```python
-import fwd_car as fc
-from fwd_car.utils import pi_read
+import picar_4wd as fc
+from picar_4wd.utils import pi_read
 from remote_control import Remote_control
-from fwd_car import getIP
+from picar_4wd import getIP
 
 import asyncio
 import websockets
