@@ -14,5 +14,5 @@ Create an Servo object associated with the given pin which start with "P". This 
 ## Methods
 - set_angle(self, angle) - set the angle values between -90 and 90.
 ```python
-set_angle(self, 90)
+set_angle(90)
 ```

@@ -12,7 +12,53 @@ val = pin.value()                    # read an analog value
 A pin is the basic object to control I/O pins. It has methods to set the mode of the pin (input, output, etc) and methods to get and set the digital logic level. For analog control of a pin, see the ADC class.
 
 ## Methods
-- read - Read the value on the analog pin and return it. The returned value will be between 0 and 4095.
+- init(self, mode, pull=PULL_NONE) - set up the mode and pull mode of the pin.
 ```python
-ADC.read()
+Pin.init(IN,PULL_UP)
+```
+
+- value(self, *value) - set or get the value of the pin.
+```python
+Pin.value()   #get the value of the pin
+
+pin.value(1)  #set the value of the pin
+```
+
+- high(self) - Set to high level.
+```python
+Pin.high()
+```
+
+- low(self) - Set to low level.
+```python
+Pin.low()
+```
+
+- mode(self, *value) - set or get the mode of the pin.
+```python
+Pin.mode()   #get the mode of the pin
+
+Pin.mode(IN)   #set the mode of the pin
+```
+
+- pull(self, *value) - Set to pull mode.
+```python
+Pin.pull(PULL_UP)
+```
+
+- irq(self, handler=None, trigger=None) - set the irq of the pin.
+```python
+def irq_test():
+    print("high")
+
+Pin.irq(IRQ_RISING,irq_test) 
+```
+- name(self) - Return the pin num of the rpi.
+```python
+pin_name = Pin.name()
+```
+- names(self) - Return the pin names and the  pin num of the rpi.
+```python
+pin_names = []
+pin_names = Pin.names()
 ```
