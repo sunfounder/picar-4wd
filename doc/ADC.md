@@ -8,7 +8,7 @@ adc = ADC("A0")                     # create an analog object from a pin
 val = adc.read()                    # read an analog value
 ```
 ## Constructors
-```class picar_4wd.ADC(pin)```
+```class picar_4wd.adc.ADC(pin)```
 Create an ADC object associated with the given pin. This allows you to then read analog values on that pin.
 
 ## Methods

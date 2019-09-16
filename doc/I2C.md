@@ -20,7 +20,7 @@ i2c.mem_write('abc', 0x42, 2, timeout=1000) # write 'abc' (3 bytes) to memory of
                                             # starting at address 2 in the slave, timeout after 1 second
 ```
 ## Constructors
-```class picar_4wd.I2C(num)```
+```class picar_4wd.i2c.I2C(num)```
 Create an I2C object associated with the given num. This allows you to use i2c on that device.
 
 ## Methods

@@ -13,7 +13,7 @@ pwm.pulse_width(10)                # set pulse_width
 pwm.pulse_width_percent(50)        # set pulse_width_percent 
 ```
 ## Constructors
-```class picar_4wd.PWM(channel)```
+```class picar_4wd.pwm.PWM(channel)```
 Create an PWM object associated with the given pin. This allows you set up the pwm function on that pin.
 
 ## Methods

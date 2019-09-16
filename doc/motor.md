@@ -8,7 +8,7 @@ mt = Motor(PWM("P13"), Pin("D4"), is_reversed=False)                    # create
 mt.set_power(10)                   # set the power value
 ```
 ## Constructors
-```class picar_4wd.Motor(pwm,pin,is_reversed=False)```
+```class picar_4wd.motor.Motor(pwm,pin,is_reversed=False)```
 Create an Motor object associated with the given pin. This allows you to then set the values on that pin.
 
 ## Methods

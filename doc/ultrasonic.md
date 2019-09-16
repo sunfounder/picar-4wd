@@ -7,7 +7,7 @@ us = Ultrasonic(Pin('D8'), Pin('D9'))                  # create an Ultrasonic ob
 dis_val = us.get_distance()                      # get the distance
 ```
 ## Constructors
-```class  picar_4wd.Ultrasonic.Ultrasonic(pin)```
+```class  picar_4wd.ultrasonic.Ultrasonic(pin)```
 Create an Ultrasonic object associated with the given pin . This allows you to get the Ultrasonic values.
 
 ## Methods
