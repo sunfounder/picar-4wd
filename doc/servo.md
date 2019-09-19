@@ -5,7 +5,7 @@ Usage:
 from picar_4wd.servo import Servo
 
 ser = Servo("P0")                     # create an Servo object from a pin
-val = ser.angle(60)                   # set the servo angle
+val = ser.set_angle(60)                   # set the servo angle
 ```
 ## Constructors
 ```class picar_4wd.servo.Servo(pin)```
