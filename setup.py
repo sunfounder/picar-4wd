@@ -227,7 +227,7 @@ setup(
 
 if len(errors) == 0:
     print("Finished")
-    do(msg="System will reboot now",
+    do(msg="System reboot now",
     cmd='run_command("sudo reboot")')
 else:
     print("\n\nError happened in install process:")
