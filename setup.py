@@ -158,8 +158,6 @@ def install():
         cmd='run_command("sudo cp ./bin/picar-4wd-web-example /etc/init.d/picar-4wd-web-example")')
     do(msg="add excutable mode for picar-4wd-web-example",
         cmd='run_command("sudo chmod +x /etc/init.d/picar-4wd-web-example")')
-    do(msg="System will reboot now",
-    cmd='run_command("sudo reboot")')
 install()
 
 setup(
@@ -229,6 +227,8 @@ setup(
 
 if len(errors) == 0:
     print("Finished")
+    do(msg="System will reboot now",
+    cmd='run_command("sudo reboot")')
 else:
     print("\n\nError happened in install process:")
     for error in errors:
