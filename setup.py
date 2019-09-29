@@ -153,7 +153,7 @@ def install():
     do(msg="change directory owner",
         cmd='run_command("sudo chown -R pi:pi /home/pi/.picar-4wd/")')
 
-    print("Setup picar-4wd web-example service")
+    print("Setup picar-4wd web-example service") 
     do(msg="copy picar-4wd web-example file",
         cmd='run_command("sudo cp ./bin/picar-4wd-web-example /etc/init.d/picar-4wd-web-example")')
     do(msg="add excutable mode for picar-4wd-web-example",
