@@ -51,7 +51,7 @@ pi@raspberrypi:picar-4wd test grayscale  ##test the Grayscale Sensor of the 
 1. Boot the Raspberry Pi
 2. Download the project picar-4wd by using cammand
 ```python
-pi@raspberrypi:git clone https://github.com/sunfounder/picar-4wd  ##download the project
+pi@raspberrypi:git clone https://github.com/sunfounder/picar-4wd ##download the project
 ```
 3. With download done, you can get a picar-4wd directory，then click into it.
 4. By using "sudo python3 setup.py install" download some relevant libraries and execute configurations for the Raspberry Pi. If the downloading runs well, you should notice the finish in the last line.
