@@ -6,7 +6,7 @@ import asyncio
 
 power_val = 50
 key = 'status'
-
+print("If you want to quit.Please press q")
 def readchar():
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
@@ -55,6 +55,8 @@ def Keyborad_control():
             break  
 if __name__ == '__main__':
     Keyborad_control()
+
+
 
 
 
