@@ -19,19 +19,25 @@ class FileDB(object):
 			conf = open(self.DIR+self.db,'r')
 			lines=conf.readlines()
 			conf.close()
-			file_len=len(lines)-1
 			flag = False
 			# Find the arguement and set the value
-			for i in range(file_len):
-				if lines[i][0] != '#':
-					if lines[i].split('=')[0].strip() == name:
-						value = lines[i].split('=')[1].replace(' ', '').strip()
-						flag = True
-			if flag:
-				return eval(value)
+			for line in lines:
+				# print(line)
+				if line.startswith('#'):
+					continue
+				# print("no#")
+				if line.split('=')[0].strip() == name:
+					# print(name)
+					value = line.split('=')[1].replace(' ', '').strip()
+					break
 			else:
+				# print("flag_error")
 				return default_value
-		except :
+
+			return eval(value)
+
+		except:
+			# print("error")
 			return default_value
 	
 	def set(self, name, value):
@@ -41,19 +47,31 @@ class FileDB(object):
 		conf = open(self.DIR+self.db,'r')
 		lines=conf.readlines()
 		conf.close()
-		file_len=len(lines)-1
 		flag = False
 		# Find the arguement and set the value
-		for i in range(file_len):
-			if lines[i][0] != '#':
-				if lines[i].split('=')[0].strip() == name:
-					lines[i] = '%s = %s\n' % (name, value)
-					flag = True
+		for i, line in enumerate(lines):
+			if line.startswith('#'):
+				continue
+			if line.split('=')[0].strip() == name:
+				lines[i] = '%s = %s\n' % (name, value)
+				break
 		# If arguement does not exist, create one
-		if not flag:
+		else:
 			lines.append('%s = %s\n\n' % (name, value))
 
 		# Save the file
 		conf = open(self.DIR+self.db,'w')
 		conf.writelines(lines)
 		conf.close()
+
+def test():
+	name = "hhh"
+	db = FileDB()
+	print("Get not exist: %s" % db.get(name, 0))
+	print("Set not exist: %s" % db.set(name, 10))
+	print("Get exist: %s" % db.get(name, 0))
+	print("Set exist: %s" % db.set(name, 20))
+	print("Get exist: %s" % db.get(name, 0))
+
+if __name__ == "__main__":
+	test()
