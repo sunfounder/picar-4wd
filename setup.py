@@ -5,6 +5,10 @@ from codecs import open
 from os import path
 from os import system
 from os import listdir
+import sys
+import tty
+import termios
+import asyncio
 
 errors = []
 
@@ -14,6 +18,28 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
+
+def readchar():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
+
+def readkey(getchar_fn=None):
+    getchar = getchar_fn or readchar
+    c1 = getchar()
+    if ord(c1) != 0x1b:
+        return c1
+    c2 = getchar()
+    if ord(c2) != 0x5b:
+        return c1
+    c3 = getchar()
+    return chr(0x10 + ord(c3) - 65)
+    
 def run_command(cmd=""):
     import subprocess
     p = subprocess.Popen(
@@ -158,7 +184,8 @@ def install():
         cmd='run_command("sudo cp ./bin/picar-4wd-web-example /etc/init.d/picar-4wd-web-example")')
     do(msg="add excutable mode for picar-4wd-web-example",
         cmd='run_command("sudo chmod +x /etc/init.d/picar-4wd-web-example")')
-install()
+
+# install()
 
 setup(
     name='picar-4wd',
@@ -226,9 +253,15 @@ setup(
 )
 
 if len(errors) == 0:
-    print("Finished")
-    do(msg="System reboot now",
-    cmd='run_command("sudo reboot")')
+    print("Setup Finished")
+    print('If you want to reboot please press y, if not press n')
+    input_val = readkey()
+    print(input_val)
+    if input_val == 'y':
+        do(msg="System reboot now",
+        cmd='run_command("sudo reboot")')
+    elif input_val == 'n':
+        quit
 else:
     print("\n\nError happened in install process:")
     for error in errors:
