@@ -39,7 +39,7 @@ def readkey(getchar_fn=None):
         return c1
     c3 = getchar()
     return chr(0x10 + ord(c3) - 65)
-    
+
 def run_command(cmd=""):
     import subprocess
     p = subprocess.Popen(
@@ -185,7 +185,7 @@ def install():
     do(msg="add excutable mode for picar-4wd-web-example",
         cmd='run_command("sudo chmod +x /etc/init.d/picar-4wd-web-example")')
 
-# install()
+install()
 
 setup(
     name='picar-4wd',
