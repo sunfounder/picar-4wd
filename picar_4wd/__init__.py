@@ -40,6 +40,8 @@ gs2 = ADC('A7')
 us = Ultrasonic(Pin('D8'), Pin('D9'))
 
 # Init Servo
+print("Init Servo: %s" % ultrasonic_servo_offset)
+
 servo = Servo(PWM("P0"), offset=ultrasonic_servo_offset)
 
 def start_speed_thread():
