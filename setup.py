@@ -261,7 +261,7 @@ if len(errors) == 0:
         do(msg="System reboot now",
         cmd='run_command("sudo reboot")')
     elif input_val == 'n':
-        quit
+        print("reboot cancel")
 else:
     print("\n\nError happened in install process:")
     for error in errors:
