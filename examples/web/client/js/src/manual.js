@@ -126,7 +126,11 @@ Manual.setUltrasonicSean = function (data) {
         $(`.ultrasonic_dot_${angle}`).hide();
         return false;
     }
-    var x = Math.round(Math.sin(rad) * distance) + $('.ultrasonic_dot_block').width() / 2;
+    if (document.documentElement.clientWidth > 800) {
+        var x = Math.round(Math.sin(rad) * distance) + ($('.ultrasonic_dot_block').width() - 250)/ 2;
+    }else {
+        var x = Math.round(Math.sin(rad) * distance) + $('.setting_ultrasonic_dot_block').width() / 2;
+    }
     var y = Math.round(Math.cos(rad) * distance);
     x = (x + parseInt($('.ultrasonic_dot_block').css('width')) / 2) / 100 + "rem";
     y = y / 100 + "rem";
