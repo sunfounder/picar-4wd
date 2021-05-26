@@ -18,9 +18,9 @@
 # -- Project information -----------------------------------------------------
 import sphinx_rtd_theme
 
-project = 'picar-4wd'
+project = 'SunFounder PiCar-4wd Kit'
 copyright = '2021, sunfounder'
-author = 'sunfounder'
+author = 'www.sunfounder.com'
 
 
 # -- General configuration ---------------------------------------------------
@@ -28,7 +28,7 @@ author = 'sunfounder'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
+extensions = ['sphinx.ext.autosectionlabel'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
