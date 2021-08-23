@@ -21,6 +21,8 @@ Here is the Email: cs@sunfounder.com.
     hardware_assembling
     web_control
     python_program_control
+    appendix/appendix
+    thank-robot
 
 Copyright Notice
 -------------------

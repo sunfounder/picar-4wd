@@ -19,21 +19,29 @@ Initialize the environment before using the product example. The methods are as 
   :align: center
 
 .. note::
-  Due to the long test time, you can also use an external power supply to power the Raspberry Pi at the same time. But 4WD-Hat can only be powered by battery, you can't just use external power supply without batterries, otherwise the following error will occur when you are running the command: **picar-4wd test motor**.
+  Due to the long test time, you can also use an external power supply to power the Raspberry Pi at the same time. But 4WD-Hat can only be powered by battery, you can't just use external power supply without batterries, otherwise the following error will occur when you are running the command: **picar-4wd test motor**.
 
   ---- picar-4wd test motor returns OSError: [Errno 121] Remote I/O error ----
 
 ② Enter the folder picar-4wd.
 
-.. code-block:: python
+.. raw:: html
 
-    cd /home/pi/picar-4wd/
+  <run></run>
+
+.. code-block:: 
+
+  cd /home/pi/picar-4wd/
 
 ③ Start up the initialization function.
 
-.. code-block:: python
+.. raw:: html
 
-    sudo python3 setup.py install
+    <run></run>
+
+.. code-block:: 
+
+    sudo python3 setup.py install
 
 The main functions of setup.py may be:
 
@@ -58,9 +66,14 @@ Wire up the motor according to the diagram.
 
 Input the command.
 
-.. code-block:: python
 
-    picar-4wd test motor
+.. raw:: html
+
+  <run></run>
+
+.. code-block:: 
+
+  picar-4wd test motor
 
 After you input the command, the four motors will last working till you press on Ctrl+C. Among the motors, two of them rotate clockwise, and the rest of them rotate anticlockwise.
 
@@ -74,9 +87,14 @@ Finishing the wire up according to the diagram.
 
 Input the following command.
 
-.. code-block:: python
 
-    picar-4wd test grayscale
+.. raw:: html
+
+  <run></run>
+
+.. code-block:: 
+
+  picar-4wd test grayscale
 
 After you input the command, the monitor will print the readings of three detectors of line-following module once.
 
@@ -90,9 +108,14 @@ Start your wire up:
 
 Input the commands:
 
-.. code-block:: python
 
-    picar-4wd test servo
+.. raw:: html
+
+  <run></run>
+
+.. code-block:: 
+
+  picar-4wd test servo
 
 The arm of servo will rotate to the angle of 0, meanwhile the monitor will print the readings of ultrasonic module once.
 
@@ -104,9 +127,14 @@ Power Supply Detection
 
 You can use the following command to get the supply voltage.
 
-.. code-block:: python
 
-    picar-4wd power-read
+.. raw:: html
+
+  <run></run>
+
+.. code-block:: 
+
+  picar-4wd power-read
 
 The supply voltage ought to be 6V~8.5V to ensure that the car works well.
 
@@ -115,9 +143,14 @@ Reset Controller
 
 If you encounter some errors during your use, for example, the car don’t make response to your control command of control terminal, you can try to reset HATS by using the following command.
 
-.. code-block:: python
 
-    picar-4wd soft-reset
+.. raw:: html
+
+  <run></run>
+
+.. code-block:: 
+
+  picar-4wd soft-reset
 
 
 

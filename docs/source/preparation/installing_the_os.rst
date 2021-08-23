@@ -77,7 +77,7 @@ Then scroll down to complete the wifi configuration and click **SAVE**.
     **wifi country** should be set the two-letter `ISO/IEC alpha2
     code <https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements>`__ for
     the country in which you are using your Raspberry Pi, please refer to
-    the following link: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+    the following link: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements.
 
 .. image:: media/image16.png
     :align: center

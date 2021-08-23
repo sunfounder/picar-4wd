@@ -18,9 +18,9 @@ Any Raspberry Pi   1 \* Power Adapter
 
 1) Insert the SD card you’ve set up with Raspberry Pi OS into the micro SD card slot on the underside of your Raspberry Pi.
 
-1) Plug in the Mouse and Keyboard.
+2) Plug in the Mouse and Keyboard.
 
-2) Connect the screen to Raspberry Pi’s HDMI port and make sure your screen is plugged into a wall socket and switched on.
+3) Connect the screen to Raspberry Pi’s HDMI port and make sure your screen is plugged into a wall socket and switched on.
 
 .. note::
     If you use a Raspberry Pi 4, you need to connect the screen to the HDMI0 (nearest the power in port).
@@ -82,7 +82,7 @@ it.
 
 **Step 2**
 
-Type in **ssh pi@ip_address** . “pi”is your username and “ip_address” is
+Type in **ssh pi@ip_address** . \"pi\" is your username and \"ip_address\" is
 your IP address. For example:
 
 .. code-block::
@@ -91,7 +91,7 @@ your IP address. For example:
 
 **Step 3**
 
-Input”yes”.
+Input \"yes\".
 
 .. image:: media/image22.png
     :align: center
@@ -141,8 +141,8 @@ the IP address, there prompts a security reminder. Just click **Yes**.
 
 **Step 4**
 
-When the PuTTY window prompts “\ **login as:”**, type in
-“\ **pi”**\ (the user name of the RPi), and **password: “**\ raspberry”
+When the PuTTY window prompts \"**login as:**\", type in
+\"**pi**\" (the user name of the RPi), and **password**: \"raspberry\"
 (the default one, if you haven't changed it).
 
 .. image:: media/image26.png
@@ -153,12 +153,13 @@ When the PuTTY window prompts “\ **login as:”**, type in
 Here, we get the Raspberry Pi connected and it is time to conduct the
 next steps.
 
-**Note**: When you input the password, the characters do not display on
-window accordingly, which is normal. What you need is to input the
-correct password.
-
-Note: If you are not satisfied with using the command window to control
-the Raspberry Pi, you can also use the remote desktop function, which
-can help us manage the files in the Raspberry Pi easily.
+.. note::
+    When you input the password, the characters do not display on 
+    window accordingly, which is normal. What you need is to input the 
+    correct password.
+    
+    If you are not satisfied with using the command window to control
+    the Raspberry Pi, you can also use the remote desktop function, which 
+    can help us manage the files in the Raspberry Pi easily.
 
 For details on how to do this, please refer to :ref:`Remote Desktop`.

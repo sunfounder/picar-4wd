@@ -23,7 +23,11 @@ Click a wheel then set the POWER, click the two buttons in bottom right corner. 
 
 1) Input the following command to open the configure file.
 
-.. code-block:: python
+.. raw:: html
+
+  <run></run>
+
+.. code-block:: 
 
     cd ..
     ls -a
@@ -38,7 +42,11 @@ Click a wheel then set the POWER, click the two buttons in bottom right corner. 
 
 3) Rerun the following commands.
 
-.. code-block:: python
+.. raw:: html
+
+  <run></run>
+
+.. code-block:: 
 
     cd /home/pi/picar-4wd/
     picar-4wd web-example
@@ -77,13 +85,21 @@ You can check the operating condition of the system on this page.
 
 ① Make the example program run automatically at startup.
 
-.. code-block:: python
+.. raw:: html
 
-    picar-4wd web-example enable
+  <run></run>
+
+.. code-block:: 
+
+    picar-4wd web-example enable
 
 ② If you want to turn off the Start on Boot, please type in the following command.
 
-.. code-block:: python
+.. raw:: html
 
-    picar-4wd web-example disable
+  <run></run>
+
+.. code-block::
+
+    picar-4wd web-example disable
 

@@ -3,7 +3,11 @@ Boot Web Control
 
 Input the command and start up the web control program.
 
-.. code-block:: python
+.. raw:: html
+
+  <run></run>
+
+.. code-block:: 
 
     cd /home/pi/picar-4wd/
     picar-4wd web-example

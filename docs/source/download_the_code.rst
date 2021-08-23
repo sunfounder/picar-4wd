@@ -5,7 +5,11 @@ The codes in the disk don’t need downloading, only for your fast study. If you
 
 ① Change directory to /home/pi.
 
-.. code-block:: python
+.. raw:: html
+
+    <run></run>
+
+.. code-block::
 
     cd /home/pi/
 
@@ -14,7 +18,11 @@ The codes in the disk don’t need downloading, only for your fast study. If you
 
 ② Clone the repository from github.
 
-.. code-block:: python
+.. raw:: html
+
+    <run></run>
+
+.. code-block::
 
     git clone https://github.com/sunfounder/picar-4wd
 
