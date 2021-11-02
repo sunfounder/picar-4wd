@@ -123,7 +123,7 @@ def main():
                 opt = sys.argv[2]
                 if opt == "motor":
                     print("Motor test start!, Ctrl+C to Stop")
-                    forward(10)
+                    forward(50)
                     try:
                         while True:
                             pass
