@@ -175,7 +175,7 @@ def install():
         do(msg="create .picar-4wd directory",
             cmd='run_command("sudo mkdir /home/pi/.picar-4wd/")') 
     do(msg="copy picar-4wd-config",
-        cmd='run_command("sudo cp ./data/config /home/pi/.picar-4wd/")')
+        cmd='run_command("sudo cp ./data/config /home/pi/.picar-4wd/picar-4wd-config")')
     do(msg="change directory owner",
         cmd='run_command("sudo chown -R pi:pi /home/pi/.picar-4wd/")')
 
