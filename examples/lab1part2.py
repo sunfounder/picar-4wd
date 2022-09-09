@@ -3,110 +3,11 @@ import time
 import numpy as np
 import sys
 import math
+import argparse
 from enum import Enum
 
-# Define enum for holding driving direction, in relation to the destination, which can be defined
-# as infinity in the direction of the starting position of the car.
-class DrivingDirection (Enum):
-    towards_destination = 1
-    right = 2
-    left =3
-    away_from_destination = 4
-
-# Set speed of car
-speed = 20
-
-# Set starting direction of car as toward destination
-direction = DrivingDirection.towards_destination
-
-# Initialise counter for measuring distance
-distance_counter = 0
-forward_timer = 0
-
-# Initialise array representing 20 * 20 occupany squares of approx 20cm 
-# when 7 represents unmapped areas, 0 represents clear and 1 represents obstacle
-array_shape = (25, 25)
-fill_value = 7
-map = np.full(array_shape, fill_value)
-
-# Intialise car location in array
-car_position = [24, 10]
-
-
-# Execute turn of car
-def turn(turning_direction):
-
-    global distance_counter
-
-    # Set time for turning action for a period in seconds which gives a 90 degree turn angle.
-    # Different timers needed for left and right turns to maintain consistent turning angle
-    turn_left_timer = 0.9
-    turn_right_timer = 1
-
-    # Execute turn in direction received in function call and wait for specific time 
-    # before stopping
-    if turning_direction == 'right':
-        fc.turn_right(speed)
-        time.sleep(turn_right_timer)
-
-    else:
-        fc.turn_left(speed)
-        time.sleep(turn_left_timer)
-    
-    # Stop turn
-    fc.stop()
-    #updatePositionTurning(turning_direction)
-
-    # Reset distance counter as this is used to ensure car moves a certain distance
-    # forward after each turn before attempting a turn towards destination
-    distance_counter = 0
-    return
-
-def updatePositionMovingForward(distance):
-    global direction
-    global car_position
-    if direction == DrivingDirection.towards_destination:
-        car_position[0] = car_position[0] - distance
-
-    elif direction == DrivingDirection.right:
-        car_position[1] = car_position[1] + distance
-
-    elif direction == DrivingDirection.left:
-        car_position[1] = car_position[1] - distance
-    
-    else:
-        car_position[0] = car_position[0] + distance
-
-"""def updatePositionTurning(turning_direction):
-    global direction
-    global car_position
-
-    if direction == DrivingDirection.towards_destination:
-        if turning_direction == 'right':
-            map[car_position[0], car_position[1]] = "4"
-        else:
-            map[car_position[0], car_position[1]] = "4"
-            
-
-    elif direction == DrivingDirection.right:
-        if turning_direction == 'right':
-            map[car_position[0], car_position[1]] = "4"
-        else:
-            map[car_position[0], car_position[1]] = "4"
-
-    elif direction == DrivingDirection.left:
-        if turning_direction == 'right':
-            map[car_position[0], car_position[1]] = "4"
-        else:
-            map[car_position[0], car_position[1]] = "4"
-
-    else:
-        if turning_direction == 'right':
-            map[car_position[0], car_position[1]] = "4"
-        else:
-            map[car_position[0], car_position[1]] = "4"
-
-"""
+# User modules
+import lab1part2_object_detector
 
 # Move car forward and update distance counter each time function is called
 def move_forward():
@@ -361,12 +262,12 @@ def updateMap(blocked_state):
 
                 
 
-def main():
+def main(model: str, camera_id: int, width: int, height: int, num_threads: int,
+        enable_edgetpu: bool, stationary_run: bool) -> None:
 
     print("Sys max size ", sys.maxsize)
     np.set_printoptions(threshold=sys.maxsize)
     #np.set_printoptions(threshold=220)
-
 
     # Initate dictionary to hold detected obstacle location in front of car
     blocked_state = {
@@ -375,32 +276,40 @@ def main():
         'right': False
     }
 
+    object_detector = lab1part2_object_detector.Object_detector(
+        model, camera_id, width, height,
+        num_threads, enable_edgetpu
+    )
+
     # Start loop to perform scan and take respective actions
     while True:
         # Get ultrasonic scan input 
-        scan_list = fc.scan_step(35)
-        print(scan_list)
-        if not scan_list:
-            continue
-        # Wait for full scan to be received from the sensor
-        if len(scan_list) != 10:
-            continue
+        if not stationary_run:
+            scan_list = fc.scan_step(35)
+            print(scan_list)
+            if not scan_list:
+                continue
+            # Wait for full scan to be received from the sensor
+            if len(scan_list) != 10:
+                continue
 
-        
-        # Check for obstacles
-        blocked_state = check_scan(scan_list, blocked_state)
-        print(scan_list)
-        print ("Blocked state ", blocked_state)
+            # Check for obstacles
+            blocked_state = check_scan(scan_list, blocked_state)
+            print(scan_list)
+            print ("Blocked state ", blocked_state)
 
         # Update map
-        updateMap(blocked_state)
+        if not stationary_run:
+            updateMap(blocked_state)
 
-        print("Car position ", car_position)
+        # Check for objects
+        object_detector.process_frame()
+
         #Decide on actions based on obstacles and current driving direction
-        decide_on_action(blocked_state)
+        if not stationary_run:
+            print("Car position ", car_position)
+            decide_on_action(blocked_state)
 
-
-        
         print(map)
         #print(map[car_position[0]-25:car_position[0]+25, car_position[1]-25:car_position[1]+25])
         #plt.imshow(map, interpolation='nearest')
@@ -411,9 +320,51 @@ def main():
 
 if __name__ == "__main__":
 
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        '--model',
+        help='Path of the object detection model.',
+        required=False,
+        default='efficientdet_lite0.tflite')
+    parser.add_argument(
+        '--cameraId', help='Id of camera.', required=False, type=int, default=0)
+    parser.add_argument(
+        '--frameWidth',
+        help='Width of frame to capture from camera.',
+        required=False,
+        type=int,
+        default=640)
+    parser.add_argument(
+        '--frameHeight',
+        help='Height of frame to capture from camera.',
+        required=False,
+        type=int,
+        default=480)
+    parser.add_argument(
+        '--numThreads',
+        help='Number of CPU threads to run the model.',
+        required=False,
+        type=int,
+        default=4)
+    parser.add_argument(
+        '--enableEdgeTPU',
+        help='Whether to run the model on EdgeTPU.',
+        action='store_true',
+        required=False,
+        default=False)
+    parser.add_argument(
+        '--stationary_run',
+        help='Whether to stay stationary for the entire run',
+        action='store_true',
+        required=False,
+        default=False)
+    args = parser.parse_args()
+
     print("If you want to quit.Please press q")
 
     try: 
-        main()
+        main(args.model, int(args.cameraId), args.frameWidth, args.frameHeight,
+            int(args.numThreads), bool(args.enableEdgeTPU), bool(args.stationary_run))
     finally: 
         fc.stop()
