@@ -94,7 +94,7 @@ class Object_detector:
 
     # increment frame counter
     self.counter += 1
-    image = cv2.flip(image, 1)
+    image = cv2.flip(image, -1)
 
     # Convert the image from BGR to RGB as required by the TFLite model.
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -122,6 +122,14 @@ class Object_detector:
 
     cv2.imshow('object_detector', image)
     cv2.waitKey(1)
+
+  def process_stream_blocking(self):
+    """
+    Process the video input stream in a blocking loop, forever.
+      Relies on destroying the object for exiting and safe cleanup.
+    """
+    while True:
+      self.process_frame()
 
   def draw_bounding_box(
       self, image: np.ndarray,

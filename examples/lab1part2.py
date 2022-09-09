@@ -9,6 +9,53 @@ from enum import Enum
 # User modules
 import lab1part2_object_detector
 
+# Enum for holding driving direction, in relation to the destination, which can be defined
+# as infinity in the direction of car at its starting position.
+class DrivingDirection (Enum):
+    towards_destination = 1
+    right = 2
+    left =3
+    away_from_destination = 4
+
+# Globals
+
+# Set speed of car
+speed = 20
+
+# Set starting direction of car as toward destination
+direction = DrivingDirection.towards_destination
+
+# Initialise counter for measuring distance
+distance_counter = 0
+
+# Execute turn of car
+def turn(turning_direction):
+
+    global distance_counter
+
+    # Set time for turning action for a period in seconds which gives a 90 degree turn angle.
+    # Different timers needed for left and right turns to maintain consistent turning angle
+    turn_left_timer = 0.9
+    turn_right_timer = 1
+
+    # Execute turn in direction received in function call and wait for specific time 
+    # before stopping
+    if turning_direction == 'right':
+        fc.turn_right(speed)
+        time.sleep(turn_right_timer)
+
+    else:
+        fc.turn_left(speed)
+        time.sleep(turn_left_timer)
+    
+    # Stop turn
+    fc.stop()
+
+    # Reset distance counter as this is used to ensure car moves a certain distance
+    # forward after each turn before attempting a turn towards destination
+    distance_counter = 0
+    return
+
 # Move car forward and update distance counter each time function is called
 def move_forward():
     global distance_counter
@@ -18,7 +65,7 @@ def move_forward():
     distance_counter += 1
     print("Distance counter ", distance_counter)
     # Car moves 16cm forward each time
-    updatePositionMovingForward(1)
+    # updatePositionMovingForward(1)
     return
 
 # Check ultrasonic scan. Assessing left, centre and right parts of scan for obstacles
@@ -307,7 +354,7 @@ def main(model: str, camera_id: int, width: int, height: int, num_threads: int,
 
         #Decide on actions based on obstacles and current driving direction
         if not stationary_run:
-            print("Car position ", car_position)
+            # print("Car position ", car_position)
             decide_on_action(blocked_state)
 
         print(map)
