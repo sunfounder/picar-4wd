@@ -26,9 +26,9 @@ Because of assembly methods and other reasons, your motor may still need a calib
 
     python3 move_forward.py
 
-#. Observe whether the wheels of the car are driving forward and marked the wrong motor.
+3. Observe whether the wheels of the car are driving forward and marked the wrong motor.
 
-#. Open the configuration file.
+4. Open the configuration file.
 
 .. raw:: html
 
@@ -38,11 +38,11 @@ Because of assembly methods and other reasons, your motor may still need a calib
 
     sudo nano /home/pi/.picar-4wd/config 
 
-#. Change the reverse FLAG of the error motor from ``False`` to ``True``.
+5. Change the reverse FLAG of the error motor from ``False`` to ``True``.
 
 .. image:: media/motor_calibration.png
 
-#. Run again ``move_forward.py``, if the car is driving correctly, the calibration is completed.
+6. Run again ``move_forward.py``, if the car is driving correctly, the calibration is completed.
 
 .. raw:: html
 
