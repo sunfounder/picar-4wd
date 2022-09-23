@@ -12,12 +12,11 @@ from picar_4wd.utils import *
 import time
 
 # Config File:
-config = FileDB()
+config = FileDB("config")
 left_front_reverse = config.get('left_front_reverse', default_value = False)
 right_front_reverse = config.get('right_front_reverse', default_value = False)
 left_rear_reverse = config.get('left_rear_reverse', default_value = False)
 right_rear_reverse = config.get('right_rear_reverse', default_value = False)    
-
 ultrasonic_servo_offset = int(config.get('ultrasonic_servo_offset', default_value = 0)) 
 
 # Init motors
