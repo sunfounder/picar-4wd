@@ -86,6 +86,7 @@ current_angle = 0
 max_angle = ANGLE_RANGE/2
 min_angle = -ANGLE_RANGE/2
 scan_list = []
+count_scan_step = 0
 
 errors = []
 
@@ -129,7 +130,7 @@ def get_status_at(angle, ref1=35, ref2=10):
     else:
         return 0
 
-def scan_step(ref):
+def scan_step(ref1, ref2):
     global scan_list, current_angle, us_step
     current_angle += us_step
     if current_angle >= max_angle:
@@ -138,10 +139,11 @@ def scan_step(ref):
     elif current_angle <= min_angle:
         current_angle = min_angle
         us_step = STEP
-    status = get_status_at(current_angle, ref1=ref)#ref1
+    status = get_status_at(current_angle, ref1=ref1, ref2=ref2)#ref1
 
     scan_list.append(status)
     if current_angle == min_angle or current_angle == max_angle:
+        print("Inside init scan_step, current_angle max or min")
         if us_step < 0:
             # print("reverse")
             scan_list.reverse()
@@ -155,28 +157,28 @@ def scan_step(ref):
 ########################################################
 # Motors
 def forward(power):
-    left_front.set_power(power)
-    left_rear.set_power(power)
-    right_front.set_power(power)
-    right_rear.set_power(power)
+    left_front.set_power(-power)
+    left_rear.set_power(-power)
+    right_front.set_power(-power)
+    right_rear.set_power(-power)
 
 def backward(power):
-    left_front.set_power(-power)
-    left_rear.set_power(-power)
-    right_front.set_power(-power)
-    right_rear.set_power(-power)
-
-def turn_left(power):
-    left_front.set_power(-power)
-    left_rear.set_power(-power)
+    left_front.set_power(power)
+    left_rear.set_power(power)
     right_front.set_power(power)
     right_rear.set_power(power)
 
-def turn_right(power):
+def turn_left(power):
     left_front.set_power(power)
     left_rear.set_power(power)
     right_front.set_power(-power)
     right_rear.set_power(-power)
+
+def turn_right(power):
+    left_front.set_power(-power)
+    left_rear.set_power(-power)
+    right_front.set_power(power)
+    right_rear.set_power(power)
 
 def stop():
     left_front.set_power(0)
