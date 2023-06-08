@@ -171,13 +171,14 @@ def install():
     do(msg="Add I2C module",
         cmd='Modules().set("i2c-dev")') 
 
-    if ".picar-4wd" not in listdir("/home/pi"):
+    username = run_command("whoami")[1].strip()
+    if ".picar-4wd" not in listdir(f"/home/{username}"):
         do(msg="create .picar-4wd directory",
-            cmd='run_command("sudo mkdir /home/pi/.picar-4wd/")') 
+            cmd='run_command("sudo mkdir /home/{username}/.picar-4wd/")')
     do(msg="copy picar-4wd-config",
-        cmd='run_command("sudo cp ./data/config /home/pi/.picar-4wd/config")')
+        cmd='run_command("sudo cp ./data/config /home/{username}/.picar-4wd/config")')
     do(msg="change directory owner",
-        cmd='run_command("sudo chown -R pi:pi /home/pi/.picar-4wd/")')
+        cmd='run_command("sudo chown -R pi:pi /home/{username}/.picar-4wd/")')
 
     print("Setup picar-4wd web-example service") 
     do(msg="copy picar-4wd web-example file",
