@@ -1,3 +1,5 @@
+import os
+
 class FileDB(object):
 	"""A file based database.
 
