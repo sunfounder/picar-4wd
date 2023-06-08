@@ -1,14 +1,13 @@
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
+import os
 # To use a consistent encoding
 from codecs import open
 from os import path
-from os import system
 from os import listdir
 import sys
 import tty
 import termios
-import asyncio
 
 errors = []
 
@@ -171,7 +170,7 @@ def install():
     do(msg="Add I2C module",
         cmd='Modules().set("i2c-dev")') 
 
-    username = run_command("whoami")[1].strip()
+    username = os.getenv("USER")
     if ".picar-4wd" not in listdir(f"/home/{username}"):
         do(msg="create .picar-4wd directory",
             cmd='run_command("sudo mkdir /home/{username}/.picar-4wd/")')
