@@ -3,43 +3,37 @@ from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
 from os import path
-from os import system
+from os import system, geteuid, getlogin
 from os import listdir
 import sys
-import tty
-import termios
-import asyncio
+import time
+import threading
 
-errors = []
+if geteuid() != 0:
+    print("Script must be run as root. Try 'sudo python3 setup.y install'")
+    sys.exit(1)
 
-here = path.abspath(path.dirname(__file__))
+sys.path.append("./picar_4wd")
+from version import __version__
 
 # Get the long description from the relevant file
+here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
+errors = []
 
-def readchar():
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
-    try:
-        tty.setraw(sys.stdin.fileno())
-        ch = sys.stdin.read(1)
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    return ch
+avaiable_options = ["--no-dep",]
+options = []
+if len(sys.argv) > 1:
+    options = list.copy(sys.argv[1:])
 
-def readkey(getchar_fn=None):
-    getchar = getchar_fn or readchar
-    c1 = getchar()
-    if ord(c1) != 0x1b:
-        return c1
-    c2 = getchar()
-    if ord(c2) != 0x5b:
-        return c1
-    c3 = getchar()
-    return chr(0x10 + ord(c3) - 65)
-
+for option in sys.argv:
+    if option in avaiable_options:
+        sys.argv.remove(option)
+ 
+# utils
+# =================================================================
 def run_command(cmd=""):
     import subprocess
     p = subprocess.Popen(
@@ -50,16 +44,43 @@ def run_command(cmd=""):
     # print(status)
     return status, result
 
+at_work_tip_sw = False
+def working_tip():
+    char = ['/', '-', '\\', '|']
+    i = 0
+    global at_work_tip_sw
+    while at_work_tip_sw:  
+            i = (i+1)%4 
+            sys.stdout.write('\033[?25l') # cursor invisible 
+            # cursor visible # \033[?25h
+            sys.stdout.write('%s\033[1D'%char[i])
+            sys.stdout.flush()
+            time.sleep(0.5)
+
+    sys.stdout.write(' \033[1D')
+    sys.stdout.write('\033[?25h') # cursor visible 
+    sys.stdout.flush()
 
 def do(msg="", cmd=""):
-    print(" - %s..." % (msg), end='\r')
-    print(" - %s... " % (msg), end='')
+    print(" - %s... " % (msg), end='', flush=True)
+    # at_work_tip start 
+    global at_work_tip_sw
+    at_work_tip_sw = True
+    _thread = threading.Thread(target=working_tip)
+    _thread.daemon = True
+    _thread.start()
+    # process run
+    # status, result = run_command(cmd)
     status, result = eval(cmd)
     # print(status, result)
+    # at_work_tip stop
+    at_work_tip_sw = False
+    _thread.join()
+    # status
     if status == 0 or status == None or result == "":
         print('Done')
     else:
-        print('Error')
+        print('\033[1;35mError\033[0m')
         errors.append("%s error:\n  Status:%s\n  Error:%s" %
                       (msg, status, result))
 
@@ -109,7 +130,6 @@ class Config(object):
     ''' 
         To setup /boot/config.txt
     '''
-
     def __init__(self, file="/boot/config.txt"):
         self.file = file
         with open(self.file, 'r') as f:
@@ -151,19 +171,35 @@ class Config(object):
         except Exception as e:
             return -1, e
 
-def install():
-    print("Install dependency")
-    do(msg="update apt-get",
-        cmd='run_command("sudo apt-get update")')
-    do(msg="install pip",
-        cmd='run_command("sudo apt-get install python3-pip -y")')
-    # do(msg="install git",
-    #     cmd='run_command("sudo apt-get install git-core -y")')
-    do(msg="install sysstat",
-        cmd='run_command("sudo apt-get install sysstat -y")')
-    do(msg="install i2c-tools",
-        cmd='run_command("sudo apt-get install i2c-tools -y")')
+# install
+# =================================================================
+APT_INSTALL_LIST = [ 
+    "python3-pip",
+    "sysstat",
+    "i2c-tools",
+]
 
+PIP_INSTALL_LIST = [
+    "RPi.GPIO",
+    "smbus",
+    "websockets",
+]
+
+def install():
+    user_name = getlogin()
+
+    if "--no-dep" not in options:
+        print("Install dependencies with apt-get")
+        do(msg="update apt-get",
+            cmd='run_command("apt-get update")')
+        for dep in APT_INSTALL_LIST:
+            do(msg=f"install {dep}",
+                cmd=f'run_command("apt-get install {dep} -y")')
+
+        print("Install dependencies with pip3")
+        for dep in PIP_INSTALL_LIST:
+            do(msg=f"install {dep}",
+                cmd=f'run_command("pip3 install {dep}")')
 
     print("Setup interfaces")
     do(msg="turn on I2C",
@@ -171,21 +207,19 @@ def install():
     do(msg="Add I2C module",
         cmd='Modules().set("i2c-dev")') 
 
-    if ".picar-4wd" not in listdir("/home/pi"):
+    if ".picar-4wd" not in listdir(f"/home/{user_name}"):
         do(msg="create .picar-4wd directory",
-            cmd='run_command("sudo mkdir /home/pi/.picar-4wd/")') 
+            cmd=f'run_command("sudo mkdir /home/{user_name}/.picar-4wd/")') 
     do(msg="copy picar-4wd-config",
-        cmd='run_command("sudo cp ./data/config /home/pi/.picar-4wd/config")')
+        cmd=f'run_command("sudo cp ./data/config /home/{user_name}/.picar-4wd/config")')
     do(msg="change directory owner",
-        cmd='run_command("sudo chown -R pi:pi /home/pi/.picar-4wd/")')
+        cmd=f'run_command("sudo chown -R {user_name}:{user_name} /home/{user_name}/.picar-4wd/")')
 
-    print("Setup picar-4wd web-example service") 
+    print("Setup picar-4wd web-example service")
     do(msg="copy picar-4wd web-example file",
         cmd='run_command("sudo cp ./bin/picar-4wd-web-example /etc/init.d/picar-4wd-web-example")')
     do(msg="add excutable mode for picar-4wd-web-example",
         cmd='run_command("sudo chmod +x /etc/init.d/picar-4wd-web-example")')
-
-install()
 
 setup(
     name='picar-4wd',
@@ -193,7 +227,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version="0.0.1",
+    version=__version__,
 
     description='PiCar-4WD for Raspberry Pi',
     long_description=long_description,
@@ -240,7 +274,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['RPi.GPIO', 'smbus', 'websockets'],
+    install_requires=[],
  
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
@@ -252,16 +286,27 @@ setup(
     },
 )
 
+print("")
+try:
+    install()
+finally:
+    sys.stdout.write(' \033[1D')
+    sys.stdout.write('\033[?25h') # cursor visible 
+    sys.stdout.flush()
+
 if len(errors) == 0:
     print("Setup Finished")
-    print('If you want to reboot please press y, if not press n')
-    input_val = readkey()
-    print(input_val)
-    if input_val == 'y':
-        do(msg="System reboot now",
-        cmd='run_command("sudo reboot")')
-    elif input_val == 'n':
-        print("reboot cancel")
+    print("\033[1;32mWhether to restart for the changes to take effect(Y/N):\033[0m")
+    while True:
+        key = input().lower()
+        if key == 'y':
+            print("System reboot now")
+            run_command("sudo reboot")
+        elif key == 'N' or key == 'n':
+            print("reboot cancel")
+            sys.exit(0)
+        else:
+            continue
 else:
     print("\n\nError happened in install process:")
     for error in errors:
