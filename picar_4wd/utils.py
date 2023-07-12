@@ -4,14 +4,15 @@ import subprocess
 import os
 import time
 
+user_name = os.getlogin()
+
 def soft_reset():
-    from picar_4wd.pin import Pin
+    from .pin import Pin
     soft_reset_pin = Pin("D16")
-    # print('soft_reset')
     soft_reset_pin.low()
-    time.sleep(0.001)
+    time.sleep(0.01)
     soft_reset_pin.high()
-    time.sleep(0.001)
+    time.sleep(0.01)
 
 def mapping(x,min_val,max_val,aim_min,aim_max):
     x = aim_min + abs((x - min_val) / (max_val- min_val) * (aim_max-aim_min))
@@ -116,9 +117,9 @@ def main():
                     usage(command)
             else:
                 print("Run: `picar-4wd web-example enable/disable` to enable/disable start on boot")
-                os.system("sudo python3 /home/pi/picar-4wd/examples/web/start.py")
+                os.system(f"sudo python3 /home/{user_name}/picar-4wd/examples/web/start.py")
         elif command == "test":
-            from picar_4wd import forward,get_distance_at,get_grayscale_list,stop
+            from picar_4wd import forward, get_distance_at, get_grayscale_list,stop
             if len(sys.argv) >= 3:
                 opt = sys.argv[2]
                 if opt == "motor":
