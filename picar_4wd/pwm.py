@@ -1,7 +1,5 @@
 import smbus, math
-from picar_4wd.i2c import I2C
-from picar_4wd.pin import Pin
-import time
+from .i2c import I2C
 
 class PWM(I2C):
     REG_CHN = 0x20
