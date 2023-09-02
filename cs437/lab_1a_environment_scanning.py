@@ -2,13 +2,14 @@ import picar_4wd as fc
 import random
 import time
 
-# Constances
-speed = 30
-distance_threshold = 35 # 35 cm for now
+# Constants
+travel_speed = 3
+turn_speed = 20
+distance_threshold = 45 # cm
 
 # Function to get left or right direction randomly
 def choose_random_direction():
-    return random.chioce(["left"], ["right"])
+    return random.choice(["left", "right"])
 
 def main():
     while True:
@@ -23,19 +24,22 @@ def main():
             print("Obstacle in the way.")
             fc.stop()
             direction = choose_random_direction()
-            fc.backward(speed)
+            print(f"Direction selected: {direction}")
+            fc.backward(travel_speed)
             time.sleep(1.0)
             fc.stop()
             if direction == "left":
-                fc.turn_left(speed)
+                print(f"Turning {direction}")
+                fc.turn_left(turn_speed)
                 time.sleep(1.0)
             else:
-                fc.turn_right(speed)
+                print(f"Turning {direction}")
+                fc.turn_right(turn_speed)
                 time.sleep(1.0)
                 
-            fc.forward(speed)
+            fc.forward(travel_speed)
         else:
-            fc.forward(speed)
+            fc.forward(travel_speed)
 
 if __name__ == "__main__":
     try: 
