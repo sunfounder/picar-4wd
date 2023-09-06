@@ -1,43 +1,37 @@
+import numpy as np
 import picar_4wd as fc
-import random
-import time
 
-# Constants
+# Initialize the map
+map_width = 100
+map_height = 100
+picar_map = np.zeros((map_width, map_height), dtype=int)
 
-# Create an 100 x 100 numpy array to be able to do SLAM for advanced mapping with 
-# ultrasonic sensor
-def main():
+def update_map(picar_map, car_position, threshold):
+    for angle in range(0, 181, 5):  # Rotate the servo between 0 and 180 degrees at 5 degree increments
+        # Get the distance reading from the ultrasonic sensor
+        distance = fc.get_distance_at(angle)
+        
+        # Use distance w/ the radian to calulate the x and y coordinates of the detected object
+        angle_rad = np.radians(angle)
+        x = int(car_position[0] + distance * np.cos(angle_rad))
+        y = int(car_position[1] + distance * np.sin(angle_rad))
+
+        # Make sure x and y values are within coordinate map that's defined
+        if 0 <= x < map_width and 0 <= y < map_height:
+            # If the distance is below the threshold, mark the cell as an obstacle
+            if distance <= threshold:
+                picar_map[y, x] = 1
+
+# SLAM with ultrasonic sensor
+def slam():
+    # Initialize picar's position
+    car_position = (0, 0)
+    threshold = 100  # Set threshold (can adjust as needed)
     while True:
-        scan_list = fc.scan_step(35)
-        if not scan_list:
-            continue
-
-        tmp = scan_list[3:7]
-        print(tmp)
-        # If there's an obstacle in the way
-        if tmp != [2,2,2,2]:
-            print("Obstacle in the way.")
-            fc.stop()
-            direction = choose_random_direction()
-            print(f"Direction selected: {direction}")
-            fc.backward(travel_speed)
-            time.sleep(1.0)
-            fc.stop()
-            if direction == "left":
-                print(f"Turning {direction}")
-                fc.turn_left(turn_speed)
-                time.sleep(1.0)
-            else:
-                print(f"Turning {direction}")
-                fc.turn_right(turn_speed)
-                time.sleep(1.0)
-                
-            fc.forward(travel_speed)
-        else:
-            fc.forward(travel_speed)
+        update_map(picar_map, car_position, threshold)
 
 if __name__ == "__main__":
     try: 
-        main()
+        slam()
     finally: 
         fc.stop()
