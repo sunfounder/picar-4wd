@@ -6,6 +6,11 @@ map_width = 100
 map_height = 100
 picar_map = np.zeros((map_width, map_height), dtype=int)
 
+def print_map(world_map):
+    # This function prints the map out for visualization
+    for row in world_map:
+        print("".join(["#" if cell == 1 else " " for cell in row]))
+
 def update_map(picar_map, car_position, threshold):
     for angle in range(0, 181, 5):  # Rotate the servo between 0 and 180 degrees at 5 degree increments
         # Get the distance reading from the ultrasonic sensor
@@ -21,6 +26,9 @@ def update_map(picar_map, car_position, threshold):
             # If the distance is below the threshold, mark the cell as an obstacle
             if distance <= threshold:
                 picar_map[y, x] = 1
+    
+        # Prints out the map for users to see waht the sensor sees
+        print_map(picar_map)
 
 # SLAM with ultrasonic sensor
 def slam():
