@@ -1,5 +1,6 @@
 import numpy as np
 import time
+import matplotlib.pyplot as plt
 import picar_4wd as fc
 
 # Initialize the map
@@ -18,6 +19,13 @@ velocity = {
     'linear': 0.1,    
     'turning': 5     
 }
+
+# Create a figure and axis for the map visualization
+plt.figure(figsize=(6, 6))
+ax = plt.subplot(111)
+ax.set_xlim(0, map_width)
+ax.set_ylim(0, map_height)
+ax.invert_yaxis()  # Invert y-axis to match typical Cartesian coordinates
 
 servo_step_angle = 5
 
@@ -51,6 +59,18 @@ def update_map(picar_map, car_position, threshold):
     
         # Update car's positioning based on how far it drove
         update_car_position(picar_position, velocity)
+        
+         # Clear the previous map visualization
+        ax.clear()
+
+        # Display the map as an image (obstacle cells in black)
+        ax.imshow(picar_map, cmap='binary')
+
+        # Plot the robot's position as a red dot
+        ax.plot(picar_position['x'], picar_position['y'], 'ro')
+
+        # Pause briefly to allow the plot to update
+        plt.pause(0.01)
         
     # Prints out the map for users to see waht the sensor sees
     print_map(picar_map, picar_position)
