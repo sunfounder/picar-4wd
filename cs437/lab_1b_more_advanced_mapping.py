@@ -34,7 +34,7 @@ def update_car_position(current_position, velocity):
     current_position['angle'] += velocity['turning']
 
 def update_map(picar_map, car_position, threshold):
-    for angle in range(0, 181, servo_step_angle):  # Rotate the servo between 0 and 180 degrees at 5 degree increments
+    for angle in range(-181, 181, servo_step_angle):  # Rotate the servo between 0 and 180 degrees at 5 degree increments
         # Get the distance reading from the ultrasonic sensor
         distance = fc.get_distance_at(angle)
         
