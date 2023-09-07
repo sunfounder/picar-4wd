@@ -63,7 +63,7 @@ def update_map(picar_map, car_position, threshold):
                 picar_map[y, x] = 1
     
         # Update car's positioning based on how far it drove
-        update_car_position(picar_position, velocity)
+        # update_car_position(picar_position, velocity)
         
         # Clear the console and print the current state of the map and robot's pose
         clear_console()
