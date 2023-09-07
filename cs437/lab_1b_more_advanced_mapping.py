@@ -10,7 +10,7 @@ picar_map = np.zeros((map_width, map_height), dtype=int)
 # Initialize picar's positioning as well as its speed for movement/turning
 picar_position = {
     'x': 0,
-    'y': 5,
+    'y': 50,
     'angle': 0
 }
 
@@ -35,7 +35,7 @@ def print_map(world_map, car_position):
         for x in range(map_width):
             if x == int(car_position['x']) and y == int(car_position['y']):
                 row += 'R'  # Represent robot with 'R'
-            elif world_map[y, x] == 1:
+            elif world_map[y, -x] == 1:
                 row += 'X'  # Represent obstacles with 'X'
             else:
                 row += '-'  # Empty space
