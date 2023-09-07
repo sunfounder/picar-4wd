@@ -10,7 +10,7 @@ picar_map = np.zeros((map_width, map_height), dtype=int)
 # Initialize picar's positioning as well as its speed for movement/turning
 picar_position = {
     'x': 0,
-    'y': 50,
+    'y':25,
     'angle': 0
 }
 
