@@ -40,8 +40,8 @@ def update_map(picar_map, car_position, threshold):
         
         # Use distance w/ the radian to calulate the x and y coordinates of the detected object
         angle_rad = np.radians(angle)
-        x = int(car_position[0] + distance * np.cos(angle_rad))
-        y = int(car_position[1] + distance * np.sin(angle_rad))
+        x = int(car_position['x'] + distance * np.cos(angle_rad))
+        y = int(car_position['y'] + distance * np.sin(angle_rad))
 
         # Make sure x and y values are within coordinate map that's defined
         if 0 <= x < map_width and 0 <= y < map_height:
