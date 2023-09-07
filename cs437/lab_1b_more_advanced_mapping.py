@@ -10,7 +10,7 @@ picar_map = np.zeros((map_width, map_height), dtype=int)
 # Initialize picar's positioning as well as its speed for movement/turning
 picar_position = {
     'x': 0,
-    'y': 0,
+    'y': 5,
     'angle': 0   
 }
 
@@ -20,6 +20,7 @@ velocity = {
 }
 
 servo_step_angle = 5
+current_angle = -180  
 
 def clear_console():
     # Function to clear the console (for updating the display)
@@ -47,27 +48,37 @@ def update_car_position(current_position, velocity):
     current_position['angle'] += velocity['turning']
 
 def update_map(picar_map, car_position, threshold):
-    for angle in range(-181, 181, servo_step_angle):  # Rotate the servo between 0 and 180 degrees at 5 degree increments
-        # Get the distance reading from the ultrasonic sensor
-        distance = fc.get_distance_at(angle)
-        
-        # Use distance w/ the radian to calulate the x and y coordinates of the detected object
-        angle_rad = np.radians(angle)
-        x = int(car_position['x'] + distance * np.cos(angle_rad))
-        y = int(car_position['y'] + distance * np.sin(angle_rad))
-
-        # Make sure x and y values are within coordinate map that's defined
-        if 0 <= x < map_width and 0 <= y < map_height:
-            # If the distance is below the threshold, mark the cell as an obstacle
-            if distance <= threshold:
-                picar_map[y, x] = 1
+    # for angle in range(-181, 181, servo_step_angle):  # Rotate the servo between 0 and 180 degrees at 5 degree increments
+    # Get the distance reading from the ultrasonic sensor
+    distance = fc.get_distance_at(current_angle)
     
-        # Update car's positioning based on how far it drove
-        # update_car_position(picar_position, velocity)
-        
-        # Clear the console and print the current state of the map and robot's pose
-        clear_console()
-        print_map(picar_map, picar_position)
+    # Use distance w/ the radian to calulate the x and y coordinates of the detected object
+    angle_rad = np.radians(current_angle)
+    x = int(car_position['x'] + distance * np.cos(angle_rad))
+    y = int(car_position['y'] + distance * np.sin(angle_rad))
+
+    # Make sure x and y values are within coordinate map that's defined
+    if 0 <= x < map_width and 0 <= y < map_height:
+        # If the distance is below the threshold, mark the cell as an obstacle
+        if distance <= threshold:
+            picar_map[y, x] = 1
+
+    # Update car's positioning based on how far it drove
+    # update_car_position(picar_position, velocity)
+    # Increment the servo angle by us_step
+    current_angle += us_step
+
+    # Check if the servo angle has reached the limits
+    if current_angle >= 180:
+        current_angle = 180
+        us_step = -servo_step_angle  # Reverse direction
+    elif current_angle <= -180:
+        current_angle = -180
+        us_step = servo_step_angle  # Reverse direction
+    
+    # Clear the console and print the current state of the map and robot's pose
+    clear_console()
+    print_map(picar_map, picar_position)
 
 # SLAM with ultrasonic sensor
 def slam():
