@@ -62,7 +62,7 @@ def slam():
         update_map(picar_map, picar_position, threshold)
         fc.forward(velocity['linear'])
         time.sleep(1)
-        fc.stop(velocity['linear'])
+        fc.stop()
         time.sleep(1)
 
 if __name__ == "__main__":
