@@ -65,8 +65,6 @@ def update_map(car_position, threshold):
         if distance <= threshold:
             picar_map[y, x] = 1
 
-    # Update car's positioning based on how far it drove
-    # update_car_position(picar_position, velocity)
     # Increment the servo angle by us_step
     current_angle += us_step
 
@@ -91,10 +89,12 @@ def slam():
     threshold = 100  # Set threshold (can adjust as needed)
     while True:
         update_map(picar_position, threshold)
-        # fc.forward(velocity['linear'])
-        # time.sleep(1)
-        # fc.stop()
-        # time.sleep(1)
+        fc.forward(velocity['linear'])
+        time.sleep(1)
+        fc.stop()
+        time.sleep(1)
+        # Update car's positioning based on how far it drove
+        update_car_position(picar_position, velocity)
 
 if __name__ == "__main__":
     try:
