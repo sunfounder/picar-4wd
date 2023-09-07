@@ -3,8 +3,8 @@ import time
 import picar_4wd as fc
 
 # Initialize the map
-map_width = 100
-map_height = 100
+map_width = 50
+map_height = 50
 picar_map = np.zeros((map_width, map_height), dtype=int)
 
 # Initialize picar's positioning as well as its speed for movement/turning
@@ -19,7 +19,7 @@ velocity = {
     'turning': 5
 }
 
-servo_step_angle = 1
+servo_step_angle = 5
 current_angle = -180
 us_step = servo_step_angle
 
