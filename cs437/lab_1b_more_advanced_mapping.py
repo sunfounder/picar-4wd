@@ -24,7 +24,7 @@ servo_step_angle = 5
 def print_map(world_map, car_position):
     # This function prints the map out for visualization and car's positioning
     for row in world_map:
-        print("".join(["#" if cell == 1 else " " for cell in row]))
+        print("".join(["X" if cell == 1 else "O" for cell in row]))
     print(f"Car (X, Y, Angle): ({car_position['x']}, {car_position['y']}, {car_position['angle']})")
 
 def update_car_position(current_position, velocity):
@@ -60,10 +60,10 @@ def slam():
     threshold = 100  # Set threshold (can adjust as needed)
     while True:
         update_map(picar_map, picar_position, threshold)
-        fc.forward(velocity['linear'])
-        time.sleep(1)
-        fc.stop()
-        time.sleep(1)
+        # fc.forward(velocity['linear'])
+        # time.sleep(1)
+        # fc.stop()
+        # time.sleep(1)
 
 if __name__ == "__main__":
     try: 
