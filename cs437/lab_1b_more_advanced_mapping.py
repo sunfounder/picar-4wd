@@ -74,9 +74,13 @@ def update_map(picar_map, car_position, threshold):
     if current_angle >= 180:
         current_angle = 180
         us_step = -servo_step_angle  # Reverse direction
+         # Clear the map at the beginning of each scan
+        picar_map = np.zeros((map_width, map_height), dtype=int)
     elif current_angle <= -180:
         current_angle = -180
         us_step = servo_step_angle  # Reverse direction
+         # Clear the map at the beginning of each scan
+        picar_map = np.zeros((map_width, map_height), dtype=int)
 
     # Clear the console and print the current state of the map and robot's pose
     clear_console()
