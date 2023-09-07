@@ -1,6 +1,5 @@
 import numpy as np
 import time
-import matplotlib.pyplot as plt
 import picar_4wd as fc
 
 # Initialize the map
@@ -20,19 +19,25 @@ velocity = {
     'turning': 5     
 }
 
-# Create a figure and axis for the map visualization
-plt.figure(figsize=(6, 6))
-ax = plt.subplot(111)
-ax.set_xlim(0, map_width)
-ax.set_ylim(0, map_height)
-ax.invert_yaxis()  # Invert y-axis to match typical Cartesian coordinates
-
 servo_step_angle = 5
 
+def clear_console():
+    # Function to clear the console (for updating the display)
+    import os
+    os.system('clear' if os.name == 'posix' else 'cls')
+    
 def print_map(world_map, car_position):
     # This function prints the map out for visualization and car's positioning
-    for row in world_map:
-        print("".join(["X" if cell == 1 else "-" for cell in row]))
+    for y in range(map_height):
+        row = ''
+        for x in range(map_width):
+            if x == int(car_position['x']) and y == int(car_position['y']):
+                row += 'R'  # Represent robot with 'R'
+            elif world_map[y, x] == 1:
+                row += 'X'  # Represent obstacles with '#'
+            else:
+                row += '-'  # Empty space
+        print(row)
     print(f"Car (X, Y, Angle): ({car_position['x']}, {car_position['y']}, {car_position['angle']})")
 
 def update_car_position(current_position, velocity):
@@ -60,20 +65,9 @@ def update_map(picar_map, car_position, threshold):
         # Update car's positioning based on how far it drove
         update_car_position(picar_position, velocity)
         
-         # Clear the previous map visualization
-        ax.clear()
-
-        # Display the map as an image (obstacle cells in black)
-        ax.imshow(picar_map, cmap='binary')
-
-        # Plot the robot's position as a red dot
-        ax.plot(picar_position['x'], picar_position['y'], 'ro')
-
-        # Pause briefly to allow the plot to update
-        plt.pause(0.01)
-        
-    # Prints out the map for users to see waht the sensor sees
-    print_map(picar_map, picar_position)
+        # Clear the console and print the current state of the map and robot's pose
+        clear_console()
+        print_map(picar_map, picar_position)
 
 # SLAM with ultrasonic sensor
 def slam():
