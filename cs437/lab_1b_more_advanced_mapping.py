@@ -80,6 +80,8 @@ def update_map(car_position, threshold):
          # Clear the map at the beginning of each scan
         picar_map = np.zeros((map_width, map_height), dtype=int)
 
+    # Update car's positioning based on how far it drove
+    update_car_position(picar_position, velocity)
     # Clear the console and print the current state of the map and robot's pose
     clear_console()
     print_map(picar_map, picar_position)
@@ -89,12 +91,10 @@ def slam():
     threshold = 100  # Set threshold (can adjust as needed)
     while True:
         update_map(picar_position, threshold)
-        # fc.forward(velocity['linear'])
-        # time.sleep(1)
-        # fc.stop()
-        # time.sleep(1)
-        # Update car's positioning based on how far it drove
-        # update_car_position(picar_position, velocity)
+        fc.forward(velocity['linear'])
+        time.sleep(1)
+        fc.stop()
+        time.sleep(1)
 
 if __name__ == "__main__":
     try:
