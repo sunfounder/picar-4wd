@@ -52,8 +52,8 @@ def update_map(picar_map, car_position, threshold):
         # Update car's positioning based on how far it drove
         update_car_position(picar_position, velocity)
         
-        # Prints out the map for users to see waht the sensor sees
-        print_map(picar_map, picar_position)
+    # Prints out the map for users to see waht the sensor sees
+    print_map(picar_map, picar_position)
 
 # SLAM with ultrasonic sensor
 def slam():
