@@ -49,7 +49,7 @@ def update_car_position(current_position, velocity):
     current_position['angle'] += velocity['turning']
 
 def update_map(picar_map, car_position, threshold):
-    global current_angle  # Declare current_angle as a global variable
+    global current_angle, us_step  # Declare current_angle and us_step as global variables
     # for angle in range(-181, 181, servo_step_angle):  # Rotate the servo between 0 and 180 degrees at 5 degree increments
     # Get the distance reading from the ultrasonic sensor
     distance = fc.get_distance_at(current_angle)
@@ -59,7 +59,7 @@ def update_map(picar_map, car_position, threshold):
     x = int(car_position['x'] + distance * np.cos(angle_rad))
     y = int(car_position['y'] + distance * np.sin(angle_rad))
 
-    # Make sure x and y values are within coordinate map that's defined
+    # Make sure x and y values are within the coordinate map that's defined
     if 0 <= x < map_width and 0 <= y < map_height:
         # If the distance is below the threshold, mark the cell as an obstacle
         if distance <= threshold:
@@ -68,7 +68,7 @@ def update_map(picar_map, car_position, threshold):
     # Update car's positioning based on how far it drove
     # update_car_position(picar_position, velocity)
     # Increment the servo angle by us_step
-    current_angle += servo_step_angle
+    current_angle += us_step
 
     # Check if the servo angle has reached the limits
     if current_angle >= 180:
