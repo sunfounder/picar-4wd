@@ -3,8 +3,8 @@ import time
 import picar_4wd as fc
 
 # Initialize the map
-map_width = 100
-map_height = 100
+map_width = 10
+map_height = 10
 picar_map = np.zeros((map_width, map_height), dtype=int)
 
 # Initialize picar's positioning as well as its speed for movement/turning
@@ -24,7 +24,7 @@ servo_step_angle = 5
 def print_map(world_map, car_position):
     # This function prints the map out for visualization and car's positioning
     for row in world_map:
-        print("".join(["X" if cell == 1 else "O" for cell in row]))
+        print("".join(["X" if cell == 1 else "-" for cell in row]))
     print(f"Car (X, Y, Angle): ({car_position['x']}, {car_position['y']}, {car_position['angle']})")
 
 def update_car_position(current_position, velocity):
