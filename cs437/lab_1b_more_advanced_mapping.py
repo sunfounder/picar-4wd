@@ -20,7 +20,8 @@ velocity = {
 }
 
 servo_step_angle = 5
-current_angle = -180  # Initialize current_angle as a global variable
+current_angle = -180
+us_step = servo_step_angle
 
 def clear_console():
     # Function to clear the console (for updating the display)
