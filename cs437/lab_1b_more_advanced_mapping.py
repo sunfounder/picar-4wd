@@ -90,7 +90,7 @@ def update_map(car_position, threshold):
 def slam():
     threshold = 100  # Set threshold (can adjust as needed)
     while True:
-        update_map(picar_map, picar_position, threshold)
+        update_map(picar_position, threshold)
         # fc.forward(velocity['linear'])
         # time.sleep(1)
         # fc.stop()
