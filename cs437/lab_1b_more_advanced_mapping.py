@@ -45,8 +45,8 @@ def print_map(world_map, car_position):
 def update_car_position(current_position, velocity):
     # Update the current position of the car based on the provided velocity
     current_position['x'] += velocity['linear'] * np.cos(np.radians(current_position['angle']))
-    current_position['y'] += velocity['linear'] * np.sin(np.radians(current_position['angle']))
-    current_position['angle'] += velocity['turning']
+    # current_position['y'] += velocity['linear'] * np.sin(np.radians(current_position['angle']))
+    # current_position['angle'] += velocity['turning']
 
 def update_map(car_position, threshold):
     global current_angle, us_step, picar_map # Declare current_angle and us_step as global variables
