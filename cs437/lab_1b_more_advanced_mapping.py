@@ -36,9 +36,9 @@ def print_map(world_map, car_position):
             if x == int(car_position['x']) and y == int(car_position['y']):
                 row += 'R'  # Represent robot with 'R'
             elif world_map[-y, x] == 1:
-                row += 'X'  # Represent obstacles with 'X'
+                row += '1'  # Represent obstacles with 'X'
             else:
-                row += '-'  # Empty space
+                row += '0'  # Empty space
         print(row)
     print(f"Car (X, Y, Angle): ({car_position['x']}, {car_position['y']}, {car_position['angle']})")
 
