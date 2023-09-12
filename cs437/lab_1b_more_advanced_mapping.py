@@ -3,8 +3,8 @@ import time
 import picar_4wd as fc
 
 # Initialize the map
-map_width = 50
-map_height = 50
+map_width = 100
+map_height = 100
 picar_map = np.zeros((map_width, map_height), dtype=int)
 
 # Initialize picar's positioning as well as its speed for movement/turning
@@ -36,9 +36,9 @@ def print_map(world_map, car_position):
             if x == int(car_position['x']) and y == int(car_position['y']):
                 row += 'R'  # Represent robot with 'R'
             elif world_map[-y, x] == 1:
-                row += '1'  # Represent obstacles with 'X'
+                row += 'X'  # Represent obstacles with 'X'
             else:
-                row += '0'  # Empty space
+                row += '-'  # Empty space
         print(row)
     print(f"Car (X, Y, Angle): ({car_position['x']}, {car_position['y']}, {car_position['angle']})")
 
