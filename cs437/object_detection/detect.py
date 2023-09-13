@@ -83,7 +83,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
     detection_result = detector.detect(input_tensor)
 
     # Draw keypoints and edges on input image
-    image = utils.visualize(image, detection_result)
+    result = utils.visualize(image, detection_result)
 
     # Calculate the FPS
     if counter % fps_avg_frame_count == 0:
@@ -100,7 +100,9 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
     # Stop the program if the ESC key is pressed.
     if cv2.waitKey(1) == 27:
       break
-    cv2.imshow('object_detector', image)
+    #cv2.imshow('object_detector', image)
+    if result !="":
+      print(result)
 
   cap.release()
   cv2.destroyAllWindows()
@@ -113,7 +115,7 @@ def main():
       '--model',
       help='Path of the object detection model.',
       required=False,
-      default='/models/lite-model_ssd_spaghettinet_edgetpu_large_320_uint8_default_1.tflite')
+      default='efficientdet_lite0.tflite')
   parser.add_argument(
       '--cameraId', help='Id of camera.', required=False, type=int, default=0)
   parser.add_argument(
