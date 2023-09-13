@@ -62,8 +62,11 @@ grid = [
 start = (0, 0)
 goal = (4, 4)
 
-print(grid[4][4])
-
+for i in grid:
+    for j in i:
+        print(j, end=" ")
+    print()
+    
 path = astar_search(grid, start, goal)
 if path:
     print("Path found:", path)
