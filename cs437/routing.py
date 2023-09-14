@@ -211,11 +211,15 @@ def run():
                         print("turn left")
                         fc.turn_left(20)
                         time.sleep(1)
+                        print("move forward")
+                        fc.forward(20)
                         fc.stop()
                     elif move == "right":
                         print("turn right")
                         fc.turn_right(20)
                         time.sleep(1)
+                        print("move forward")
+                        fc.forward(20)
                         fc.stop()
                 time.sleep(5)
 
