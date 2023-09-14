@@ -52,11 +52,8 @@ def update_car_position(current_position, velocity):
     # current_position['angle'] += velocity['turning']
 
 def update_local_map():
-    count = 0
-    while count == 0:
-        local_map = update_map(picar_position, 100)
-        count == 1
     
+    local_map = update_map(picar_position, 100)
     print("hello")
     car_x = picar_position['x']
     car_y = picar_position['y']
