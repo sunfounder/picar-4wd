@@ -85,6 +85,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
         # Run object detection estimation using the model.
         detection_result = detector.detect(input_tensor)
 
+        category_name = ""
         for detection in detection_result.detections:
             # Output the predicted object and probability
             category = detection.categories[0]
