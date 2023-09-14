@@ -109,7 +109,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
 
         # Display the image
         # cv2.imshow('object_detector', image)
-        return category_name
+        return str(category_name)
 
         # Delay to achieve the desired FPS
         time.sleep(0.8)
