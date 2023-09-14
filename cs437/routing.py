@@ -199,7 +199,7 @@ def run():
                 for move in moves:
                     if move == "up":
                         print("move forward")
-                        fc.forward(3)
+                        fc.turn_right(20)
                         time.sleep(1)
                         fc.stop()
                         time.sleep(3)
