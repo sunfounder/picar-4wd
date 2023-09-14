@@ -331,9 +331,9 @@ def add_buffer(grid):
 
 # SLAM with ultrasonic sensor
 def self_driving():
-    category_name = main()
+    cat_name = main()
 
-    print(category_name+" "+probability)
+    print(cat_name+" ")
 
     threshold = 100  # Set threshold (can adjust as needed)
     while True:
