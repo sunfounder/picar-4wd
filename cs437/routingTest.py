@@ -53,7 +53,7 @@ def update_car_position(current_position, velocity):
 
 def update_local_map():
     
-    for x in range(72):
+    for x in range(36):
         local_map = update_map(picar_position, 100)
 
     #buffered_local_map = add_buffer(add_buffer(add_buffer(local_map))
