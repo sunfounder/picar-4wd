@@ -202,23 +202,27 @@ def run():
                         fc.forward(3)
                         time.sleep(1)
                         fc.stop()
+                        time.sleep(3)
                     if move == "down":
                         print("move backward")
                         fc.backward(3)
                         time.sleep(1)
                         fc.stop()
+                        time.sleep(3)
                     if move == "left":
                         print("turn left")
                         fc.turn_left(20)
                         fc.forward(3)
                         time.sleep(1)
                         fc.stop()
+                        time.sleep(3)
                     if move == "right":
                         print("turn right")
                         fc.turn_right(20)
                         fc.forward(3)
                         time.sleep(1)
                         fc.stop()
+                        time.sleep(3)
                 time.sleep(5)
 
         
