@@ -210,11 +210,13 @@ def run():
                     if move == "left":
                         print("turn left")
                         fc.turn_left(20)
+                        fc.forward(3)
                         time.sleep(1)
                         fc.stop()
                     if move == "right":
                         print("turn right")
                         fc.turn_right(20)
+                        fc.forward(3)
                         time.sleep(1)
                         fc.stop()
                 time.sleep(5)
