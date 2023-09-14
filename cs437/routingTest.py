@@ -55,13 +55,19 @@ def update_local_map():
     
     for x in range(60):
         local_map = update_map(picar_position, 100)
+    car_x = picar_position['x']
+    car_y = picar_position['y']
 
+    local_map[car_x][car_y] = 'R'
+
+    
     #buffered_local_map = add_buffer(add_buffer(add_buffer(local_map)))
     
     print_map(local_map, picar_position)
     #print_map(buffered_local_map, picar_position)
-    car_x = picar_position['x']
-    car_y = picar_position['y']
+
+
+    
     
 
 
