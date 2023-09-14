@@ -56,7 +56,7 @@ def update_local_map():
     for x in range(36):
         local_map = update_map(picar_position, 100)
 
-    buffered_local_map = add_buffer(add_buffer(add_buffer(local_map))
+    buffered_local_map = add_buffer(add_buffer(add_buffer(local_map)))
     
     #print_map(local_map, picar_position)
     print_map(buffered_local_map, picar_position)
