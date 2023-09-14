@@ -54,6 +54,9 @@ def update_car_position(current_position, velocity):
 def update_local_map():
     
     local_map = update_map(picar_position, 100)
+    local_map = update_map(picar_position, 100)
+
+
     print_map(local_map, picar_position)
     car_x = picar_position['x']
     car_y = picar_position['y']
