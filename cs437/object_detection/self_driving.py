@@ -109,7 +109,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
 
         # Display the image
         # cv2.imshow('object_detector', image)
-        return category_name, probability
+        return category_name
 
         # Delay to achieve the desired FPS
         time.sleep(0.8)
@@ -331,7 +331,7 @@ def add_buffer(grid):
 
 # SLAM with ultrasonic sensor
 def self_driving():
-    category_name, probability = main()
+    category_name = main()
 
     print(category_name+" "+probability)
 
