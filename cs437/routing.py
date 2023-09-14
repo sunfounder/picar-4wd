@@ -213,6 +213,7 @@ def run():
                         time.sleep(1)
                         print("move forward")
                         fc.forward(20)
+                        time.sleep(1)
                         fc.stop()
                     elif move == "right":
                         print("turn right")
@@ -220,6 +221,7 @@ def run():
                         time.sleep(1)
                         print("move forward")
                         fc.forward(20)
+                        time.sleep(1)
                         fc.stop()
                 time.sleep(5)
 
