@@ -57,7 +57,7 @@ def update_local_map():
         local_map = update_map(picar_position, 100)
         count == 1
     
-    print_map("hello")
+    print("hello")
     car_x = picar_position['x']
     car_y = picar_position['y']
     
