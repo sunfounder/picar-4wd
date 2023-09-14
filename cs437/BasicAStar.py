@@ -1,7 +1,7 @@
 import heapq
 
 # Define the 4 possible movements: up, down, left, right
-movements = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+movements = [(1, 0, "down"), (-1, 0, "up"), (0, 1, "right"), (0, -1, "left")]
 
 def heuristic(current, goal):
     # Calculate the Manhattan distance as the heuristic
@@ -12,6 +12,7 @@ def astar_search(grid, start, goal):
     open_set = []  # Priority queue of nodes to be evaluated
     closed_set = set()  # Set of nodes already evaluated
     came_from = {}  # Dictionary to store the path
+    move_directions = {}  # Dictionary to store moves
     
     # Initialize the open set with the starting node
     heapq.heappush(open_set, (0, start))
@@ -31,11 +32,12 @@ def astar_search(grid, start, goal):
                 path.append(current_node)
                 current_node = came_from[current_node]
             path.append(start)
-            return path[::-1]  # Return the path in reverse order
+            path = path[::-1]  # Return the path in the correct order
+            return path, move_directions
         
         closed_set.add(current_node)
         
-        for dr, dc in movements:
+        for dr, dc, direction in movements:
             r, c = current_node[0] + dr, current_node[1] + dc
             neighbor = (r, c)
             
@@ -47,28 +49,64 @@ def astar_search(grid, start, goal):
                     g_score[neighbor] = tentative_g_score
                     f_score = tentative_g_score + heuristic(neighbor, goal)
                     heapq.heappush(open_set, (f_score, neighbor))
+                    
+                    # Store the move direction
+                    move_directions[neighbor] = direction
     
-    return None  # If no path is found
+    return None, None  # If no path is found
+
+def add_buffer(grid):
+    rows, cols = len(grid), len(grid[0])
+    new_grid = [[0 for _ in range(cols)] for _ in range(rows)]
+
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 1:
+                # Set the current cell to 1
+                new_grid[r][c] = 1
+
+                # Set neighboring cells to 1 (within bounds)
+                for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < rows and 0 <= nc < cols:
+                        new_grid[nr][nc] = 1
+
+    return new_grid
 
 # Example usage
 grid = [
     [0, 0, 0, 0, 0],
-    [1, 1, 0, 1, 0],
     [0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0]
 ]
+
+buffered_grid = add_buffer(add_buffer(grid))
 
 start = (0, 0)
 goal = (4, 4)
 
-for i in grid:
-    for j in i:
-        print(j, end=" ")
-    print()
-    
-path = astar_search(grid, start, goal)
+
+print("Original Grid:")
+for row in grid:
+    print(row)
+
+print("\nBuffered Grid:")
+for row in buffered_grid:
+    print(row)
+
+path, move_directions = astar_search(buffered_grid, start, goal)
 if path:
     print("Path found:", path)
+    print("Moves:")
+    for position in path:
+        direction = move_directions.get(position)
+        if direction:
+            print(direction)
 else:
     print("No path found")
+
+print("-----------")
+
+            
