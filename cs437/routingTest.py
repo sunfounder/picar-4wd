@@ -16,6 +16,7 @@ picar_position = {
     'angle': 0
 }
 
+
 velocity = {
     'linear': 0.1,
     'turning': 5
@@ -49,6 +50,20 @@ def update_car_position(current_position, velocity):
     current_position['x'] += velocity['linear'] * np.cos(np.radians(current_position['angle']))
     # current_position['y'] += velocity['linear'] * np.sin(np.radians(current_position['angle']))
     # current_position['angle'] += velocity['turning']
+
+def update_local_map():
+    count = 0
+    while count == 0:
+        local_map = update_map(picar_position, 100)
+        count == 1
+    
+    print_map(local_map, picar_map)
+    car_x = picar_position['x']
+    car_y = picar_position['y']
+    
+
+
+
 
 def update_map(car_position, threshold):
     global current_angle, us_step, picar_map # Declare current_angle and us_step as global variables
@@ -172,6 +187,8 @@ def add_buffer(grid):
 
 
 
+def test():
+    update_local_map()
 
 # SLAM with ultrasonic sensor
 def run():
@@ -231,6 +248,6 @@ def run():
 
 if __name__ == "__main__":
     try:
-        run()
+        test()
     finally:
         fc.stop()
