@@ -85,7 +85,6 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
         # Run object detection estimation using the model.
         detection_result = detector.detect(input_tensor)
 
-        category_name = ""
         for detection in detection_result.detections:
             # Output the predicted object and probability
             category = detection.categories[0]
@@ -110,7 +109,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
 
         # Display the image
         # cv2.imshow('object_detector', image)
-        return str(category_name)
+        return category_name, probability
 
         # Delay to achieve the desired FPS
         time.sleep(0.8)
@@ -332,9 +331,9 @@ def add_buffer(grid):
 
 # SLAM with ultrasonic sensor
 def self_driving():
-    cat_name = main()
+    cat_name, probability = main()
 
-    print(str(cat_name)+" ")
+    print(str(cat_name)+": "+int(probability))
 
     threshold = 100  # Set threshold (can adjust as needed)
     while True:
