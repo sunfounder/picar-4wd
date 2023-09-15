@@ -334,7 +334,7 @@ def add_buffer(grid):
 def self_driving():
     cat_name = main()
 
-    print(cat_name+" ")
+    print(str(cat_name)+" ")
 
     threshold = 100  # Set threshold (can adjust as needed)
     while True:
