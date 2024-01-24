@@ -12,6 +12,7 @@ while True:
         line = input()
         break
     fc.forward(power)
+    fc.stop()
     power += 5
     if power == 25:
         power = 0
