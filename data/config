@@ -1,5 +1,5 @@
-left_front_reverse = False
-right_front_reverse = False
-left_rear_reverse = False
-right_rear_reverse = False
+left_front_reverse = True 
+right_front_reverse = True 
+left_rear_reverse = True 
+right_rear_reverse = True 
 ultrasonic_servo_offset = 0
