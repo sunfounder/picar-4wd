@@ -7,8 +7,9 @@ import asyncio
 
 power_val = 50
 key = 'status'
-print("If you want to quit.Please press q")
-
+print("Start")
+#This doe snot work as intended right now and loops until control c in the terminal, by which time the car has hit an obstacle or
+# creeped under various furniture, dragging wires and wreaking havoc
 
 def readchar():
     fd = sys.stdin.fileno()
