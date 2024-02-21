@@ -129,7 +129,10 @@ def main():
                         while True:
                             pass
                     except KeyboardInterrupt:
+                        pass
+                    finally:
                         stop()
+                        time.sleep(0.1)
                 elif opt == "servo":
                     print(get_distance_at(0))
                 elif opt == "grayscale":
