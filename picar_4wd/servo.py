@@ -17,7 +17,7 @@ class Servo():
 
     def set_angle(self, angle):
         try:
-            angle = int(angle)
+            angle = -int(angle) # reverse
         except:
             raise ValueError("Angle value should be int value, not %s"%angle)
         if angle < -90:
