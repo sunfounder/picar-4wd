@@ -9,11 +9,28 @@
     background-size: cover;
 }
 
+.startContent {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+}
+
+@media (orientation: landscape) { 
+    .startContent {
+        width: 100vw;
+        height: 100vh;
+    }
+}
+@media (orientation: portrait) {
+    .startContent {
+        width: 100vh;
+        height: 100vw;
+    }
+}
+    
 .index_logo {
     float: left;
-    width: 7.17rem;
-    margin-left: 1.12rem;
-    margin-top: 1.08rem;
+    width: 56%;
 }
 
 .index_logo img {
@@ -21,26 +38,66 @@
 }
 
 .index_option {
-    float: left;
-    margin-top: 5.43rem;
-    margin-left: 0.8rem;
+    float: right;
+    position: relative;
+    width: 15%;
+    height: 12%;
+    top: 30%;
+    left: 5%;
 }
 
+
 .manual_mode_btn, .automatic_mode_btn {
-    display: block;
-    width: 3.38rem;
-    height: 1.32rem;
-    font-size: .36rem;
-    border-radius: 30px;
+    width: 100%;
+    height: 100%;
+    /* font-size: 0.36rem; */
+    /* border-radius: 0.5rem; */
     border: none;
     background: #44cbdb;
     color: #ffffff;
     outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: center; /* 水平居中对齐 */
+}
+
+@media (orientation: landscape) { 
+    .manual_mode_btn {
+        font-size: 5vh;
+        border-radius: 3vw;
+    }
+}
+@media (orientation: portrait) {
+    .manual_mode_btn {
+        font-size: 5vw;
+        border-radius: 3vh;
+
+    }
 }
 
 .automatic_mode_btn {
     margin-top: 0.8rem;
 }
+
+.version {
+    position: fixed;
+    bottom: 1vw;
+    right: 1vh;
+    color: #ccc;
+}
+
+@media (orientation: landscape) { 
+    .version {
+        font-size: 3vh;
+    }
+}
+@media (orientation: portrait) {
+    .version {
+        font-size: 3vw;
+    }
+}
+
 
 #connectModal_block {
     position: fixed;

@@ -1,231 +1,235 @@
 #settingContent {
     background: url(../image/index_background.jpg) no-repeat;
     background-size: cover;
+    width: 100%;
+    height: 100%;
 }
 
+@media (orientation: landscape) { 
+    .setting_panel {
+        width: 100vw;
+        height: 90vh;
+    }
+}
+@media (orientation: portrait) {
+    .setting_panel {
+        width: 100vh;
+        height: 90vw;
+    }
+}
+
+/* -------------------------------- setting_tab --------------------------------*/
 .setting_tab {
     float: left;
-    width: 2.5rem;
+    width: 18%;
     height: 100%;
     background: #1e2b56;
 }
 
+.tab_list {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    height: 100%;
+}
+
 .tab_item {
     overflow: hidden;
-    height: .8rem;
-    line-height: .8rem;
+    width: 100%;
+    height: 12%;
+    line-height: 12%;
+    display: flex;
+    align-items: center;
 }
 
 .tab_item_img {
-    width: 18%;
+    width: 20%;
     float: left;
-    margin-top: 0.2rem;
-    margin-left: .2rem;
+    margin-left: 8%;
 }
 
 .tab_item_text {
     font-size: 15px;
     float: left;
-    margin-left: .2rem;
+    margin-left: 8%;
     color: white;
 }
 
+/* ---------------------- setting-main-content ---------------------- */
 .setting_left {
-    width: 10.84rem;
     float: left;
+    width: 80%;
     height: 100%;
 }
 
 .setting_block {
+    width: 100%;
     height: 100%;
     display: none;
+
 }
 
-.setting_ultrasonic_img_block img {
-    width: 96%;
-    margin-top: .36rem;
-    margin-left: .2rem;
+/* ---------------------- setting_ultrasonic_block ---------------------- */
+.setting_ultrasonic {
+    position: relative;
 }
 
-.setting_ultrasonic_img_block:after {
+.setting_ultrasonic_block {
+    height: 52%;
+    aspect-ratio: 2/1;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%)
+}
+
+.setting_ultrasonic_block img {
+    height: 100%;
+    width: 100%;
+}
+
+.setting_ultrasonic_dial_hand {
     content: ' ';
     display: block;
-    /* background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.06) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.06) 75%, rgba(255, 255, 255, 0.06) 76%, transparent 77%, transparent); */
-    width: 1px;
-    height: 90%;
+    width: 3px;
+    height: 98%;
     position: absolute;
-    top: 0.3rem;
-    left: 5.2rem;
+    bottom: 1.7%;
+    left: 48.2%;
+    transform: rotate(20deg);
     transform-origin: bottom right;
     border-radius: 100% 0 0 0;
     background: #000;
 }
-.setting_ultrasonic_slider {
-    text-align: center;
-    margin-top: 0.3rem;
 
+.setting_ultrasonic_dot {
+    width: 0.2rem;
+    height: 0.2rem;
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+}
+
+.setting_ultrasonic_dot_current {
+    display: block;
+    transform: translate(-40%, 50%);
+    bottom: 18.18%; /* 20/110 = 0.1818*/
+}
+
+.setting_ultrasonic_slider {
+    height: 2%;
+    aspect-ratio: 50/1;
+    text-align: center;
+    position: absolute;
+    bottom: 35%;
+    left: 49%;
+    transform: translate(-50%)
 }
 
 #setting_ultrasonic_slider_range {
-    width: 6.12rem;
-    position: relative;
-}
-
-.reference_input_block {
-    width: 8.8rem;
-    height: 2.5rem;
-    margin-left: 1.16rem;
-}
-
-.grayscale_setting {
-    width: 8.8rem;
-    height: 2.8rem;
-    background: rgba(255, 255, 255, .3);
-    border-radius: 10px;
-    margin-left: 1.16rem;
-}
-
-.grayscale_setting_item {
-    width: 33%;
-    float: left;
-    height: 100%;
-    background: url(../image/line_of_inspection.png) no-repeat center;
-    background-size: 60%;
-    border-right: 1px solid gray;
-    position: relative;
-}
-
-.grayscale_setting_item_danger {
-    position: absolute;
     width: 100%;
     height: 100%;
-    top: 0px;
-    left: 0px;
-    opacity: 0.5;
-    display: none;
+    position: relative;
+    cursor: pointer;
 }
 
-.grayscale_setting_item_danger img {
-    width: 100%;
-    display: none;
-}
-
-.grayscale_setting_item:nth-last-child(1){
-    border-right: none;
-}
-
-.grayscale_setting_item_text {
-    width: 8.8rem;
-    height: 1rem;
-    margin-left: 1.16rem;
+/* ---------------------- wheel_setting_left ---------------------- */
+.setting_wheel {
+    position: relative;
     display: flex;
 }
 
-.grayscale_setting_item_text_item {
-    width: 33%;
-    height: 1rem;
-    font-size: 12px;
-    line-height: 1rem;
-    text-align: center;
-    color: white;
-}
-
-.reference_input {
-    width: 50%;
-    height: 100%;
-    float: left;
-    font-size: 20px;
-    text-align: center;
-    box-sizing: border-box;
-    padding-top: .8rem;
-}
-
-.reference_input span {
-    color: white;
-}
-
-.reference_input input {
-    width: 30px
-}
-
 .wheel_setting_left {
-    width: 45%;
     float: left;
     height: 100%;
+    aspect-ratio: 0.68/1;
 }
 
 .wheel_setting_left_img_block {
-    height: 100%;
-    width: 100%;
     position: relative;
+    width: 80%;
+    margin: 5% 10% 10%;
+}
+
+.wheel_setting_left_img_block img {
+    width: 100%;
 }
 
 .wheel {
     position: absolute;
     background: url(../image/chioceWheel.png) no-repeat;
-    width: .63rem;
-    height: 1.5rem;
+    height: 35%;
+    aspect-ratio: 0.28/1;
     background-size: 100%;
     opacity: 0;
+    cursor: pointer;
 }
 
 .right_front_wheel {
-    top: 1rem;
-    right: 0.6rem;
+    top: 10%;
+    right: 3%;
     opacity: 1;
 }
 
 .left_front_wheel {
-    top: 1rem;
-    left: 0.56rem;
+    top: 10%;
+    left: 3%;
 }
 
 .right_rear_wheel {
-    top: 3.97rem;
-    right: 0.56rem;
+    bottom: 4.5%;
+    right: 3%;
 }
 
 .left_rear_wheel {
-    top: 3.97rem;
-    left: 0.56rem;
+    bottom: 4.5%;
+    left: 3%;
 }
 
-.wheel_speed_power_slider {
-    margin-top: 0.1rem;
-}
-
-.wheel_setting_left_img_block img {
-    width: 80%;
-    margin: 24px;
-}
-
+/* --- wheel_setting_right --- */
 .wheel_setting_right {
-    width: 55%;
-    height: 100%;
     float: left;
+    height: 100%;
+    /* width: 60%; */
+    position: relative;
+    /* position: absolute;
+    left: 0;
+    right: 0; */
+    flex-grow: 1;
 }
 
 .wheel_name {
     width: 100%;
-    height: 1.27rem;
+    height: 10%;
     text-align: center;
-    font-size: .4rem;
+    position: absolute;
+    top: 5%;
 }
 
 .wheel_name span {
     display: inline-block;
     width: 70%;
     border-bottom: 1px solid #ccc;
-    margin-top: 0.5rem;
-    padding-bottom: 10px;
     color: #ffffff;
+    font-size: 0.38rem;
 }
 
 .wheel_setting_speed {
-    height: 2.5rem;
-    display: flex;  
-    justify-content: center; 
+    height: 40%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 37%;
+    transform: translate(0, -50%);
+    text-align: center;
 }
+
+.wheel_speed_power_slider {
+    margin-top: 3%;
+}
+
 
 .wheel_speed_text {
     width: 50%;
@@ -253,14 +257,14 @@
 }
 
 .wheel_speed_power {
-    width: 49%;
+    position: relative;
+    width: 60%;
     text-align: center;
     color: white;
 }
 
 .wheel_speed_power_title {
     font-size: 0.4rem;
-    margin-top: 0.4rem;
 }
 
 .wheel_speed_power_value {
@@ -270,20 +274,31 @@
 
 #wheel_speed_power_slider_input {
     position: relative;
+    cursor: pointer;
 }
 
 .wheel_arrow {
-    height: 2.9rem;
+    height: 25%;
+    width: 100%;
+    position: absolute;
+    top: 64%;
+    transform: translate(0, -50%);
+    display:flex;
+    justify-content: center;
+    /* align-items: center; */
 }
 
 .wheel_arrow_key {
     float: left;
-    width: 2rem;
-    height: 2rem;
+    height: 100%;
+    aspect-ratio: 1;
     border-radius: 50%;
     background: rgba(255, 255, 255, .3);
-    margin-left: 0.7rem;
-    margin-top: 0.3rem;
+    cursor: pointer;
+}
+
+.wheel_arrow_key_up {
+    margin-right: 10%;
 }
 
 .wheel_arrow_key_up_div {
@@ -298,41 +313,114 @@
     width: 70%;
 }
 
-.wheel_arrow_key_up img{
+.wheel_arrow_key_up img {
     position: relative;
-    top: 22px;
-    left: 15px;
+    margin: 20% 15% 15%;
 }
 
-.wheel_arrow_key_down img{
+.wheel_arrow_key_down img {
     position: relative;
-    top: 35px;
-    left: 16px;
     transform: rotate(180deg);
+    margin: 35% 15% 15%;
 }
 
-.setting_ultrasonic_dot_block {
+/* ---------------------- setting_grayscale ---------------------- */
+.setting_grayscale {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reference_input_block {
     width: 100%;
-    height: 5.2rem;
-    position: absolute;
-    bottom: 9px;
+    height: 20%;
 }
 
-.setting_ultrasonic_dot {
-    width: 0.2rem;
-    height: 0.2rem;
-    position: absolute;
-    border-radius: 50%;
-    background: white;
-    bottom: 0%;
-    left: 50%;
+.reference_input {
+    width: 50%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.setting_ultrasonic_img_block {
+.reference_input span {
+    color: white;
+}
+
+.reference_input input {
+    width: 15%;
+    text-align: center;
+    margin-left: 2%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    border: none;
+    font-size: .32rem;
+}
+
+.grayscale_setting {
+    width: 77%;
+    aspect-ratio: 3/1;
+    background: rgba(255, 255, 255, .3);
+    border-radius: 10px;
     position: relative;
 }
 
-.setting_system_list li{
+.grayscale_setting_item {
+    width: 33%;
+    height: 100%;
+    background: url(../image/line_of_inspection.png) no-repeat center;
+    background-size: 60%;
+    border-right: 1px solid gray;
+    position: absolute;
+}
+
+.grayscale_setting_item_danger {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+}
+
+.grayscale_setting_item_danger img {
+    width: 80%;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+
+.grayscale_setting_item:nth-last-child(1) {
+    border-right: none;
+}
+
+.grayscale_setting_item_text {
+    width: 77%;
+    height: 10%;
+    display: flex;
+    margin-top: 5%;
+}
+
+.grayscale_setting_item_text_item {
+    width: 33%;
+    height: 100%;
+    font-size: 100%;
+    line-height: 100%;
+    text-align: center;
+    color: white;
+}
+
+/* ---------------------- system ---------------------- */
+.setting_system_list {
+    width: 100%;
+    height: 100%;
+}
+.setting_system_list li {
     color: white;
 }
 
@@ -340,14 +428,26 @@
     display: inline-block;
 }
 
+.cpu_temperature,
+.cpu_usage,
+.disk,
+.ram,
+.battery {
+    margin: 10px 0 0 12px;
+}
 
-.cpu_value, .disk_value, .ram_value, .battery_value {
+
+.cpu_value,
+.disk_value,
+.ram_value,
+.battery_value {
     height: 0.3rem;
     width: 40%;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
 }
 
 .fill {
+    width: 0%;
     height: 100%;
     display: block;
     background: white;

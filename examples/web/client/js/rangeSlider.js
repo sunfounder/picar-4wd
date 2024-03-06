@@ -15,12 +15,12 @@ $.fn.RangeSlider = function (cfg) {
     $input.attr("min", min)
         .attr("max", max)
         .attr('step', step);
-    
+
     $input.bind("input", function (e) {
         $input.attr('value', this.value);
+        val = mapRange(this.value, min, max, 0, 100)
         $input.css('background', "-webkit-linear-gradient(#059CFA, #059CFA) no-repeat");
-        $input.css('background-size', this.value + "% 100%");
-        
+        $input.css('background-size', val + "% 100%");
         if ($.isFunction(callback)) {
             callback(this);
         }

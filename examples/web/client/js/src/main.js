@@ -1,4 +1,7 @@
 Main = {};
+var ip = '192.168.137.235';  // test
+// var ip = window.location.hostname;
+var port = 8765;
 
 /**
  * Bind a function to a button's click event.
@@ -7,18 +10,18 @@ Main = {};
  * @param {!Function} func Event handler to bind.
  */
 Main.bindClick = function (el, func) {
-	if (typeof el == 'string') {
-		el = document.getElementById(el);
-	}
-	el.addEventListener('click', func, true);
-	el.addEventListener('touchend', func, true);
+    if (typeof el == 'string') {
+        el = document.getElementById(el);
+    }
+    el.addEventListener('click', func, true);
+    el.addEventListener('touchend', func, true);
 };
 
 Main.PAGES = {
-	'home': Home,
-	'manual': Manual,
-	'automatic': Automatic,
-	'setting': Setting
+    'home': Home,
+    'manual': Manual,
+    'automatic': Automatic,
+    'setting': Setting
 }
 
 
@@ -28,13 +31,14 @@ Main.lastPage = [] //记录上次打开页面
  * get the height of MainContent and blockly element
  */
 Main.resize = function () {
-	console.log('resize!')
-	var mainContentHeight = $(window).height();
-	$('.mainContent').height(mainContentHeight)
-	Home.resize();
-	Manual.resize();
-	Automatic.resize();
-	Setting.resize();
+    console.log('resize!')
+    var mainContentHeight = $(window).height();
+    $('.mainContent').height(mainContentHeight)
+
+    // Home.resize();
+    // Manual.resize();
+    // Automatic.resize();
+    // Setting.resize();
 }
 
 Main.initResize = function () {
@@ -48,15 +52,15 @@ Main.initResize = function () {
  */
 
 Main.renderPage = function (page) {
-	if (Main.page) {
-		Main.lastPage.push(Main.page);
-		Main.lastPage[Main.lastPage.length - 1].hide();
-	}
-	Main.page = Main.PAGES[page];
-	if (window.sessionStorage) {
-		window.sessionStorage.setItem('page', Main.page.id)
-	}
-	Main.page.show();
+    if (Main.page) {
+        Main.lastPage.push(Main.page);
+        Main.lastPage[Main.lastPage.length - 1].hide();
+    }
+    Main.page = Main.PAGES[page];
+    if (window.sessionStorage) {
+        window.sessionStorage.setItem('page', Main.page.id)
+    }
+    Main.page.show();
 }
 
 //返回上一页
@@ -70,28 +74,31 @@ Main.back = function () {
     } else {
         Main.renderPage(Main.lastPage[Main.lastPage.length - 1].id);
     }
-    
+
 }
 
 //the init of Main object
 Main.init = function () {
-	Main.renderPage('home');
+
+
+
+    Main.renderPage('home');
     Main.resize();
     Setting.init();
     // Main.fullScreen(document.documentElement);
     Manual.init()
-    requireWebsocket.connect();
-    responseWebsocket.connect();
+    requireWebsocket.connect(ip, port);
+    responseWebsocket.connect(ip, port);
 };
 
 Main.fullScreen = function (element) {
     if (element.requestFullScreen) {
         element.requestFullScreen();
-    }else if (element.mozRequestFullScreen) {
+    } else if (element.mozRequestFullScreen) {
         element.mozRequestFullScreen();
-    }else if (element.webkitRequestFullscreen) {
+    } else if (element.webkitRequestFullscreen) {
         element.webkitRequestFullscreen();
-    }else if (element.msRequestFullscreen) {
+    } else if (element.msRequestFullscreen) {
         element.msRequestFullscreen();
     }
 }
@@ -101,13 +108,13 @@ Main.connectModal = function () {
 }
 
 Main.connectSocketRetry = function () {
-    requireWebsocket.connect();
-    responseWebsocket.connect();
+    requireWebsocket.connect(ip, port);
+    responseWebsocket.connect(ip, port);
 }
 
 
 
-$(function (){
+$(function () {
     $('.connectModal_content_back_btn').click(function () {
         Main.renderPage('home');
         $('#connectModal_block').hide();

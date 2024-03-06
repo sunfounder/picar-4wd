@@ -1,64 +1,117 @@
 #header {
-    height: 0.88rem;
     background: #1e2b56;
+}
+
+@media (orientation: landscape) { 
+    #header {
+        width: 100vw;
+        height: 12vh;
+    }
+}
+@media (orientation: portrait) {
+    #header {
+        width: 100vh;
+        height: 12vw;
+    }
 }
 
 .back {
     width: 15%;
     height: 100%;
     float: left;
+    cursor: pointer;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
 }
 
 #header .back_img {
     height: 70%;
     position: relative;
-    top: 7px;
-    left: 35px;
+    left: 20%;
     float: left;
 }
 
 .header_title {
     float: left;
     height: 100%;
-    font-size: 30px;
-    margin-left: 4rem;
+    width: 85%;
     color: white;
     display: none;
+    position: relative;
 }
 
 .header_title span {
-    margin-top: .15rem;
-    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+}
+
+@media (orientation: landscape) { 
+    .header_title span {
+        font-size: 6vh;
+    }
+}
+@media (orientation: portrait) {
+    .header_title span {
+        font-size: 6vw;
+    }
 }
 
 .menu {
-    width: 60%;
+    height: 100%;
+    /* aspect-ratio: 8.2/1; */
+    width: 85%;
     float: right;
     height: 100%;
+    position: relative;
 }
 
 .menu_list {
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 100%;
+    position: absolute;
+    top: 50%;
+    right: 1%;
+    transform: translate(0, -50%);
+    display: flex;
+    justify-content: space-between;
 }
 
 .menu_item {
+    flex: 1;
+    max-width: 100%;
     float: left;
     display: flex;
-    width: 14%;
     height: 100%;
+    aspect-ratio: 1.2/1;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     opacity: 0.5;
+    position: relative;
 }
 
 .menu_item p {
-    font-size: .12rem;
     color: white;
+    cursor: pointer;
+}
+
+@media (orientation: landscape) { 
+    .menu_item p {
+        font-size: 2.5vh;
+    }
+}
+@media (orientation: portrait) {
+    .menu_item p {
+        font-size: 2.5vw;
+    }
 }
 
 .menu_item .menu_item_img {
-    width: 45%;
-    margin-bottom: 0.08rem;
+    height: 45%;
+    aspect-ratio: 1;
+    margin-bottom: 1%;
+    cursor: pointer;
 }

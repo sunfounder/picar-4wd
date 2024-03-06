@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,9 +18,10 @@
     <link rel="stylesheet" href="./css/automatic.css">
     <link rel="stylesheet" href="./css/setting.css">
     <script src="./js/jquery.min.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/rangeSlider.js"></script>
     <script src="./js/src/requireSocket.js"></script>
     <script src="./js/src/responseSocket.js"></script>
-    <script src="./js/rangeSlider.js"></script>
     <script src="./js/src/setting.js"></script>
     <script src="./js/src/automatic.js"></script>
     <script src="./js/src/manual.js"></script>
@@ -29,10 +31,12 @@
 <style id="ultrasonic">
 
 </style>
-<body>
+
+<body class="body_rotate">
+    <!---------------------------------- head control bar  ------------------------------------>
     <div id="header" class="dis_none">
         <div class="back" onclick="Main.back()">
-            <img class="back_img" src="./image/back.png" >
+            <img class="back_img" draggable="false" src="./image/back.png">
         </div>
         <div class="header_title">
             <span>Setting</span>
@@ -40,139 +44,154 @@
         <div class="menu dis_none">
             <ul class="menu_list">
                 <li class="menu_item menu_item_ultrasonic">
-                    <img class="menu_item_img" src="./image/ultrasonic_sensor.png" alt="">
+                    <img class="menu_item_img" draggable="false" src="./image/ultrasonic_sensor.png" alt="">
                     <p>Ultrasonic</p>
-                </li> 
+                </li>
                 <li class="menu_item menu_item_grayScale">
-                    <img class="menu_item_img" src="./image/grayScale_sensor.png" alt="">
+                    <img class="menu_item_img" draggable="false" src="./image/grayScale_sensor.png" alt="">
                     <p>Grayscale</p>
-                </li> 
+                </li>
                 <li class="menu_item menu_item_aviod">
-                    <img class="menu_item_img" src="./image/Avoidance.png" alt="">
+                    <img class="menu_item_img" draggable="false" src="./image/Avoidance.png" alt="">
                     <p>Avoid</p>
                 </li>
                 <li class="menu_item menu_item_follow">
-                    <img class="menu_item_img" src="./image/follow_icon.png" alt="">
+                    <img class="menu_item_img" draggable="false" src="./image/follow_icon.png" alt="">
                     <p>Follow</p>
                 </li>
                 <li class="menu_item menu_item_cliff">
-                    <img class="menu_item_img" src="./image/danger.png" alt="">
+                    <img class="menu_item_img" draggable="false" src="./image/danger.png" alt="">
                     <p>Cliff</p>
                 </li>
                 <li class="menu_item menu_item_path">
-                    <img class="menu_item_img" src="./image/inspection_icon.png" alt="">
+                    <img class="menu_item_img" draggable="false" src="./image/inspection_icon.png" alt="">
                     <p>Path</p>
                 </li>
                 <li class="menu_item menu_item_setting" style="opacity: 1">
-                    <img class="menu_item_img" src="./image/setting_icon.png" alt="">
+                    <img class="menu_item_img" draggable="false" src="./image/setting_icon.png" alt="">
                     <p>Settings</p>
                 </li>
             </ul>
         </div>
     </div>
     <div class="mainContent">
+        <!------------------------------------ home ------------------------------------>
         <div id="homeContent" class="dis_none">
-            <div class="index_logo">
-                <img src="./image/index_logo.png">
-            </div>
-            <div class="index_option">
-                <button class="manual_mode_btn" onclick="Main.renderPage('manual');">Start</button>
+            <div class="startContent">
+                <div class="index_logo">
+                    <img draggable="false" src="./image/index_logo.png">
+                </div>
+                <div class="index_option">
+                    <button class="manual_mode_btn" onclick="Main.renderPage('manual');">Start</button>
+                </div>
+                <span class="version">v2.0_20240228</span>
             </div>
         </div>
+
+        <!--------------------------------- control panel------------------------------------>
         <div id="manualContent" class="dis_none">
-            <div class="manual_left">
-                <div class="speedometer">
-                    <ul class="scale_list">
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                        <li class="scale_item"></li>
-                    </ul>
-                    <div class="speedValue">
-                        <span class="text">7</span>
-                        <span class="unit">m/s</span>
+            <div class="control_panel">
+                <!----------------- manual_left----------------->
+                <div class="manual_left">
+                    <div class="speedometer">
+                        <ul class="scale_list">
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                            <li class="scale_item"></li>
+                        </ul>
+                        <div class="speedValue">
+                            <span class="text">7</span>
+                            <span class="unit">m/s</span>
+                        </div>
+                    </div>
+                    <div class="mileage">
+                        <span>0cm</span>
+                        <button class="mileage_reset" onclick="Manual.mileageReset()">reset</button>
+                    </div>
+                    <div class="up_down_arrowKey">
+                        <div class="up_arrowKey_div">
+                            <img class="up_arrowKey" draggable="false" src="./image/arrow.png" alt="">
+                        </div>
+                        <div class="down_arrowKey_div">
+                            <img class="down_arrowKey" draggable="false" src="./image/arrow.png" alt="">
+                        </div>
+
                     </div>
                 </div>
-                <div class="mileage">
-                    <span>30km</span>
-                    <button class="mileage_reset" onclick="Manual.mileageReset()">reset</button>
+                <!----------------- manual_center----------------->
+                <div class="manual_center">
+                    <div class="ultrasonic">
+                        <div class="ultrasonic_img_block">
+                            <div class="ultrasonic_dot_block">
+                            </div>
+                            <img draggable="false" src="./image/manual_ultrasonic.png" alt="">
+                        </div>
+                    </div>
+                    <div class="line_of_inspection">
+                        <div class="line_of_inspection_item line_left">
+                            <div class="line_of_inspection_item_danger">
+                                <img draggable="false" src="./image/line_inspection.png" alt="">
+                            </div>
+                        </div>
+                        <div class="line_of_inspection_item line_mid">
+                            <div class="line_of_inspection_item_danger">
+                                <img draggable="false" src="./image/line_inspection.png" alt="">
+                            </div>
+                        </div>
+                        <div class="line_of_inspection_item line_right">
+                            <div class="line_of_inspection_item_danger">
+                                <img draggable="false" src="./image/line_inspection.png" alt="">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="up_down_arrowKey">
-                    <div class="up_arrowKey_div">
-                        <img class="up_arrowKey" src="./image/arrow.png" alt="">
+                <!----------------- manual_right----------------->
+                <div class="manual_right">
+                    <div class="power">
+                        <span>0%</span>
                     </div>
-                    <div class="down_arrowKey_div">
-                        <img class="down_arrowKey" src="./image/arrow.png" alt="">
+                    <div class="power_slider">
+                        <input id="power_slider_input" type="range" value="0">
                     </div>
-                    
+                    <div class="left_right_arrowKey">
+                        <div class="left_arrowKey_div">
+                            <img draggable="false" class="left_arrowKey" src="./image/arrow.png" alt="">
+                        </div>
+                        <div class="right_arrowKey_div">
+                            <img draggable="false" class="right_arrowKey" src="./image/arrow.png" alt="">
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            <div class="manual_center">
-                <div class="ultrasonic">
-                    <div class="ultrasonic_img_block">
-                        <div class="ultrasonic_dot_block">
-                        </div>
-                        <img src="./image/manual_ultrasonic.png" alt="">
-                    </div>
-                </div>
-                <div class="line_of_inspection">
-                    <div class="line_of_inspection_item">
-                        <div class="line_of_inspection_item_danger">
-                            <img src="./image/line_inspection.png" alt="">
-                        </div>
-                    </div>
-                    <div class="line_of_inspection_item">
-                        <div class="line_of_inspection_item_danger">
-                            <img src="./image/line_inspection.png" alt="">
-                        </div>
-                    </div>
-                    <div class="line_of_inspection_item">
-                        <div class="line_of_inspection_item_danger">
-                            <img src="./image/line_inspection.png" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="manual_right">
-                <div class="power">
-                    <span>50%</span>
-                </div>
-                <div class="power_slider">
-                    <input id="power_slider_input" type="range" value="50">
-                </div>
-                <div class="left_right_arrowKey">
-                    <div class="left_arrowKey_div">
-                        <img class="left_arrowKey" src="./image/arrow.png" alt="">
-                    </div>
-                    <div class="right_arrowKey_div">
-                        <img class="right_arrowKey" src="./image/arrow.png" alt="">
-                    </div>
-                    
-                </div>
-            </div>
+
         </div>
+
+
+        <!--------------------------------- automaticContent------------------------------------>
         <div id="automaticContent" class="dis_none">
             <div class="automatic_left">
                 <div class="automatic_ultrasonic">
                     <div class="automatic_ultrasonic_img_block">
-                        <img src="./image/manual_ultrasonic.png" alt="">
+                        <img draggable="false" src="./image/manual_ultrasonic.png" alt="">
                     </div>
                 </div>
                 <div class="automatic_line_of_inspection">
@@ -219,142 +238,158 @@
                 </div>
             </div>
         </div>
-        <div id="settingContent" class="dis_none">
-            <div class="setting_tab">
-                <ul class="tab_list">
-                    <li class="tab_item"><img class="tab_item_img" src="./image/setting_ultrasonic.png" alt=""><span class="tab_item_text">Ultrasonic</span></li>
-                    <li class="tab_item"><img class="tab_item_img" src="./image/setting_wheel.png" alt=""><span class="tab_item_text">Wheels</span></li>
-                    <li class="tab_item"><img class="tab_item_img" src="./image/setting_grayscale.png" alt=""><span class="tab_item_text">Grayscale</span></li>
-                    <li class="tab_item"><img class="tab_item_img" src="./image/setting_system_icon.png" alt=""><span class="tab_item_text">System</span></li>
-                </ul>
-            </div>
-            <div class="setting_left">
-                <div class="setting_ultrasonic setting_block">
-                    <div class="setting_ultrasonic_img_block">
-                        <div class="setting_ultrasonic_dot_block">
 
-                        </div>
-                        <img src="./image/ultrasonic_setting_rad.png" alt="">
-                    </div>
-                    <div class="setting_ultrasonic_slider">
-                        <input type="range" name="" id="setting_ultrasonic_slider_range" value="-90">
-                    </div>
-                </div>
-                <div class="setting_wheel setting_block">
-                    <div class="wheel_setting_left">
-                        <div class="wheel_setting_left_img_block">
-                            <img src="./image/wheel_setting.png" alt="">
-                            <div class="right_front_wheel wheel" data-name="Right front wheel" motor='2'></div>
-                            <div class="left_front_wheel wheel" data-name="Left front wheel" motor='1'></div>
-                            <div class="right_rear_wheel wheel" data-name="Right rear wheel" motor='4'></div>
-                            <div class="left_rear_wheel wheel" data-name="Left rear wheel" motor='3'></div>
-                        </div>
-                    </div>
-                    <div class="wheel_setting_right">
-                        <div class="wheel_name">
-                            <span>Right front wheel</span>
-                        </div>
-                        <div class="wheel_setting_speed">
-                            <!-- <div class="wheel_speed_text">
-                                <p class="wheel_speed_title">SPEED</p>
-                                <div class="wheel_speed_value"><span class="wheel_speed_value_text">5</span><span>m/s</span></div>
-                            </div> -->
-                            <div class="wheel_speed_power">
-                                <p class="wheel_speed_power_title">POWER</p>
-                                <p class="wheel_speed_power_value">50%</p>
-                                <div class="wheel_speed_power_slider">
-                                    <input type="range" id="wheel_speed_power_slider_input" value="0">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="wheel_arrow">
-                            <div class="wheel_arrow_key wheel_arrow_key_up">
-                                <div class="wheel_arrow_key_up_div">
-                                    <img src="./image/arrow.png" alt="">
-                                </div>
-                            </div>
-                            <div class="wheel_arrow_key wheel_arrow_key_down">
-                                <div class="wheel_arrow_key_down_div">
-                                    <img src="./image/arrow.png" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="setting_grayscale setting_block">
-                    <div class="reference_input_block">
-                        <div class="reference_input linereference">
-                            <span>Line Reference:</span><input type="text" value="400">
-                        </div>
-                        <div class="reference_input cliffreference">
-                            <span>Cliff Reference:</span><input type="text" value="110">
-                        </div>
-                    </div>
-                    <div class="grayscale_setting">
-                        <div class="grayscale_setting_item">
-                            <div class="grayscale_setting_item_danger">
-                                <img src="./image/line_inspection.png" alt="">
-                            </div>
-                        </div>
-                        <div class="grayscale_setting_item">
-                            <div class="grayscale_setting_item_danger">
-                                <img src="./image/line_inspection.png" alt="">
-                            </div>
-                        </div>
-                        <div class="grayscale_setting_item">
-                            <div class="grayscale_setting_item_danger">
-                                <img src="./image/line_inspection.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grayscale_setting_item_text">
-                        <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
-                        <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
-                        <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
-                    </div>
-                </div>
-                <div class="setting_system setting_block">
-                    <ul class="setting_system_list">
-                        <li class="cpu_temperature">
-                            <span>CPU Temperatrue: </span>
-                            <span class="system_value"></span>
+        <!---------------------------------settingContent------------------------------------>
+        <div id="settingContent" class="dis_none">
+            <div class="setting_panel">
+                <!-- setting-sidebar -->
+                <div class="setting_tab">
+                    <ul class="tab_list">
+                        <li class="tab_item"><img class="tab_item_img" draggable="false"
+                                src="./image/setting_ultrasonic.png" alt=""><span
+                                class="tab_item_text">Ultrasonic</span>
                         </li>
-                        <li class="gpu_temperature">
-                            <span>GPU Temperature: </span>
-                            <span class="system_value"></span>
+                        <li class="tab_item"><img class="tab_item_img" draggable="false" src="./image/setting_wheel.png"
+                                alt=""><span class="tab_item_text">Wheels</span></li>
+                        <li class="tab_item"><img class="tab_item_img" draggable="false"
+                                src="./image/setting_grayscale.png" alt=""><span class="tab_item_text">Grayscale</span>
                         </li>
-                        <li class="cpu_usage">
-                            <span class="cpu_usage_text"></span>
-                            </br>
-                            <span class="system_value cpu_value">
-                                <span class="fill"></span>
-                            </span>
-                        </li>
-                        <li class="disk">
-                            <span class="disk_text"></span>
-                            </br>
-                            <span class="system_value disk_value">
-                                <span class="fill"></span>
-                            </span>
-                        </li>
-                        <li class="ram">
-                            <span class="ram_text"></span>
-                            </br>
-                            <span class="system_value ram_value">
-                                <span class="fill"></span>
-                            </span>
-                        </li>
-                        <li class="battery">
-                            <span class="battery_text"></span>
-                            </br>
-                            <span class="system_value battery_value">
-                                <span class="fill"></span>
-                            </span>
+                        <li class="tab_item"><img class="tab_item_img" draggable="false"
+                                src="./image/setting_system_icon.png" alt=""><span class="tab_item_text">System</span>
                         </li>
                     </ul>
                 </div>
+
+                <!-- setting-main-content -->
+                <div class="setting_left">
+                    <!-- ultrasonic  -->
+                    <div class="setting_ultrasonic setting_block">
+                        <div class="setting_ultrasonic_block">
+                            <img draggable="false" src="./image/ultrasonic_setting_rad.png" alt="">
+                            <div class="setting_ultrasonic_dial_hand">
+                                <div class=" setting_ultrasonic_dot setting_ultrasonic_dot_current"></div>
+                            </div>
+                        </div>
+
+                        <div class="setting_ultrasonic_slider">
+                            <input type="range" name="" id="setting_ultrasonic_slider_range" value="0">
+                        </div>
+                    </div>
+                    <!-- wheel  -->
+                    <div class="setting_wheel setting_block">
+                        <div class="wheel_setting_left">
+                            <div class="wheel_setting_left_img_block">
+                                <img draggable="false" src="./image/wheel_setting.png" alt="">
+                                <div class="right_front_wheel wheel" data-name="Right front wheel" motor='2'></div>
+                                <div class="left_front_wheel wheel" data-name="Left front wheel" motor='1'></div>
+                                <div class="right_rear_wheel wheel" data-name="Right rear wheel" motor='4'></div>
+                                <div class="left_rear_wheel wheel" data-name="Left rear wheel" motor='3'></div>
+                            </div>
+                        </div>
+                        <div class="wheel_setting_right">
+                            <div class="wheel_name">
+                                <span>Right front wheel</span>
+                            </div>
+                            <div class="wheel_setting_speed">
+                                <div class="wheel_speed_power">
+                                    <p class="wheel_speed_power_title">POWER</p>
+                                    <p class="wheel_speed_power_value">0%</p>
+                                    <div class="wheel_speed_power_slider">
+                                        <input type="range" id="wheel_speed_power_slider_input" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wheel_arrow">
+                                <div class="wheel_arrow_key wheel_arrow_key_up">
+                                    <div class="wheel_arrow_key_up_div">
+                                        <img draggable="false" src="./image/arrow.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="wheel_arrow_key wheel_arrow_key_down">
+                                    <div class="wheel_arrow_key_down_div">
+                                        <img draggable="false" src="./image/arrow.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- grayscale  -->
+                    <div class="setting_grayscale setting_block">
+                        <div class="reference_input_block">
+                            <div class="reference_input linereference">
+                                <span>Line Reference:</span><input type="text" value="400">
+                            </div>
+                            <div class="reference_input cliffreference">
+                                <span>Cliff Reference:</span><input type="text" value="110">
+                            </div>
+                        </div>
+                        <div class="grayscale_setting">
+                            <div class="grayscale_setting_item line_left">
+                                <div class="grayscale_setting_item_danger">
+                                    <img draggable="false" src="./image/line_inspection.png" alt="">
+                                </div>
+                            </div>
+                            <div class="grayscale_setting_item line_mid">
+                                <div class="grayscale_setting_item_danger">
+                                    <img draggable="false" src="./image/line_inspection.png" alt="">
+                                </div>
+                            </div>
+                            <div class="grayscale_setting_item line_right">
+                                <div class="grayscale_setting_item_danger">
+                                    <img draggable="false" src="./image/line_inspection.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grayscale_setting_item_text">
+                            <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
+                            <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
+                            <span class="grayscale_setting_item_text_item">Grayscale value:4000</span>
+                        </div>
+                    </div>
+
+                    <!-- system  -->
+                    <div class="setting_system setting_block">
+                        <ul class="setting_system_list">
+                            <li class="cpu_temperature">
+                                <span>CPU Temperatrue: </span>
+                                <span class="system_value"></span>
+                            </li>
+                            <li class="cpu_usage">
+                                <span class="cpu_usage_text">CPU Usage: </span>
+                                </br>
+                                <span class="system_value cpu_value">
+                                    <span class="fill"></span>
+                                </span>
+                            </li>
+                            <li class="disk">
+                                <span class="disk_text">disk: </span>
+                                </br>
+                                <span class="system_value disk_value">
+                                    <span class="fill"></span>
+                                </span>
+                            </li>
+                            <li class="ram">
+                                <span class="ram_text">ram: </span>
+                                </br>
+                                <span class="system_value ram_value">
+                                    <span class="fill"></span>
+                                </span>
+                            </li>
+                            <li class="battery">
+                                <span class="battery_text">battery: </span>
+                                </br>
+                                <span class="system_value battery_value">
+                                    <span class="fill"></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!---------------------------------connectModal_block------------------------------------>
         <div id="connectModal_block">
             <div class="connectModal">
                 <div class="connectModal_header">
@@ -371,4 +406,5 @@
         </div>
     </div>
 </body>
+
 </html>

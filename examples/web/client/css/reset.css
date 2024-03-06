@@ -59,12 +59,31 @@ html, body{
   width: 100%;
   font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", "微软雅黑", sans-serif;
 }
+
 body{
   line-height: 1;
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
- 
+
+/* @media (orientation: landscape) { */
+@media (orientation: portrait) {
+  .body_rotate {
+    -webkit-transform: rotate(90deg); /* Safari and Chrome */
+    -moz-transform: rotate(90deg);   /* Firefox */
+    -ms-transform: rotate(90deg);   /* IE 9 */
+    -o-transform: rotate(90deg);   /* Opera */
+    transform: rotate(90deg);
+
+    transform-origin: bottom left;
+    position: absolute;
+    top: -100vw;
+    height: 100vw;
+    width: 100vh;
+  }
+}
+
+
 /*清除浮动*/
 .clearfix:before,
 .clearfix:after{
@@ -89,10 +108,10 @@ body{
 }
 
 img{
-    pointer-events: none; 
+    /* pointer-events: none;  */
     -webkit-user-select: none;
     -moz-user-select: none;
-    -webkit-user-select:none;  
+    -webkit-user-select:none;
     -o-user-select:none;  
-    user-select:none;  
+    user-select:none;
 }

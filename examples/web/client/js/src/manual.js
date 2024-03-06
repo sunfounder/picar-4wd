@@ -19,18 +19,18 @@ Manual.mileageObj = {};
 Manual.mileageValue = 0;
 
 Manual.sendValue = {
-    'RC':'off',  // remote control  rest
+    'RC': 'off',  // remote control  rest
     'GS': "off", // 巡线模块  'off'
-    'RD':'off',  // 雷达  'off'
-    'OA':'off',  // 避障  'off'
-    'OF':'off',  // 跟随  'off'
-    'TL':['off',400], // 巡线value  ['off', 400]
-    'CD':['off',110], // 悬崖  ['off',110]
-    'PW':50,  // 调速功率  50
-    'SR':0,  // 复位  off
-    'ST':'off', // 系统信息  'off'
-    'US':['off',0],  // 超声波设置  ['off', 0]
-    'MS':['off',4,0] // 测速设置  ['off', 1, 0]
+    'RD': 'off',  // 雷达  'off'
+    'OA': 'off',  // 避障  'off'
+    'OF': 'off',  // 跟随  'off'
+    'TL': ['off', 400], // 巡线value  ['off', 400]
+    'CD': ['off', 110], // 悬崖  ['off',110]
+    'PW': 50,  // 调速功率  50
+    'SR': 0,  // 复位  off
+    'ST': 'off', // 系统信息  'off'
+    'US': ['off', 0],  // 超声波设置  ['off', 0]
+    'MS': ['off', 4, 0] // 测速设置  ['off', 1, 0]
 }
 
 /*
@@ -41,6 +41,8 @@ Manual.sendValue = {
         'ST':{'a':1} // 系统信息value
     } 
 */
+
+var move_button_timeout = '';
 
 Manual.show = function () {
     document.querySelector('#manualContent').style.display = 'block';
@@ -56,18 +58,18 @@ Manual.hide = function () {
     document.querySelector('.menu').style.display = 'none';
     Manual.menuItemClick("reset");
     Manual.sendValue = {
-        'RC':'off',  // remote control
+        'RC': 'off',  // remote control
         'GS': "off", // 巡线模块
-        'RD':'off',  // 雷达
-        'OA':'off',  // 避障
-        'OF':'off',  // 跟随
-        'TL':['off',400], // 巡线value
-        'CD':['off',110], // 悬崖
-        'PW':50,  // 调速功率
+        'RD': 'off',  // 雷达
+        'OA': 'off',  // 避障
+        'OF': 'off',  // 跟随
+        'TL': ['off', 400], // 巡线value
+        'CD': ['off', 110], // 悬崖
+        'PW': 50,  // 调速功率
         'SR': 'off',  // 复位
-        'ST':'off', // 系统信息
-        'US':['off',0],  // 超声波设置
-        'MS':['off',1,0] // 测速设置
+        'ST': 'off', // 系统信息
+        'US': ['off', 0],  // 超声波设置
+        'MS': ['off', 1, 0] // 测速设置
     }
     requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue));
     $('.ultrasonic_dot_block').html('');
@@ -81,7 +83,7 @@ Manual.init = function () {
     Manual.leftArrowEvent();
     Manual.rightArrowEvent();
 }
- 
+
 Manual.resize = function () {
     var manualContentHeight = $(window).height() - $('#header').height()
     $('#manualContent').height(manualContentHeight);
@@ -94,21 +96,28 @@ Manual.setRange = function () {
         Manual.sendValue['PW'] = e.value;
         requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
     }
-    $('input#power_slider_input').RangeSlider({min: 0, max: 100, step: 1, callback:change})
+    $('input#power_slider_input').RangeSlider({ min: 0, max: 100, step: 1, callback: change })
 }
 
 Manual.setSpeedValue = function (data) {
-    var value = parseInt((Manual.SpeedValue * 0.2) +  (data['MS'][0] * 0.9))
+    var value = parseInt((Manual.SpeedValue * 0.2) + (data['MS'][0] * 0.9))
     $('.speedValue .text').html(value);
 }
 
 Manual.setSpeedScale = function (data) {
     var speedValue = data['MS'][0]
-    var scale = Math.round(speedValue *(21 / 30))
-    $('.scale_item').css({'background': "white"})
+    var scale = Math.round(speedValue * (21 / 30))
+    $('.scale_item').css({ 'background': "black" })
+    $('.scale_item').removeClass('scale_item_pointer')
     for (var i = 0; i < scale; i++) {
-        $('.scale_item').eq(i).css({'background': "black"})
+        $('.scale_item').eq(i).css({ 'background': "white" })
     }
+    if(i == 0) {
+        $('.scale_item').eq(0).addClass('scale_item_pointer')
+    } else {
+        $('.scale_item').eq(i-1).addClass('scale_item_pointer')
+    }
+
 }
 
 Manual.setUltrasonic = function (data) {
@@ -127,8 +136,8 @@ Manual.setUltrasonicSean = function (data) {
         return false;
     }
     if (document.documentElement.clientWidth > 800) {
-        var x = Math.round(Math.sin(rad) * distance) + ($('.ultrasonic_dot_block').width() - 250)/ 2;
-    }else {
+        var x = Math.round(Math.sin(rad) * distance) + ($('.ultrasonic_dot_block').width() - 250) / 2;
+    } else {
         var x = Math.round(Math.sin(rad) * distance) + $('.setting_ultrasonic_dot_block').width() / 2;
     }
     var y = Math.round(Math.cos(rad) * distance);
@@ -139,7 +148,7 @@ Manual.setUltrasonicSean = function (data) {
     if ($(`.ultrasonic_dot_${angle}`).length === 0) {
         $('.ultrasonic_dot_block').append(`<div class='ultrasonic_dot ultrasonic_dot_${angle}'></div>`)
     }
-    $(`.ultrasonic_dot_${angle}`).show().css({'left': x, 'bottom': y})
+    $(`.ultrasonic_dot_${angle}`).show().css({ 'left': x, 'bottom': y })
 }
 
 // Manual.closeUltrasonic = function () {
@@ -147,79 +156,64 @@ Manual.setUltrasonicSean = function (data) {
 //     requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
 // }
 
-Manual.upArrowEvent = function () {
-    var timeout = '';
-    $('.up_arrowKey_div').on({
+move_button_pressed_handler = function (dir) {
+    Manual.sendValue['RC'] = dir
+    move_button_timeout = setInterval(function () {
+        requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
+    }, 30)
+    console.log(`move_button_pressed: ${Manual.sendValue['RC']}`)
+}
+
+move_button_released_handler = function () {
+    clearInterval(move_button_timeout);
+    Manual.sendValue['RC'] = 'rest'
+    requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
+    console.log(`move_button_released: ${Manual.sendValue['RC']}`)
+}
+
+move_button_event = function (dir) {
+    var event_dict = {
+        // mobile
         "touchstart": function (e) {
+            console.log('touchstart');
             e.preventDefault();
-            Manual.sendValue['RC'] = 'forward'
-            timeout = setInterval(function(){
-                requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-            }, 30)
+            move_button_pressed_handler(dir);
         },
         "touchend": function () {
-            clearInterval(timeout);
-            Manual.sendValue['RC'] = 'rest'
-            requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }
-    })
+            console.log('touchend');
+            move_button_released_handler();
+        },
+        // pc
+        'mousedown': function () {
+            console.log('mousedown');
+            move_button_pressed_handler(dir);
+        },
+        'mouseup': function () {
+            console.log('mouseup');
+            move_button_released_handler();
+        },
+    };
+    return event_dict;
+}
+
+Manual.upArrowEvent = function () {
+    $('.up_arrowKey_div').on(move_button_event("forward"))
 }
 
 Manual.downArrowEvent = function () {
     var timeout = '';
-    $('.down_arrowKey_div').on({
-        "touchstart": function (e) {
-            e.preventDefault();
-            Manual.sendValue['RC'] = 'backward'
-            timeout = setInterval(function(){
-                requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-            }, 30)
-        },
-        "touchend": function () {
-            clearInterval(timeout);
-            Manual.sendValue['RC'] = 'rest'
-            requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }
-    })
+    $('.down_arrowKey_div').on(move_button_event("backward"))
 }
 
 Manual.leftArrowEvent = function () {
     var timeout = '';
-    $('.left_arrowKey_div').on({
-        "touchstart": function (e) {
-            e.preventDefault();
-            Manual.sendValue['RC'] = 'turn_left'
-            timeout = setInterval(function(){
-                requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-            }, 30)
-        },
-        "touchend": function () {
-            clearInterval(timeout);
-            Manual.sendValue['RC'] = 'rest'
-            requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }
-    })
+    $('.left_arrowKey_div').on(move_button_event("turn_left"))
 }
 
 Manual.rightArrowEvent = function () {
     var timeout = '';
-    $('.right_arrowKey_div').on({
-        "touchstart": function (e) {
-            e.preventDefault();
-            Manual.sendValue['RC'] = 'turn_right'
-            timeout = setInterval(function(){
-                requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-            }, 30)
-        },
-        "touchend": function () {
-            clearInterval(timeout);
-            Manual.sendValue['RC'] = 'rest'
-            requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }
-    })
+    $('.right_arrowKey_div').on(move_button_event("turn_right"))
 }
-
-
 
 Manual.menuItemClick = function (reset) {
     if (arguments.length > 0) {
@@ -231,124 +225,124 @@ Manual.menuItemClick = function (reset) {
         flag_auto = true;
         flag_ultrasonic = true;
         flag_grayScale = true;
-        $('.menu_item').css({'opacity': 0.5});
-        $('.menu_item_setting').css({'opacity': 1});
+        $('.menu_item').css({ 'opacity': 0.5 });
+        $('.menu_item_setting').css({ 'opacity': 1 });
     }
-    var flag_aviod = true,flag_follow = true,flag_cliff = true,flag_path = true,flag_auto = true, flag_ultrasonic = true, flag_grayScale = true;
-    $('.menu_item_ultrasonic').click(function() {
+    var flag_aviod = true, flag_follow = true, flag_cliff = true, flag_path = true, flag_auto = true, flag_ultrasonic = true, flag_grayScale = true;
+    $('.menu_item_ultrasonic').click(function () {
         if (flag_ultrasonic) {
             Manual.ultrasonicFlag = 'on';
             Manual.sendValue['RD'] = Manual.ultrasonicFlag;
-            $(this).css({'opacity': 1})
-            $('.menu_item_follow').css({'opacity': 0.5})
+            $(this).css({ 'opacity': 1 })
+            $('.menu_item_follow').css({ 'opacity': 0.5 })
             flag_ultrasonic = false;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }else {
+        } else {
             Manual.ultrasonicFlag = 'off';
             Manual.sendValue['RD'] = Manual.ultrasonicFlag;
-            $(this).css({'opacity': 0.5})
+            $(this).css({ 'opacity': 0.5 })
             flag_ultrasonic = true;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
         }
-        
+
     })
 
-    $('.menu_item_grayScale').click(function() {
+    $('.menu_item_grayScale').click(function () {
         if (flag_grayScale) {
             Manual.grayscaleFlag = 'on';
             Manual.sendValue['GS'] = Manual.grayscaleFlag;
-            $(this).css({'opacity': 1})
-            $('.menu_item_follow').css({'opacity': 0.5})
+            $(this).css({ 'opacity': 1 })
+            $('.menu_item_follow').css({ 'opacity': 0.5 })
             flag_grayScale = false;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }else {
+        } else {
             Manual.grayscaleFlag = 'off';
             Manual.sendValue['GS'] = Manual.grayscaleFlag;
-            $(this).css({'opacity': 0.5})
+            $(this).css({ 'opacity': 0.5 })
             flag_grayScale = true;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
         }
-        
+
     })
-    $('.menu_item_aviod').click(function() {
+    $('.menu_item_aviod').click(function () {
         if (flag_aviod) {
             Manual.aviodFlag = 'on';
             Manual.followFlag = 'off'
             Manual.sendValue['OA'] = Manual.aviodFlag;
             Manual.sendValue['RD'] = 'on'
-            $(this).css({'opacity': 1})
-            $('.menu_item_follow').css({'opacity': 0.5})
+            $(this).css({ 'opacity': 1 })
+            $('.menu_item_follow').css({ 'opacity': 0.5 })
             flag_aviod = false;
             flag_follow = true;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }else {
+        } else {
             Manual.aviodFlag = 'off'
             Manual.followFlag = 'off'
             Manual.sendValue['OA'] = Manual.aviodFlag;
             Manual.sendValue['RD'] = Manual.ultrasonicFlag;
-            $(this).css({'opacity': 0.5})
+            $(this).css({ 'opacity': 0.5 })
             flag_aviod = true;
             flag_follow = true;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
         }
-        
+
     })
-    
-    $('.menu_item_follow').click(function() {
+
+    $('.menu_item_follow').click(function () {
         if (flag_follow) {
             Manual.aviodFlag = 'off';
             Manual.followFlag = 'on'
             Manual.sendValue['OF'] = Manual.followFlag;
             Manual.sendValue['RD'] = 'on'
-            $('.menu_item_aviod').css({'opacity': 0.5})
-            $(this).css({'opacity': 1})
+            $('.menu_item_aviod').css({ 'opacity': 0.5 })
+            $(this).css({ 'opacity': 1 })
             flag_follow = false;
             flag_aviod = true;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }else {
+        } else {
             Manual.aviodFlag = 'off'
             Manual.followFlag = 'off'
             Manual.sendValue['OF'] = Manual.followFlag;
             Manual.sendValue['RD'] = Manual.ultrasonicFlag;
-            $(this).css({'opacity': 0.5})
+            $(this).css({ 'opacity': 0.5 })
             flag_follow = true;
             flag_aviod = true;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
         }
     })
-    $('.menu_item_cliff').click(function() {
+    $('.menu_item_cliff').click(function () {
         if (flag_cliff) {
             Manual.cliffFlag = 'on';
             Manual.sendValue['CD'] = ['on', Setting.grayscale.cliffReference]
             Manual.sendValue['GS'] = 'on';
-            $(this).css({'opacity': 1})
+            $(this).css({ 'opacity': 1 })
             flag_cliff = false;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }else {
+        } else {
             Manual.cliffFlag = 'off';
             Manual.sendValue['CD'] = ['off', Setting.grayscale.cliffReference]
             Manual.sendValue['GS'] = Manual.grayscaleFlag;
-            $(this).css({'opacity': 0.5})
+            $(this).css({ 'opacity': 0.5 })
             flag_cliff = true;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
         }
     })
-    $('.menu_item_path').click(function() {
+    $('.menu_item_path').click(function () {
         if (flag_path) {
             Manual.sendValue['TL'] = ['on', Setting.grayscale.lineReference]
             Manual.sendValue['GS'] = 'on';
-            $(this).css({'opacity': 1})
+            $(this).css({ 'opacity': 1 })
             flag_path = false;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
-        }else {
+        } else {
             Manual.sendValue['TL'] = ['off', Setting.grayscale.lineReference]
             Manual.sendValue['GS'] = Manual.grayscaleFlag;
-            $(this).css({'opacity': 0.5})
+            $(this).css({ 'opacity': 0.5 })
             flag_path = true;
             requireWebsocket.reqWs.send(JSON.stringify(Manual.sendValue))
         }
     })
-    $('.menu_item_setting').click(function() {
+    $('.menu_item_setting').click(function () {
         Main.renderPage('setting');
         console.log('dfsd')
     })
@@ -357,11 +351,11 @@ Manual.menuItemClick = function (reset) {
 Manual.setGrayscaleColor = function (data) {
     for (var i = 0; i < data['GS'].length; i++) {
         if (data['GS'][i] < Setting.grayscale.cliffReference) {
-            $('.line_of_inspection_item_danger').eq(i).show().css({'background': "red"}).find('img').show();
-        }else if (data['GS'][i] < Setting.grayscale.lineReference){
-            $('.line_of_inspection_item_danger').eq(i).show().css({'background': "black"}).find('img').hide();
-        }else {
-            $('.line_of_inspection_item_danger').eq(i).show().css({'background': "none"}).find('img').hide();
+            $('.line_of_inspection_item_danger').eq(i).show().css({ 'background': "red" }).find('img').show();
+        } else if (data['GS'][i] < Setting.grayscale.lineReference) {
+            $('.line_of_inspection_item_danger').eq(i).show().css({ 'background': "black" }).find('img').hide();
+        } else {
+            $('.line_of_inspection_item_danger').eq(i).show().css({ 'background': "none" }).find('img').hide();
         }
     }
 }
