@@ -16,8 +16,8 @@ class I2C(object):
             try:
                 return func(*args, **kw)
             except OSError:
-                soft_reset()
-                time.sleep(1)
+                # soft_reset()
+                # time.sleep(1)
                 return func(*args, **kw)
         return wrapper
 

@@ -10,10 +10,6 @@ class Motor():
         self._power = 0
         self._except_power = 0
     
-    # def start_timer(self):
-    #     self.t = threading.Timer(self.DELAY, self.adder_thread)
-    #     self.t.start()
-
     def set_power(self, power):
         if power >= 0:
             direction = 0
@@ -29,27 +25,7 @@ class Motor():
             
         self.pwm_pin.pulse_width_percent(power)
 
-#     def adder_thread(self):
-#         if self._except_power > self._power:
-#             step = self.STEP
-#         else:
-#             step = -self.STEP
-#         if abs(self._except_power - self._power) < self.STEP:
-#             self._power = self._except_power
-#         else:
-#             self._power += step
-#         self._set_power(self._power)
-#         if self._power != self._except_power:
-#             self.start_timer()
+    def deinit(self):
+        self.dir_pin.deinit()
 
-#     def set_power(self, power):
-#         # print("Power: {}".format(power))
-#         self._except_power = power
-#         if self._power != self._except_power:
-#             self.start_timer()
 
-# if __name__ == "__main__":
-#     import picar-4wd as fc
-#     import time
-#     fc.forward(100)
-#     time.sleep(1)

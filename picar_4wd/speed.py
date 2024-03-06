@@ -1,90 +1,73 @@
-import RPi.GPIO as GPIO
-import time, math
-import threading
-from . import *
+import time
+from math import pi
+from threading import Thread, Timer
+from gpiozero import Button
 
 class Speed():
+    PERIOD = 0.2 # 200ms
+    HOLE_NUM = 20 # Number of code plate holes
+    WHEEL_D = 6.6 # wheel diameter / cm
+    WHEEL_C =  pi*WHEEL_D # wheel circumference
+    # print(f'wheel circumference: {WHEEL_C}')
+
     def __init__(self, pin):
-        self.speed_counter = 0
+        self.count = 0
         self.speed = 0
-        self.last_time = 0
-        self.pin = pin
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        self.timer_flag = True
-        self.timer = threading.Thread(target=self.fun_timer, name="Thread1")
+
+        self.pin_num = pin
+        self.pin = Button(self.pin_num, pull_up=True)
+        self.pin.when_pressed = self.irq_falling_handler
+        self.timer = Timer(interval=self.PERIOD, function=self.timer_callback)
+        self.timer.daemon = True
+
+    def irq_falling_handler(self):
+        # print("irq_falling")
+        self.count += 1
+
+    def timer_callback(self):
+        # print(f"timer_callback {time.time()}")
+        # laps: rounds / s
+        rps = self.count / float(self.HOLE_NUM) / self.PERIOD
+        # print(f"rps: {rps}")
+        # speed: cm/s
+        self.speed = rps * self.WHEEL_C
+        # clear count
+        self.count = 0
+        # repeat
+        self.timer = Timer(interval=self.PERIOD, function=self.timer_callback)
+        self.timer.daemon = True
+        self.timer.start()
 
     def start(self):
         self.timer.start()
-        # print('speed start')
-
-    def print_result(self, s):
-        print("Rising: {}; Falling: {}; High Level: {}; Low Level: {}".format(s.count("01"), s.count("10"), s.count("1"), s.count("0")))
-
-    def fun_timer(self):
-        while self.timer_flag:
-            l = ""
-            for _ in range(100):
-                l += str(GPIO.input(self.pin))
-                time.sleep(0.001)
-            # self.print_result(l)
-            count = (l.count("01") + l.count("10")) / 2
-            rps = count / 20.0 * 10
-            self.speed = round(2 * math.pi * 3.3 * rps, 2)
 
     def __call__(self):
         return self.speed
 
     def deinit(self):
-        self.timer_flag = False
-        self.timer.join()
+        self.pin.when_pressed = None
+        self.pin.close()
+        self.pin.pin_factory.close()
 
 
-def test1():
-    # import fwd as nc 
-    fc.forward(100)
+if __name__ == '__main__':
+    from picar_4wd import forward, stop
+    from picar_4wd import  left_rear_speed, start_speed_thread
 
-    speed3 = Speed(25)
-    speed4 = Speed(4) 
-    speed3.start()
-    speed4.start()
+    # l_speed = Speed(25)
+    # l_speed.start()
+    # r_speed = Speed(4)
+    # r_speed.start()
+
+    start_speed_thread()
+    forward(50)
     try:
-        # nc.stop()
-        while 1:
-            # speed_counter 
-            # = 0
-            print(speed3())
-            print(speed4())
-            print(" ") 
-            time.sleep(0.5)
+        while True:
+            # print(l_speed, r_speed)
+            print(f"{left_rear_speed():0.2f} cm/s")
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        pass
     finally:
-        speed3.deinit()
-        speed4.deinit()
-        fc.stop() 
+        stop()
 
-def test2():
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    while True:
-        print(GPIO.input(12))
-        time.sleep(0.001) 
-
-def test3():
-    speed4 = Speed(25)
-    speed4.start()
-    # time.sleep(2)
-    fc.forward(100)
-    x = 0
-    for i in range(20):
-        time.sleep(0.1)
-        speed = speed4()
-        x += speed * 0.1
-        print("%smm/s"%speed)
-    print("%smm"%x)
-    speed4.deinit()
-    fc.stop()
-if __name__ == "__main__":
-    test3()
-        
-
-    
