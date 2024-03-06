@@ -22,7 +22,7 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 #
-avaiable_options = ["--no-dep",]
+avaiable_options = ["--no-dep", "--only-library"]
 options = []
 if len(sys.argv) > 1:
     options = list.copy(sys.argv[1:])
@@ -91,7 +91,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'picar-4wd=picar_4wd.utils:main', 
+            'picar-4wd=picar_4wd.console:console', 
         ],
     },
 )
@@ -158,10 +158,14 @@ PIP_INSTALL_LIST = [
     'gpiozero',
     'smbus2',
     "websockets",
+    'psutil',
 ]
 
 def install():
     user_name = getlogin()
+
+    if "--only-library" in options:
+       return
 
     if "--no-dep" not in options:
         # =============================
