@@ -1,12 +1,15 @@
-import picar_4wd as fc
+from picar_4wd import Picar4WD
 import sys
 import tty
 import termios
-import asyncio
 
+mycar = Picar4WD()
 power_val = 50
 key = 'status'
+
 print("If you want to quit.Please press q")
+
+
 def readchar():
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
@@ -16,6 +19,7 @@ def readchar():
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
+
 
 def readkey(getchar_fn=None):
     getchar = getchar_fn or readchar
@@ -28,36 +32,33 @@ def readkey(getchar_fn=None):
     c3 = getchar()
     return chr(0x10 + ord(c3) - 65)
 
+
 def Keyborad_control():
     while True:
         global power_val
-        key=readkey()
-        if key=='6':
-            if power_val <=90:
+        key = readkey()
+        if key == '6':
+            if power_val <= 90:
                 power_val += 10
-                print("power_val:",power_val)
-        elif key=='4':
-            if power_val >=10:
+                print("power_val:", power_val)
+        elif key == '4':
+            if power_val >= 10:
                 power_val -= 10
-                print("power_val:",power_val)
-        if key=='w':
-            fc.forward(power_val)
-        elif key=='a':
-            fc.turn_left(power_val)
-        elif key=='s':
-            fc.backward(power_val)
-        elif key=='d':
-            fc.turn_right(power_val)
+                print("power_val:", power_val)
+        if key == 'w':
+            mycar.forward(power_val)
+        elif key == 'a':
+            mycar.turn_left(power_val)
+        elif key == 's':
+            mycar.backward(power_val)
+        elif key == 'd':
+            mycar.turn_right(power_val)
         else:
-            fc.stop()
-        if key=='q':
-            print("quit")  
-            break  
+            mycar.stop()
+        if key == 'q':
+            print("quit")
+            break
+
+
 if __name__ == '__main__':
     Keyborad_control()
-
-
-
-
-
-

@@ -1,16 +1,19 @@
-import picar_4wd as fc
+from picar_4wd import Picar4WD
 
+mycar = Picar4WD()
 Track_line_speed = 20
 
-def Track_line():
-    gs_list = fc.get_grayscale_list()
-    if fc.get_line_status(400,gs_list) == 0:
-        fc.forward(Track_line_speed) 
-    elif fc.get_line_status(400,gs_list) == -1:
-        fc.turn_left(Track_line_speed)
-    elif fc.get_line_status(400,gs_list) == 1:
-        fc.turn_right(Track_line_speed) 
 
-if __name__=='__main__':
+def Track_line():
+    gs_list = mycar.get_grayscale_list()
+    if mycar.get_line_status(400, gs_list) == 0:
+        mycar.forward(Track_line_speed)
+    elif mycar.get_line_status(400, gs_list) == -1:
+        mycar.turn_left(Track_line_speed)
+    elif mycar.get_line_status(400, gs_list) == 1:
+        mycar.turn_right(Track_line_speed)
+
+
+if __name__ == '__main__':
     while True:
         Track_line()

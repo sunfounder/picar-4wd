@@ -1,10 +1,12 @@
-import picar_4wd as fc
+from picar_4wd import Picar4WD
 import time
+
+mycar = Picar4WD()
 
 try:
     while True:
-        fc.forward(50)
+        mycar.forward(50)
         time.sleep(1)
 finally:
-    fc.stop()
+    mycar.stop()
     time.sleep(0.2)

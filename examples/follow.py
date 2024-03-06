@@ -1,10 +1,12 @@
-import picar_4wd as fc
+from picar_4wd import Picar4WD
 
+mycar = Picar4WD()
 speed = 30
+
 
 def main():
     while True:
-        scan_list = fc.scan_step(23)
+        scan_list = mycar.scan_step(23)
         # print(scan_list)
         if not scan_list:
             continue
@@ -17,7 +19,7 @@ def main():
             length_list.append(len(path))
         # print(length_list)
         if max(length_list) == 0:
-            fc.stop() 
+            mycar.stop()
         else:
             i = length_list.index(max(length_list))
             pos = scan_list.index(paths[i])
@@ -26,17 +28,18 @@ def main():
             delta = len(scan_list) / 3
             # delta *= us_step/abs(us_step)
             if pos < delta:
-                fc.turn_left(speed)
+                mycar.turn_left(speed)
             elif pos > 2 * delta:
-                fc.turn_right(speed)
+                mycar.turn_right(speed)
             else:
-                if scan_list[int(len(scan_list)/2-1)] == "0":
-                    fc.backward(speed)
+                if scan_list[int(len(scan_list) / 2 - 1)] == "0":
+                    mycar.backward(speed)
                 else:
-                    fc.forward(speed)
+                    mycar.forward(speed)
+
 
 if __name__ == "__main__":
     try:
         main()
     finally:
-        fc.stop()
+        mycar.stop()
