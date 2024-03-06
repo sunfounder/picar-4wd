@@ -1,10 +1,28 @@
-
-
 import subprocess
 import os
 import time
+import psutil
 
 user_name = os.getlogin()
+
+
+def run_command(cmd=""):
+    process = subprocess.Popen(cmd,
+                               shell=True,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+    result = process.stdout.read().decode('utf-8')
+    status = process.poll()
+    return status, result
+
+
+def run_command_in_background(cmd=""):
+    process = subprocess.Popen(cmd,
+                               shell=True,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+    return process.pid
+
 
 def soft_reset():
     from .pin import Pin
@@ -13,60 +31,53 @@ def soft_reset():
     time.sleep(0.01)
     soft_reset_pin.high()
     time.sleep(0.01)
+    soft_reset_pin.close()
 
-def mapping(x,min_val,max_val,aim_min,aim_max):
-    x = aim_min + abs((x - min_val) / (max_val- min_val) * (aim_max-aim_min))
+
+def mapping(x, min_val, max_val, aim_min, aim_max):
+    x = aim_min + abs(
+        (x - min_val) / (max_val - min_val) * (aim_max - aim_min))
     return x
 
-def cpu_temperature():          # cpu_temperature
-    raw_cpu_temperature = subprocess.getoutput("cat /sys/class/thermal/thermal_zone0/temp")
-    cpu_temperature = round(float(raw_cpu_temperature)/1000,2)               # convert unit
-    #cpu_temperature = 'Cpu temperature : ' + str(cpu_temperature)
-    return cpu_temperature
 
-def gpu_temperature():          # gpu_temperature(
-    raw_gpu_temperature = subprocess.getoutput( 'vcgencmd measure_temp' )
-    gpu_temperature = round(float(raw_gpu_temperature.replace( 'temp=', '' ).replace( '\'C', '' )), 2)
-    #gpu_temperature = 'Gpu temperature : ' + str(gpu_temperature)
-    return gpu_temperature
+def cpu_temperature():  # cpu_temperature
+    return round(psutil.sensors_temperatures()['cpu_thermal'][0].current, 2)
 
-def cpu_usage():                # cpu_usage
-    # result = str(os.popen("top -n1 | awk '/Cpu\(s\):/ {print($2)}'").readline().strip())
-    result = os.popen("mpstat").read().strip()
-    result = result.split('\n')[-1].split(' ')[-1]
-    result = round(100 - float(result), 2)
-    result = str(result)
-    # print(result)
-    return result
 
-def disk_space():               # disk_space
-    p = os.popen("df -h /")
-    i = 0
-    while 1:
-        i = i +1
-        line = p.readline()         
-        if i==2:
-            return line.split()[1:5]    
+def cpu_usage():
+    return psutil.cpu_percent()
+
+
+def disk_space():  # disk_space
+    disk = [0] * 4
+    result = psutil.disk_usage('/')
+    disk[0] = round(result.total / 1024 / 1024 / 1024, 2)  # GB
+    disk[1] = round(result.used / 1024 / 1024 / 1024, 2)  # GB
+    disk[2] = round(result.free / 1024 / 1024 / 1024, 2)  # GB
+    disk[3] = result.percent  # percent
+    return disk
+
 
 def ram_info():
-    p = os.popen('free')
-    i = 0
-    while 1:
-        i = i + 1
-        line = p.readline()
-        if i==2:
-            return list(map(lambda x:round(int(x) / 1000,1), line.split()[1:4]))   
+    ram = [0] * 3
+    result = psutil.virtual_memory()
+    ram[0] = result.total / 1024 / 1024  # MB
+    ram[1] = result.used / 1024 / 1024  # MB
+    ram[2] = result.percent  # percent
+    return ram
+
 
 def pi_read():
     result = {
-        "cpu_temperature": cpu_temperature(), 
-        "gpu_temperature": gpu_temperature(),
-        "cpu_usage": cpu_usage(), 
-        "disk": disk_space(), 
-        "ram": ram_info(), 
-        "battery": power_read(), 
+        "cpu_temperature": cpu_temperature(),
+        "cpu_usage": cpu_usage(),
+        "disk": disk_space(),
+        "ram": ram_info(),
+        # "battery": power_read(), # adc can not read with multiple threads
+        "battery": 0,
     }
-    return result 
+    return result
+
 
 def power_read():
     from picar_4wd.adc import ADC
@@ -75,8 +86,8 @@ def power_read():
     power_val = power_val / 4095.0 * 3.3
     # print(power_val)
     power_val = power_val * 3
-    power_val = round(power_val, 2)
     return power_val
+
 
 def getIP(ifaces=['wlan0', 'eth0']):
     import re
@@ -91,100 +102,3 @@ def getIP(ifaces=['wlan0', 'eth0']):
             ipv4 = ipv4.groups()[0]
             return ipv4
     return False
-
-
-def main():
-    import sys
-    if len(sys.argv) >= 2:
-        print("Welcome to SunFounder PiCar-4WD.")
-        command = sys.argv[1]
-        if command == "soft-reset":
-            print("soft-reset")
-            soft_reset()
-        elif command == "power-read":
-            print("power-read")
-            print("Power voltage: {}V".format(power_read()))
-        elif command == "web-example":
-            if len(sys.argv) >= 3:
-                opt = sys.argv[2]
-                if opt == "enable":
-                    os.system("sudo update-rc.d picar-4wd-web-example defaults")
-                    print("web-example start on boot is enabled")
-                elif opt == "disable":
-                    os.system("sudo update-rc.d picar-4wd-web-example remove")
-                    print("web-example start on boot is disabled")
-                else:
-                    usage(command)
-            else:
-                print("Run: `picar-4wd web-example enable/disable` to enable/disable start on boot")
-                os.system(f"sudo python3 /home/{user_name}/picar-4wd/examples/web/start.py")
-        elif command == "test":
-            from picar_4wd import forward, get_distance_at, get_grayscale_list,stop
-            if len(sys.argv) >= 3:
-                opt = sys.argv[2]
-                if opt == "motor":
-                    print("Motor test start!, Ctrl+C to Stop")
-                    forward(50)
-                    try:
-                        while True:
-                            pass
-                    except KeyboardInterrupt:
-                        pass
-                    finally:
-                        stop()
-                        time.sleep(0.1)
-                elif opt == "servo":
-                    print(get_distance_at(0))
-                elif opt == "grayscale":
-                    print(get_grayscale_list())
-                else:
-                    usage(command)
-        else:
-            print('Command error, "%s" is not in list' % sys.argv[1])
-            usage()
-    else:
-        usage()
-    destroy()
-
-# def main():
-#     try:
-#         _main()
-#     finally:
-
-def destroy():
-    quit()
- 
-def usage(cmd=None):
-    general = '''
-Usage:  picar-4wd [Command] [option]
-
-Commands:
-    soft-reset
-    power-read
-    web-example
-    test
-'''
-    web_example = '''
-Usage: picar-4wd web-example [option]
-
-Options:
-    enable    Enable start on boot
-    disable   Disable start on boot
-'''
-    test = '''
-Usage: picar-4wd test [option]
-
-Options:
-    motor      test the motor
-    servo      test the servo
-    grayscale  test the grayscale
-
-'''
-    if cmd == None:
-        print(general)
-    elif cmd == "web-example":
-        print(web_example)
-    elif cmd == "test":
-        print(test)
-    destroy()
-        
