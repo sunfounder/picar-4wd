@@ -2,11 +2,8 @@
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
-import socket as Socket
-import os
 from os import system, getlogin
-from picar_4wd import getIP
-# from server.sr import soft_reset
+from picar_4wd import getIPs
 
 user_name = getlogin()
 
@@ -51,16 +48,17 @@ if __name__ == '__main__':
     try:
         # soft_reset()
         for _ in range(10):
-            ip = getIP()
-            if ip:
+            ips = getIPs()
+            if ips:
                 break
             time.sleep(1)
         port = 9000
         start_http_server()
         start_websocket()
-        print("Web example starts at %s" % (ip)) 
-        print("Open http://%s in your web browser to control the car!" % (ip)) 
-        server = HTTPServer((ip, port), restartServer)
+        urls = ["http://" + ip for ip in ips]
+        print("Web example starts") 
+        print(f"Open {' or '.join(urls)} in your web browser to control the car!") 
+        server = HTTPServer((ips[0], port), restartServer)
         server.serve_forever()
       
     except KeyboardInterrupt:

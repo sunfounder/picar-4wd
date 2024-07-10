@@ -1,7 +1,6 @@
 import picar_4wd as fc
 from picar_4wd.utils import pi_read
 from remote_control import Remote_control
-from picar_4wd import getIP
 
 import asyncio
 # import websockets

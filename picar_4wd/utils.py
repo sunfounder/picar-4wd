@@ -78,20 +78,26 @@ def power_read():
     power_val = round(power_val, 2)
     return power_val
 
-def getIP(ifaces=['wlan0', 'eth0']):
+def getIPs(ifaces=['wlan0', 'eth0']):
     import re
     if isinstance(ifaces, str):
         ifaces = [ifaces]
+    ips = []
     for iface in list(ifaces):
         search_str = 'ip addr show {}'.format(iface)
         result = os.popen(search_str).read()
         com = re.compile(r'(?<=inet )(.*)(?=\/)', re.M)
         ipv4 = re.search(com, result)
         if ipv4:
-            ipv4 = ipv4.groups()[0]
-            return ipv4
-    return False
+            ip = ipv4.groups()[0]
+            ips.append(ip)
+    return ips
 
+def getIP(ifaces=['wlan0', 'eth0']):
+    ips = getIPs(ifaces)
+    if ips:
+        return ips[0]
+    return None
 
 def main():
     import sys
