@@ -135,15 +135,15 @@ async def main_func():
       
         await asyncio.sleep(0.01)
         
-async def main_logic_1(websocket,path):
+async def receive_client_data(websocket,path):
     while 1:
         await recv_server_func(websocket)
 
-async def main_logic_2(websocket,path):
+async def send_client_data(websocket,path):
     while 1:
         await send_server_func(websocket)
 
-try:
+async def main():
     for _ in range(10):
         ip = getIP()
         if ip:
@@ -151,14 +151,19 @@ try:
             # start_http_server()
             break
         time.sleep(1)
-    start_server_1 = websockets.serve(main_logic_1, ip, 8765)
-    start_server_2 = websockets.serve(main_logic_2, ip, 8766)
+
+    receive_task = websockets.serve(receive_client_data, ip, 8765)
+    send_task = websockets.serve(send_client_data, ip, 8766)
+
     main_task = asyncio.create_task(main_func())
     print('Start!')
-    tasks = [main_task,start_server_1,start_server_2]
-    asyncio.get_event_loop().run_until_complete(asyncio.wait(tasks))
-    asyncio.get_event_loop().run_forever()
- 
-finally:
-    print("Finished")
-    fc.stop()
+
+    tasks = [main_task, receive_task, send_task]
+    await asyncio.wait(tasks)
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    finally:
+        print("Finished")
+        fc.stop()
