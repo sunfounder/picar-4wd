@@ -140,14 +140,6 @@ async def send_task():
         await asyncio.Future()  # run forever
 
 async def main():
-    for _ in range(10):
-        ip = getIP()
-        if ip:
-            print("IP Address: "+ ip)
-            # start_http_server()
-            break
-        time.sleep(1)
-
     # main_task = asyncio.create_task(main_func())
     print('Start!')
 
