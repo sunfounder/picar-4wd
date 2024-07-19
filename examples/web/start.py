@@ -2,13 +2,17 @@
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
-from os import system, getlogin
+from os import system, getlogin, popen
 from picar_4wd import getIPs
 
-user_name = getlogin()
+# user_name = getlogin()
+# user_name = popen("echo ${SUDO_USER:-$(who -m | awk '{ print $1 }')}").readline().strip()
+# user_name = popen("getent passwd ${SUDO_UID:-$(id -u)} | cut -d: -f 6").readline().strip().split('/')[2]
+user_name = popen("ls /home | head -n 1").readline().strip()
+
 
 def start_http_server():
-    system(f"cd /home/{user_name}/picar-4wd/examples/web/client && sudo python3 -m http.server 80 2>&1 1>/dev/null &")#开启服务器
+    system(f"cd /home/{user_name}/picar-4wd/examples/web/client && sudo python3 -m http.server 80 2>&1 1>/dev/null &") # start http.server
 
 def close_http_server():
     system("sudo kill $(ps aux | grep 'http.server' | awk '{ print $2 }') 2>&1 1>/dev/null")
