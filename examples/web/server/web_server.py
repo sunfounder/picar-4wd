@@ -1,10 +1,10 @@
 import picar_4wd as fc
 from picar_4wd.utils import pi_read
 from remote_control import Remote_control
-from picar_4wd import getIP
 
 import asyncio
-import websockets
+# import websockets
+from websockets.server import serve
 import json
 import time
 
@@ -34,14 +34,13 @@ send_dict = {
     'MS':[0,0],
     'ST':{'a':1}
 } 
-  
-
 
 async def recv_server_func(websocket):
     global recv_dict,send_dict
-    while 1:
-        tmp = await websocket.recv()
-        tmp = json.loads(tmp)
+    # while 1:
+    #     tmp = await websocket.recv()
+    async for message in websocket:
+        tmp = json.loads(message)
         for key in tmp:
             recv_dict[key] = tmp[key]
         recv_dict['PW'] = int(recv_dict['PW'])
@@ -52,16 +51,12 @@ async def recv_server_func(websocket):
         if  recv_dict['SR'] =='on':
             fc.soft_reset()
 
-
-
-
 async def send_server_func(websocket): 
     global send_dict, recv_dict, gs_list 
     while 1:
         send_dict ={}
         send_dict['MS'] = [round(fc.speed_val()/2.0),time.time()] 
         
-
         if recv_dict['ST'] == 'on': 
             send_dict['ST'] = pi_read() 
 
@@ -135,29 +130,28 @@ async def main_func():
       
         await asyncio.sleep(0.01)
         
-async def main_logic_1(websocket,path):
-    while 1:
-        await recv_server_func(websocket)
+async def receive_task():
+    async with serve(recv_server_func, "*", 8765):
+        await asyncio.Future()  # run forever
 
-async def main_logic_2(websocket,path):
-    while 1:
-        await send_server_func(websocket)
+async def send_task():
+    async with serve(send_server_func, "*", 8766):
+        await asyncio.Future()  # run forever
 
-try:
-    for _ in range(10):
-        ip = getIP()
-        if ip:
-            print("IP Address: "+ ip)
-            # start_http_server()
-            break
-        time.sleep(1)
-    start_server_1 = websockets.serve(main_logic_1, ip, 8765)
-    start_server_2 = websockets.serve(main_logic_2, ip, 8766)
+async def main():
+    # main_task = asyncio.create_task(main_func())
     print('Start!')
-    tasks = [main_func(),start_server_1,start_server_2]
-    asyncio.get_event_loop().run_until_complete(asyncio.wait(tasks))
-    asyncio.get_event_loop().run_forever()
- 
-finally:
-    print("Finished")
-    fc.stop()
+
+    # 创建并同时运行receive_task, send_task 和 main_func
+    await asyncio.gather(
+        receive_task(),
+        send_task(),
+        main_func()  # 假设main_func是另一个需要并发运行的异步函数
+    )
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    finally:
+        print("Finished")
+        fc.stop()

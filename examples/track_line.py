@@ -12,5 +12,9 @@ def Track_line():
         fc.turn_right(Track_line_speed) 
 
 if __name__=='__main__':
-    while True:
-        Track_line()
+    try:
+        while True:
+            Track_line()
+    finally:
+        fc.stop()
+        print('Program stop')
