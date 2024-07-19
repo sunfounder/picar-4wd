@@ -3,8 +3,17 @@ class FileDB(object):
 
     A file based database, read and write arguements in the specific file.
     """
-	from os import getlogin
-	user_name = getlogin()
+	import os
+
+	user_name = os.getlogin()
+	# user_name = os.popen("echo ${SUDO_USER:-$(who -m | awk '{ print $1 }')}").readline().strip()
+	# user_name = os.popen("ls /home | head -n 1").readline().strip()
+
+	# user_name = os.popen("ls /home | head -n 1").readline().strip()
+
+	# user_name = os.popen("getent passwd ${SUDO_UID:-$(id -u)} | cut -d: -f 6").readline().strip().split('/')[2]
+
+
 	DIR = f"/home/{user_name}/.picar-4wd/"
 	def __init__(self, db=None):
 		'''Init the db_file is a file to save the datas.'''
