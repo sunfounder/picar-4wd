@@ -5,6 +5,14 @@ import os
 import time
 
 user_name = os.getlogin()
+# user_name = os.popen("echo ${SUDO_USER:-$(who -m | awk '{ print $1 }')}").readline().strip()
+# user_name = os.popen("ls /home | head -n 1").readline().strip()
+
+# user_name = os.popen("ls /home | head -n 1").readline().strip()
+
+# user_name = os.popen("getent passwd ${SUDO_UID:-$(id -u)} | cut -d: -f 6").readline().strip().split('/')[2]
+
+
 
 def soft_reset():
     from .pin import Pin
